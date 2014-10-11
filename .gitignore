@@ -1,0 +1,11 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# nodejs
+node_modules
+npm-debug.log
+
+# bower
+bower_components
+

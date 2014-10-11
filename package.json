@@ -1,0 +1,29 @@
+{
+  "name": "davneko",
+  "version": "1.0.0",
+  "description": "webdav apiset",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "redis": "^0.12.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "mocha --compilers coffee:coffee-script/register --colors --growl --bail --check-leaks test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nekobato/davneko.git"
+  },
+  "keywords": [
+    "webdav"
+  ],
+  "author": "nekobato",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nekobato/davneko/issues"
+  },
+  "homepage": "https://github.com/nekobato/davneko"
+}
