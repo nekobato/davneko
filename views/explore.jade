@@ -1,0 +1,12 @@
+extends layout
+
+block content
+  div#davneko.davneko.hide
+    div.dn-explore
+      ul.filelist(v-repeat='dirs', data-name='{{name}}', data-depth='{{depth}}')
+        li(v-repeat='file: files', class='{{file.type}}' v-on='click: fileOpen') {{file.name}}
+
+block js
+  script(src='/javascripts/vue.min.js', type='text/javascript')
+  script(src='/javascripts/superagent.js', type='text/javascript')
+  script(src='/javascripts/app.js', type='text/javascript', async, defer)

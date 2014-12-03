@@ -1,0 +1,28 @@
+- var site_title = 'davneko'
+- var site_description = 'nekobato.net webdav'
+
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    title #{site_title} | #{site_description}
+    meta(name='description', content='')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    link(rel='shortcut icon', href='/favicon.ico')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='canonical', href="#{base_uri}")
+  body
+
+    header
+      h1 #{site_title}
+      nav
+        ul
+          li
+            a(href='/help') Help
+
+    block content
+
+    footer
+      p.copy &copy nekobato
+
+    block js

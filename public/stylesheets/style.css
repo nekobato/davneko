@@ -1,0 +1,54 @@
+* {
+  box-sizing: border-box; }
+
+body, html {
+  margin: 0;
+  padding: 0; }
+
+header {
+  height: 60px;
+  background: black;
+  text-align: center; }
+  header h1, header nav, header form, header ul, header li {
+    display: inline-block; }
+  header h1 {
+    margin: 0;
+    color: white;
+    vertical-align: middle; }
+  header nav {
+    width: 700px;
+    text-align: left;
+    padding-left: 20px; }
+    header nav ul {
+      padding: 0;
+      list-style: none; }
+    header nav li {
+      margin-left: 20px; }
+      header nav li a {
+        color: white;
+        text-decoration: none; }
+
+footer .copy {
+  margin: 20px; }
+
+.hide {
+  display: none; }
+
+.dn-explore .filelist {
+  list-style: none;
+  display: inline-block;
+  padding: 0 0 0 10px;
+  max-width: 300px;
+  vertical-align: top; }
+  .dn-explore .filelist li {
+    cursor: pointer;
+    margin: 2px 0;
+    max-width: 100%;
+    line-height: 1.5em;
+    border: 1px solid #dddddd;
+    white-space: nowrap;
+    overflow: hidden; }
+  .dn-explore .filelist .directory {
+    background: #cccc99; }
+  .dn-explore .filelist .file {
+    background: #ccccff; }

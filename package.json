@@ -1,29 +1,35 @@
 {
-  "name": "davneko",
-  "version": "1.0.0",
-  "description": "webdav apiset",
-  "main": "index.js",
-  "directories": {
-    "test": "test"
+  "name": "appname",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "bin/www",
+    "test": "mocha --compilers coffee:coffee-script/register --colors --growl --bail --check-leaks test",
+    "dev": "grunt & node-dev bin/www"
   },
   "dependencies": {
-    "redis": "^0.12.1"
+    "body-parser": "~1.8.1",
+    "coffee-script": "^1.8.0",
+    "connect-redis": "^2.1.0",
+    "cookie-parser": "~1.3.3",
+    "debug": "~2.0.0",
+    "express": "~4.9.0",
+    "jade": "~1.6.0",
+    "morgan": "~1.3.0",
+    "serve-favicon": "~2.1.3"
   },
-  "devDependencies": {},
-  "scripts": {
-    "test": "mocha --compilers coffee:coffee-script/register --colors --growl --bail --check-leaks test"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/nekobato/davneko.git"
-  },
-  "keywords": [
-    "webdav"
-  ],
-  "author": "nekobato",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/nekobato/davneko/issues"
-  },
-  "homepage": "https://github.com/nekobato/davneko"
+  "devDependencies": {
+    "coffeeify": "^0.7.0",
+    "coffeelint": "^1.6.0",
+    "grunt": "^0.4.5",
+    "grunt-autoprefixer": "^1.0.1",
+    "grunt-browserify": "^3.1.0",
+    "grunt-coffeelint": "0.0.13",
+    "grunt-contrib-coffee": "^0.12.0",
+    "grunt-contrib-sass": "^0.8.1",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-notify": "^0.3.1",
+    "grunt-simple-mocha": "^0.4.0",
+    "mocha": "^1.21.4"
+  }
 }
