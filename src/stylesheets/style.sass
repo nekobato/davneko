@@ -5,8 +5,10 @@ body, html
   margin: 0
   padding: 0
 
+$headerH: 60px
+
 header
-  height: 60px
+  height: $headerH
   background: #000
   text-align: center
   h1, nav, form, ul, li
@@ -35,19 +37,31 @@ footer
 .hide
   display: none
 
-.dn-explore
+.davneko
+  position: absolute
+  top: $headerH
+  left: 0
+  bottom: 0
+  right: 0
 
   .filelist
     list-style: none
     display: inline-block
+    margin: 0
     padding: 0 0 0 10px
     max-width: 300px
+    height: 100%
+    border-right: 1px solid #ddd
+    border-left: 1px solid #ddd
     vertical-align: top
+    overflow-y: scroll
+    text-indent: 20px
 
     li
       cursor: pointer
       margin: 2px 0
-      max-width: 100%
+      padding: 2px 4px 2px 2px
+      max-width: 295px
       line-height: 1.5em
       border: 1px solid #ddd
       white-space: nowrap
@@ -56,3 +70,7 @@ footer
       background: #cc9
     .file
       background: #ccf
+    .fileicon
+      width: 0px
+      position: relative
+      left: -40px

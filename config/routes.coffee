@@ -8,8 +8,7 @@ router = express.Router()
 
 router.get "/", (req, res, next) ->
   dataModel = require path.resolve 'models/dataModel'
-  res.render "audioroom",
-    title: "SunabaAudio"
+  res.render "auth"
   return
 
 router.get "/explore", (req, res, next) ->

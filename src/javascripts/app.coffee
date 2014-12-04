@@ -1,3 +1,16 @@
+Vue.filter 'filetype2icon', (file) ->
+  return 'fa fa-folder-o' if file.type is 'directory'
+  switch file.name.split('.').pop()
+    when 'mp3', 'aac', 'ogg'
+      return 'fa fa-music'
+    when 'png', 'jpg', 'jpeg', 'gif'
+      return 'fa fa-image'
+    when 'pdf'
+      return 'fa fa-book'
+    else
+      return 'fa fa-file-o'
+
+
 window.DN = new Vue
   el: "#davneko"
 
@@ -26,6 +39,9 @@ window.DN = new Vue
 
     getFile: (path) ->
       window.open "/api/path?path=#{encodeURIComponent path}"
+
+    isFile: (filetype) ->
+      return true if filetype is 'file'
 
 
   ready: () ->
