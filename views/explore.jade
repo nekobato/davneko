@@ -15,7 +15,8 @@ block content
       script#dn_media_music(type='x-template')
         audio.dn-media-music(src='{{src}}' controls)
       script#dn_media_movie(type='x-template')
-        video.dn-media-movie(src='{{src}}' controls)
+        div.dn-media-movie
+          video(src='{{src}}' controls)
       script#dn_media_image(type='x-template')
         img.dn-media-image(src='{{src}}')
       script#dn_media_blank(type='x-template')
