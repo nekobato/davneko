@@ -62,7 +62,7 @@ window.DN = new Vue
         when 'png', 'jpg', 'jpeg', 'gif' then component = 'media_image'
         when 'pdf'                       then component = 'media_book'
         when 'mp4', 'mpg', 'mpeg', 'avi' then component = 'media_movie'
-        else window.open "/api/path?path=#{encodeURIComponent path}"
+        else return window.open "/api/path?path=#{encodeURIComponent path}"
       @$data.media =
         component: component
         src: "/api/path?path=#{encodeURIComponent path}"

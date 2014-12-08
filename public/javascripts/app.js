@@ -100,7 +100,7 @@ window.DN = new Vue({
           component = 'media_movie';
           break;
         default:
-          window.open("/api/path?path=" + (encodeURIComponent(path)));
+          return window.open("/api/path?path=" + (encodeURIComponent(path)));
       }
       return this.$data.media = {
         component: component,
