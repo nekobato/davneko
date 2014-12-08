@@ -12,3 +12,4 @@ bower_components
 .sass-cache
 
 config/config.json
+*.rdb
