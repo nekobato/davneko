@@ -1,17 +1,30 @@
+debug = require('debug')('application')
 cookieParser = require("cookie-parser")
 bodyParser = require("body-parser")
 express = require("express")
 favicon = require("serve-favicon")
 logger = require("morgan")
+passport = require('passport')
 path = require("path")
 app = express()
 
 pkg = require '../package'
+config = require './config'
 
 # optional
 # mongoose = require('mongoose')
 # mongoose.connect "mongodb://localhost/#{pkg.name}"
 # redis = require('redis').createClient()
+
+session = require('express-session')
+RedisStore = require('connect-redis')(session)
+app.use session
+  store: new RedisStore(),
+  secret: config.secret
+  cookie: { maxAge: 60 * 60 * 1000 }
+
+app.use passport.initialize()
+app.use passport.session()
 
 # app set
 app.set "views", './views'
@@ -25,6 +38,8 @@ app.use bodyParser.urlencoded extended: false
 app.use cookieParser()
 app.use express.static './public'
 app.use '/', require './routes'
+
+(require './auth')(app)
 
 # catch 404 and forward to error handler
 app.use (req, res, next) ->

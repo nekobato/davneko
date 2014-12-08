@@ -1,3 +1,4 @@
+debug = require('debug')('routes')
 express = require('express')
 mongoose = require('mongoose')
 path = require('path')
@@ -7,14 +8,15 @@ app = express()
 router = express.Router()
 
 router.get "/", (req, res, next) ->
-  dataModel = require path.resolve 'models/dataModel'
-  res.render "auth"
+  if req.isAuthenticated()
+    res.render "explore"
+  else
+    res.render "auth"
   return
 
-router.get "/explore", (req, res, next) ->
-  res.render "explore"
-
 router.get "/api/path", (req, res, next) ->
+
+  res.status(403).end() if not req.isAuthenticated()
 
   reqpath = path.normalize(req.param('path') || '/')
   res.status(500).end() if /\.\./.test reqpath
@@ -40,8 +42,6 @@ router.get "/api/path", (req, res, next) ->
         'x-sent': true
     }, (err) ->
       res.status(err.status).end() if err
-
-
 
 
 module.exports = router

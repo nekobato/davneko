@@ -1,4 +1,7 @@
 extends layout
 
 block content
-  h1 davneko
+  form(method='post' action='/auth' class='dn-auth')
+    input(type='text' name='username' placeholder='username' class='textbox')
+    input(type='password' name='password' placeholder='password' class='textbox')
+    input(type='submit' value='Enter' class='submit')

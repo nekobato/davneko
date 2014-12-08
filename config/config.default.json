@@ -1,3 +1,8 @@
 {
-  "basepath": ""
+  "secret": "",
+  "basepath": "",
+  "users": [
+    { "id": 1, "username": "", "password": "" },
+    { "id": 2, "username": "", "password": "" }
+  ]
 }
