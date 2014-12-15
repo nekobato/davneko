@@ -4,9 +4,10 @@ block content
   div#davneko.davneko.hide
     div#fileviewer.fileviewer
       ul.filelist(v-repeat='dirs', data-name='{{name}}', data-depth='{{depth}}')
-        li(v-repeat='file: files', v-on='click: fileOpen', class='{{file.type}}')
+        li(v-repeat='file: files' class='{{file.type}}')
           i.fileicon(class='{{file | file2icon}}')
-          {{file.name}}
+          span.filename(v-on='click: fileOpen') {{file.name}}
+          i.download.fa.fa-download(v-if='file | isFile' v-on='click: download')
     div.mediaviewer(v-show='media.show')
       div#dn_media.mediaview(v-component='{{media.component}}' v-with='media' v-ref='dn_media')
       i.close.fa.fa-times(v-on='click: closeMedia')

@@ -98,9 +98,10 @@ footer .copy {
     vertical-align: top;
     overflow-y: scroll; }
     .fileviewer .filelist li {
+      position: relative;
       cursor: pointer;
       margin: 2px 0;
-      padding: 2px 4px 2px 12px;
+      padding: 2px 14px 2px 12px;
       max-width: 295px;
       line-height: 1.5em;
       border: 1px solid #dddddd;
@@ -109,11 +110,20 @@ footer .copy {
       border-radius: 5px; }
     .fileviewer .filelist .file {
       background: #ddddff; }
+    .fileviewer .filelist .filename {
+      display: block;
+      margin: 0 20px;
+      overflow: hidden; }
     .fileviewer .filelist .fileicon {
-      position: relative;
-      left: -5px;
-      width: 18px;
-      vertical-align: middle; }
+      position: absolute;
+      top: 7px;
+      left: 10px; }
+    .fileviewer .filelist .download {
+      position: absolute;
+      top: 7px;
+      right: 10px; }
+    .fileviewer .filelist .download:hover {
+      color: white; }
 
 .mediaviewer {
   position: absolute;

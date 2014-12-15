@@ -34,15 +34,25 @@ window.DN = new Vue
         else
           return 'fa fa-file-o'
 
+    isFile: (file) ->
+      if file.type is 'directory'
+        return false
+      else
+        return true
+
   methods:
     fileOpen: (e) ->
-      depth =    e.target.parentNode.getAttribute('data-depth')
-      pathname = e.target.parentNode.getAttribute('data-name')
+      depth =    e.targetVM.$parent.depth
+      pathname = e.targetVM.$parent.name
       filename = e.target.innerText
-      if e.target.className is 'directory'
+      if e.targetVM.file.type is 'directory'
         @.getDir "#{pathname}/#{filename}", Number(depth)+1
-      if e.target.className is 'file'
+      if e.targetVM.file.type is 'file'
         @.getFile "#{pathname}/#{filename}", filename
+
+    download: (e) ->
+      path = e.targetVM.name + "/" + e.targetVM.file.name
+      window.open "/api/path?download=true&path=#{encodeURIComponent path}"
 
     getDir: (path, newdepth) ->
       superagent.get '/api/path'
@@ -67,10 +77,6 @@ window.DN = new Vue
         component: component
         src: "/api/path?path=#{encodeURIComponent path}"
         show: true
-
-
-    isFile: (filetype) ->
-      return true if filetype is 'file'
 
     closeMedia: (e) ->
       @$data.media =

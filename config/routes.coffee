@@ -34,6 +34,9 @@ router.get "/api/path", (req, res, next) ->
       }
     res.send JSON.stringify(finder)
 
+  if req.param('download')
+    res.download targetpath
+
   else
     res.sendFile targetpath, {
       dotfiles: 'deny'
@@ -42,6 +45,5 @@ router.get "/api/path", (req, res, next) ->
         'x-sent': true
     }, (err) ->
       res.status(err.status).end() if err
-
 
 module.exports = router

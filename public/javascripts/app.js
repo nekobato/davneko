@@ -46,20 +46,32 @@ window.DN = new Vue({
         default:
           return 'fa fa-file-o';
       }
+    },
+    isFile: function(file) {
+      if (file.type === 'directory') {
+        return false;
+      } else {
+        return true;
+      }
     }
   },
   methods: {
     fileOpen: function(e) {
       var depth, filename, pathname;
-      depth = e.target.parentNode.getAttribute('data-depth');
-      pathname = e.target.parentNode.getAttribute('data-name');
+      depth = e.targetVM.$parent.depth;
+      pathname = e.targetVM.$parent.name;
       filename = e.target.innerText;
-      if (e.target.className === 'directory') {
+      if (e.targetVM.file.type === 'directory') {
         this.getDir("" + pathname + "/" + filename, Number(depth) + 1);
       }
-      if (e.target.className === 'file') {
+      if (e.targetVM.file.type === 'file') {
         return this.getFile("" + pathname + "/" + filename, filename);
       }
+    },
+    download: function(e) {
+      var path;
+      path = e.targetVM.name + "/" + e.targetVM.file.name;
+      return window.open("/api/path?download=true&path=" + (encodeURIComponent(path)));
     },
     getDir: function(path, newdepth) {
       return superagent.get('/api/path').query({
@@ -107,11 +119,6 @@ window.DN = new Vue({
         src: "/api/path?path=" + (encodeURIComponent(path)),
         show: true
       };
-    },
-    isFile: function(filetype) {
-      if (filetype === 'file') {
-        return true;
-      }
     },
     closeMedia: function(e) {
       return this.$data.media = {

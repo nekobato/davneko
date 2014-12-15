@@ -106,9 +106,10 @@ footer
     overflow-y: scroll
 
     li
+      position: relative
       cursor: pointer
       margin: 2px 0
-      padding: 2px 4px 2px 12px
+      padding: 2px 14px 2px 12px
       max-width: 295px
       line-height: 1.5em
       border: 1px solid #ddd
@@ -118,11 +119,20 @@ footer
     .directory
     .file
       background: #ddf
+    .filename
+      display: block
+      margin: 0 20px
+      overflow: hidden
     .fileicon
-      position: relative
-      left: -5px
-      width: 18px
-      vertical-align: middle
+      position: absolute
+      top: 7px
+      left: 10px
+    .download
+      position: absolute
+      top: 7px
+      right: 10px
+    .download:hover
+      color: #FFF
 
 .mediaviewer
   position: absolute
