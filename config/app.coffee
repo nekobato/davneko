@@ -21,7 +21,7 @@ RedisStore = require('connect-redis')(session)
 app.use session
   store: new RedisStore(),
   secret: config.secret
-  cookie: { maxAge: 60 * 60 * 1000 }
+  cookie: { maxAge: 60 * 60 * 24 * 1000 }
 
 app.use passport.initialize()
 app.use passport.session()
