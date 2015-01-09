@@ -18,21 +18,17 @@ window.DN = new Vue
     dirs: []
     media:
       component: 'media_blank'
-      src: ''
-      show: false
+      src:       ''
+      show:      false
 
   filters:
     file2icon: (file) ->
       return 'fa fa-folder-o' if file.type is 'directory'
       switch file.name.split('.').pop()
-        when 'mp3', 'aac', 'ogg'
-          return 'fa fa-music'
-        when 'png', 'jpg', 'jpeg', 'gif'
-          return 'fa fa-image'
-        when 'pdf'
-          return 'fa fa-book'
-        else
-          return 'fa fa-file-o'
+        when 'mp3', 'aac', 'ogg'         then return 'fa fa-music'
+        when 'png', 'jpg', 'jpeg', 'gif' then return 'fa fa-image'
+        when 'pdf'                       then return 'fa fa-book'
+        else                                  return 'fa fa-file-o'
 
     isFile: (file) ->
       if file.type is 'directory'
@@ -42,7 +38,7 @@ window.DN = new Vue
 
   methods:
     fileOpen: (e) ->
-      depth =    e.targetVM.$parent.depth
+      depth    = e.targetVM.$parent.depth
       pathname = e.targetVM.$parent.name
       filename = e.target.innerText
       if e.targetVM.file.type is 'directory'
@@ -60,7 +56,7 @@ window.DN = new Vue
       .end (err, res) ->
         DN.dirs.splice newdepth
         DN.dirs.push
-          name: path
+          name:  path
           depth: newdepth
           files: JSON.parse(res.text)
         Vue.nextTick () ->
@@ -75,14 +71,14 @@ window.DN = new Vue
         else return window.open "/api/path?path=#{encodeURIComponent path}"
       @$data.media =
         component: component
-        src: "/api/path?path=#{encodeURIComponent path}"
-        show: true
+        src:       "/api/path?path=#{encodeURIComponent path}"
+        show:      true
 
     closeMedia: (e) ->
       @$data.media =
         component: 'media_blank'
-        src: ''
-        show: false
+        src:       ''
+        show:      false
 
   ready: () ->
     # first attachment 以前の{{}}表示は見苦しいので、ここから表示
