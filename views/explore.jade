@@ -17,6 +17,7 @@ block content
 
       script#dn_media_music(type='x-template')
         audio.dn-media-music(src='{{src}}' controls autoplay)
+        button(v-on='click: mediaMusicRepeat') repeat
         i.fa.fa-refresh.media-button
 
       script#dn_media_movie(type='x-template')

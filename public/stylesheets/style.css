@@ -7,34 +7,6 @@ body, html {
   width: 100%;
   height: 100%; }
 
-header {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  height: 50px;
-  background: black;
-  text-align: left;
-  line-height: 50px; }
-  header h1, header nav, header form, header ul, header li {
-    display: inline-block; }
-  header h1 {
-    margin: 0 0 0 20px;
-    color: white;
-    vertical-align: middle; }
-  header nav {
-    text-align: left;
-    padding-left: 20px; }
-    header nav ul {
-      margin: 0;
-      padding: 0;
-      list-style: none; }
-    header nav li {
-      margin-left: 20px;
-      vertical-align: middle; }
-      header nav li a {
-        color: white;
-        text-decoration: none; }
-
 footer .copy {
   margin: 20px; }
 
@@ -42,17 +14,19 @@ footer .copy {
   display: none; }
 
 .dn-auth {
-  position: relative;
   margin: 100px auto;
-  padding: 40px 0 0;
+  padding: 0;
   width: 300px;
-  height: 260px;
-  border: 1px solid gainsboro; }
+  border: 1px solid gainsboro;
+  border-radius: 2px;
+  text-align: center; }
+  .dn-auth h1 {
+    font-size: 42px;
+    color: #4890e2; }
   .dn-auth input {
     display: block;
-    text-align: center;
     font-size: 18px; }
-  .dn-auth .textbox {
+  .dn-auth input[type='text'], .dn-auth input[type='password'] {
     margin: 10px auto 40px;
     padding: 8px 0;
     width: 200px;
@@ -60,24 +34,20 @@ footer .copy {
     border-radius: 4px;
     text-align: center;
     font-size: 18px; }
-  .dn-auth input[type='submit'] {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
+  .dn-auth button {
     margin: 0 auto;
     padding: 12px 0;
-    width: 240px;
+    width: 100%;
     border: 0;
-    background: #ccccff;
-    color: #fcfcfc; }
-
-.davneko {
-  position: absolute;
-  top: 50px;
-  bottom: 0;
-  left: 0;
-  right: 0; }
+    background: #4890e2;
+    font-size: 20px;
+    color: #fcfcfc;
+    cursor: pointer; }
+  .dn-auth button:after {
+    display: block;
+    margin: 4px 0 0 0;
+    font-family: FontAwesome;
+    content: "\f090"; }
 
 .fileviewer {
   width: 100%;
@@ -91,7 +61,7 @@ footer .copy {
     margin: 0;
     padding: 10px 10px 20px 10px;
     min-width: 200px;
-    max-width: 400px;
+    max-width: 600px;
     height: 100%;
     border-right: 1px solid #dddddd;
     border-left: 1px solid #dddddd;

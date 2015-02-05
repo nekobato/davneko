@@ -7,36 +7,6 @@ body, html
   width: 100%
   height: 100%
 
-$headerH: 50px
-
-header
-  position: fixed
-  top: 0
-  width: 100%
-  height: $headerH
-  background: #000
-  text-align: left
-  line-height: $headerH
-  h1, nav, form, ul, li
-    display: inline-block
-  h1
-    margin: 0 0 0 20px
-    color: #fff
-    vertical-align: middle
-  nav
-    text-align: left
-    padding-left: 20px
-    ul
-      margin: 0
-      padding: 0
-      list-style: none
-    li
-      margin-left: 20px
-      vertical-align: middle
-      a
-        color: #fff
-        text-decoration: none
-
 footer
   .copy
     margin: 20px
@@ -45,19 +15,22 @@ footer
   display: none
 
 .dn-auth
-  position: relative
   margin: 100px auto
-  padding: 40px 0 0
+  padding: 0
   width: 300px
-  height: 260px
   border: 1px solid #dcdcdc
+  border-radius: 2px
+  text-align: center
+
+  h1
+    font-size: 42px
+    color: #4890E2
 
   input
     display: block
-    text-align: center
     font-size: 18px
 
-  .textbox
+  input[type='text'], input[type='password']
     margin: 10px auto 40px
     padding: 8px 0
     width: 200px
@@ -66,24 +39,20 @@ footer
     text-align: center
     font-size: 18px
 
-  input[type='submit']
-    position: absolute
-    left: 0
-    right: 0
-    bottom: 0
+  button
     margin: 0 auto
     padding: 12px 0
-    width: 240px
+    width: 100%
     border: 0
-    background: #CCF
+    background: #4890E2
+    font-size: 20px
     color: #fcfcfc
-
-.davneko
-  position: absolute
-  top: $headerH
-  bottom: 0
-  left: 0
-  right: 0
+    cursor: pointer
+  button:after
+    display: block
+    margin: 4px 0 0 0
+    font-family: FontAwesome
+    content: "\f090"
 
 .fileviewer
   width: 100%
@@ -98,7 +67,7 @@ footer
     margin: 0
     padding: 10px 10px 20px 10px
     min-width: 200px
-    max-width: 400px
+    max-width: 600px
     height: 100%
     border-right: 1px solid #ddd
     border-left: 1px solid #ddd
