@@ -40,12 +40,13 @@ footer .copy {
     width: 100%;
     border: 0;
     background: #4890e2;
-    font-size: 20px;
+    font-size: 16px;
     color: #fcfcfc;
     cursor: pointer; }
   .dn-auth button:after {
     display: block;
     margin: 4px 0 0 0;
+    font-size: 24px;
     font-family: FontAwesome;
     content: "\f090"; }
 
