@@ -61,55 +61,78 @@ footer
     font-family: FontAwesome
     content: "\f090"
 
-.fileviewer
-  position: absolute
-  width: 100%
-  height: 100%
-  overflow-x: scroll
-  overflow-y: visible
-  white-space: nowrap
 
-  .filelist
+.davneko
+  position: absolute
+  top: 0
+  bottom: 0
+  left: 0
+  right: 0
+  display: flex
+  overflow: hidden
+
+
+.filenavi
+  min-width: 300px
+  background: #ddd
+  text-align: center
+  display: none
+
+
+.fileviewer
+  display: flex
+  overflow-x: scroll
+
+  ul.filelist
     list-style: none
-    display: inline-block
     margin: 0
-    padding: 10px 10px 20px 10px
+    padding: 0
     min-width: 200px
-    max-width: 600px
-    height: 100%
-    border-right: 1px solid #ddd
-    border-left: 1px solid #ddd
-    vertical-align: top
     overflow-y: scroll
+    overflow-x: hidden
+    vertical-align: top
+    border-left: 5px solid #999
+
+    &:last-child
+      flex-shrink: 0
 
     li
       position: relative
       cursor: pointer
-      margin: 2px 0
-      padding: 2px 14px 2px 12px
-      max-width: 295px
-      line-height: 1.5em
-      border: 1px solid #ddd
+      padding: 6px 10px 6px 0
+      text-align: left
       white-space: nowrap
-      overflow: hidden
-      border-radius: 5px
-    .directory
-    .file
+
+      &.directory-header
+        &:before
+          font-family: FontAwesome
+          content: "\f054"
+          margin: 0 5px
+      .filename
+        padding: 6px 10px 6px 30px
+        border: 1px solid #aaa
+        border-left: 0
+        border-radius: 5px
+        border-top-left-radius: 0
+        border-bottom-left-radius: 0
+      .fileicon
+        position: absolute
+        top: 10px
+        left: 10px
+        vertical-align: middle
+        cursor: pointer
+        &:hover:not(.fa-folder-o)
+          &:before
+            content: "\f019"
+    .file .filename
       background: #ddf
-    .filename
-      display: block
-      margin: 0 20px
-      overflow: hidden
-    .fileicon
-      position: absolute
-      top: 7px
-      left: 10px
-    .download
-      position: absolute
-      top: 7px
-      right: 10px
-    .download:hover
-      color: #FFF
+  ul.filelist.fadeout
+    animation: filelist-fadeout 0.5s ease 0s infinite normal
+
+@keyframes filelist-fadeout
+  100%
+    right: 50%
+
 
 .mediaviewer
   position: absolute
@@ -120,19 +143,17 @@ footer
   background: rgba(255, 255, 255, 0.7)
   .close
     position: absolute
-    top: -40px
+    top: 10px
     right: 10px
-    width: 30px
-    height: 30px
+    padding: 5px
     font-size: 30px
     color: #fff
+    background: rgba(100, 100, 100, 0.5)
+    border-radius: 5px
     cursor: pointer
   .mediaview
-    position: absolute
-    top: 10px
-    bottom: 10px
-    left: 10px
-    right: 10px
+    width: 100%
+    height: 100%
     text-align: center
     overflow: scroll
     .dn-media-book

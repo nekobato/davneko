@@ -13,3 +13,6 @@ bower_components
 
 config/config.json
 *.rdb
+
+public/javascripts
+public/stylesheets

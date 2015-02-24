@@ -7,6 +7,9 @@ window.DN = new Vue
       template: '#dn_media_blank'
     media_music:
       template: '#dn_media_music'
+      methods:
+        mediaMusicRepeat: (e) ->
+
     media_image:
       template: '#dn_media_image'
     media_book:
@@ -16,6 +19,8 @@ window.DN = new Vue
 
   data:
     dirs: []
+    depths: ['/']
+    paths: []
     media:
       component: 'media_blank'
       src:       ''
@@ -31,10 +36,8 @@ window.DN = new Vue
         else                                  return 'fa fa-file-o'
 
     isFile: (file) ->
-      if file.type is 'directory'
-        return false
-      else
-        return true
+      return false if file.type is 'directory'
+      return true
 
   methods:
     fileOpen: (e) ->
@@ -42,22 +45,26 @@ window.DN = new Vue
       pathname = e.targetVM.$parent.name
       filename = e.target.innerText
       if e.targetVM.file.type is 'directory'
-        @.getDir "#{pathname}/#{filename}", Number(depth)+1
+        @getDir "#{pathname}/#{filename}", depth
+        @depths[depth] = filename
       if e.targetVM.file.type is 'file'
-        @.getFile "#{pathname}/#{filename}", filename
+        @getFile "#{pathname}/#{filename}", filename
 
-    download: (e) ->
+    onIconClicked: (e) ->
       path = e.targetVM.name + "/" + e.targetVM.file.name
-      window.open "/api/path?download=true&path=#{encodeURIComponent path}"
+      if e.target.parentElement.className is 'directory'
+        @getDir path, e.targetVM.$parent.depth
+      else
+        window.open "/api/path?download=true&path=#{encodeURIComponent path}"
 
-    getDir: (path, newdepth) ->
+    getDir: (path, depth) ->
       superagent.get '/api/path'
       .query { path: path }
       .end (err, res) ->
-        DN.dirs.splice newdepth
+        DN.dirs.splice depth
         DN.dirs.push
           name:  path
-          depth: newdepth
+          depth: depth + 1
           files: JSON.parse(res.text)
         Vue.nextTick () ->
           fileviewer.scrollLeft = fileviewer.scrollWidth
