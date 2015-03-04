@@ -10,7 +10,7 @@ window.DN = new Vue
       methods:
         toggleRepeat: (e) ->
           @media.repeat ^= true
-      create: () ->
+      created: () ->
         @media.repeat = true
     media_image:
       template: '#dn_media_image'
