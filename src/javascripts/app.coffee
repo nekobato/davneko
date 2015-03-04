@@ -1,5 +1,5 @@
-
 window.DN = new Vue
+
   el: "#davneko"
 
   components:
@@ -8,8 +8,10 @@ window.DN = new Vue
     media_music:
       template: '#dn_media_music'
       methods:
-        mediaMusicRepeat: (e) ->
-
+        toggleRepeat: (e) ->
+          @media.repeat ^= true
+      create: () ->
+        @media.repeat = true
     media_image:
       template: '#dn_media_image'
     media_book:
@@ -43,7 +45,7 @@ window.DN = new Vue
     fileOpen: (e) ->
       depth    = e.targetVM.$parent.depth
       pathname = e.targetVM.$parent.name
-      filename = e.target.innerText
+      filename = e.target.innerText || e.target.textContent
       if e.targetVM.file.type is 'directory'
         @getDir "#{pathname}/#{filename}", depth
         @depths[depth] = filename

@@ -1,5 +1,5 @@
 div.mediaviewer(v-show='media.show')
-  div#dn_media.mediaview(v-component='{{media.component}}' v-with='media' v-ref='dn_media')
+  div#dn_media.mediaview(v-component='{{media.component}}' v-with='media')
   i.close.fa.fa-times(v-on='click: closeMedia')
 
 
@@ -8,8 +8,7 @@ script#dn_media_book(type='x-template')
 
 script#dn_media_music(type='x-template')
   audio.dn-media-music(src='{{src}}' controls autoplay)
-  button(v-on='click: mediaMusicRepeat') repeat
-  i.fa.fa-refresh.media-button
+  i.fa.fa-repeat(v-on='click: toggleRepeat')
 
 script#dn_media_movie(type='x-template')
   div.dn-media-movie
