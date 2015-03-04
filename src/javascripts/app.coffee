@@ -9,9 +9,7 @@ window.DN = new Vue
       template: '#dn_media_music'
       methods:
         toggleRepeat: (e) ->
-          @media.repeat ^= true
-      created: () ->
-        @media.repeat = true
+          e.targetVM.repeat ^= true
     media_image:
       template: '#dn_media_image'
     media_book:
