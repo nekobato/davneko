@@ -7,7 +7,7 @@ script#dn_media_book(type='x-template')
   iframe.dn-media-book(src='{{src}}')
 
 script#dn_media_music(type='x-template')
-  audio.dn-media-music(src='{{src}}' controls autoplay)
+  audio.dn-media-music(src='{{src}}' controls autoplay repeat='{{repeat}}')
   i.fa.fa-repeat(v-on='click: toggleRepeat')
 
 script#dn_media_movie(type='x-template')
