@@ -15,3 +15,7 @@ express-template
 
 - Travis CI - https://travis-ci.org/
 - icon converter - http://www.icoconverter.com/
+
+### memo
+
+- ![](http://gyazo.com/c407547eba389950bb83fe8861ff4cf6.png)
