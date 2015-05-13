@@ -1,8 +1,0 @@
-{
-  "name": "davneko",
-  "private": true,
-  "dependencies": {
-    "vue": "~0.11.0",
-    "superagent": "~0.21.0"
-  }
-}

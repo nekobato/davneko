@@ -1,34 +1,47 @@
+/*
+ * modules
+ */
 
-var watchify = require('watchify');
-var browserify = require('browserify');
-var path = require('path');
+// common
 var gulp = require('gulp');
-var source = require('vinyl-source-stream');
-var buffer = require('vinyl-buffer');
-var gutil = require('gulp-util');
-var uglify = require('gulp-uglify');
+var path = require('path');
 var sourcemaps = require('gulp-sourcemaps');
-var assign = require('lodash').assign;
+var gutil = require('gulp-util');
 
+// error
 var notify = require('gulp-notify');
 
-var less = require('gulp-less');
+// js
+var browserify = require('browserify');
+var watchify = require('watchify');
+var uglify = require('gulp-uglify');
+var buffer = require('vinyl-buffer');
+var assign = require('lodash').assign;
+var source = require('vinyl-source-stream');
+
+// css
+var sass = require('gulp-sass');
 var autoprefixer = require('gulp-autoprefixer');
 var minifyCSS = require('gulp-minify-css');
 var concat = require('gulp-concat');
 
+// server
 var gls = require('gulp-live-server');
+
 
 // Javascript
 
 var customOpts = {
-  entries: ['./src/javascripts/main.js'],
-  debug: true
+  entries: ['./src/javascripts/script.coffee'],
+  debug: true,
+  transform: ['coffeeify'],
+  extensions: ['.coffee']
 };
 
 var opts = assign({}, watchify.args, customOpts);
 var b = watchify(browserify(opts));
 
+// task "js"
 gulp.task('js', bundle);
 
 b.on('update', bundle);
@@ -37,33 +50,41 @@ b.on('log', gutil.log);
 function bundle() {
   return b.bundle()
     .on('error', notify.onError('<%= error.message %>'))
-    .pipe(source('bundle.js'))
+    .pipe(source('script.js'))
     .pipe(buffer())
-    .pipe(sourcemaps.init({loadMaps: true}))
+    .pipe(sourcemaps.init({
+      loadMaps: true
+    }))
     .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest('./public/javascripts'));
 }
 
-gulp.task('js-build', function () {
+// task "js-build"
+gulp.task('js-build', function() {
 
   var b = browserify(customOpts);
 
   return b.bundle()
     .on('error', notify.onError('<%= error.message %>'))
-    .pipe(source('bundle.js'))
+    .pipe(source('script.js'))
     .pipe(buffer())
-      .pipe(uglify())
-      .on('error', gutil.log)
+    .pipe(uglify())
+    .on('error', notify.onError('<%= error.message %>'))
     .pipe(gulp.dest('./public/javascripts'));
 });
 
 
 // Stylesheet
 
-gulp.task('css', function () {
-  return gulp.src('./src/stylesheets/**/*.less')
-    .pipe(sourcemaps.init({loadMaps: true}))
-    .pipe(less())
+// task "css"
+gulp.task('css', function() {
+  return gulp.src('./src/stylesheets/**/*.sass')
+    .pipe(sourcemaps.init({
+      loadMaps: true
+    }))
+    .pipe(sass({
+      indentedSyntax: true
+    }))
     .on('error', notify.onError('<%= error.message %>'))
     .pipe(autoprefixer({
       browsers: ['last 2 versions'],
@@ -76,24 +97,25 @@ gulp.task('css', function () {
 });
 
 
-// Server
+// Server daemon
 
-gulp.task('server', function () {
+// task "server"
+gulp.task('server', function() {
 
-    var env = process.env;
-    env.NODE_ENV = process.env.NODE_ENV || 'development';
+  var env = process.env;
+  env.NODE_ENV = process.env.NODE_ENV || 'development';
 
-    var server = gls('bin/www', env, false);
-    server.start();
+  var server = gls('bin/www', env, false);
+  server.start();
 
-    gulp.watch(['app.js', 'bin/www', 'routes/**/*.js'], [server.start]);
+  gulp.watch(['bin/www', 'config/**/*.coffee'], [server.start]);
 });
 
 
-// Task
+// Tasks
 
 gulp.task('default', ['js', 'css', 'server'], function() {
-  gulp.watch('./src/stylesheets/**/*.less', ['css']);
+  gulp.watch('./src/stylesheets/**/*.sass', ['css']);
 });
 
 gulp.task('build', ['js-build', 'css']);

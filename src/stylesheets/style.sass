@@ -1,177 +1,30 @@
 *
   box-sizing: border-box
 
-body, html
-  margin: 0
-  padding: 0
-  width: 100%
+html, body
   height: 100%
+  min-height: 100%
 
-footer
-  .copy
-    margin: 20px
+h1
+  font-size: 3.3rem
+  font-weight: 300
 
-.hide
-  display: none
+.bold
+  font-weight: bold
 
-.dn-auth
-  margin: 100px auto
-  padding: 0
-  width: 280px
-  height: 330px
-  border: 1px solid #dcdcdc
-  border-radius: 10px
-  text-align: center
+.dn_auth-container
+  margin: 0 auto
+  max-width: 250px
 
-  h1
-    font-size: 42px
-    color: #4890E2
+// header
 
-  input
-    display: block
-    font-size: 18px
-
-  input[type='text'], input[type='password']
-    margin: 10px auto 40px
-    padding: 8px 0
-    width: 200px
-    border: 1px solid #ddd
-    border-radius: 4px
-    text-align: center
-    font-size: 18px
-  input[type='password']
-    margin-bottom: 0
-
-  button
-    position: relative
-    top: 30px
-    margin: 0 auto
-    width: 120px
-    height: 120px
-    border: 0
-    border-radius: 75px
-    background: #4890E2
-    font-size: 16px
-    color: #fcfcfc
-    box-shadow: 0 1px 4px #999
+header
+  .side-nav
+    width: 220px
+    li.not-selectable
+      &:hover
+        background: #ffffff
+  .collection-item
     cursor: pointer
-  button:after
-    display: block
-    margin: 4px 0 0 0
-    font-size: 24px
-    font-family: FontAwesome
-    content: "\f090"
-
-
-.davneko
-  position: absolute
-  top: 0
-  bottom: 0
-  left: 0
-  right: 0
-  display: flex
-  overflow: hidden
-
-
-.filenavi
-  min-width: 300px
-  background: #ddd
-  text-align: center
-  display: none
-
-
-.fileviewer
-  display: flex
-  overflow-x: scroll
-
-  ul.filelist
-    list-style: none
-    margin: 0
-    padding: 0
-    min-width: 200px
-    overflow-y: scroll
-    overflow-x: hidden
-    vertical-align: top
-    border-left: 5px solid #999
-
-    &:last-child
-      flex-shrink: 0
-
-    li
-      position: relative
-      cursor: pointer
-      padding: 6px 10px 6px 0
-      text-align: left
-      white-space: nowrap
-
-      &.directory-header
-        &:before
-          font-family: FontAwesome
-          content: "\f054"
-          margin: 0 5px
-      .filename
-        padding: 6px 10px 6px 30px
-        border: 1px solid #aaa
-        border-left: 0
-        border-radius: 5px
-        border-top-left-radius: 0
-        border-bottom-left-radius: 0
-      .fileicon
-        position: absolute
-        top: 10px
-        left: 10px
-        vertical-align: middle
-        cursor: pointer
-        &:hover:not(.fa-folder-o)
-          &:before
-            content: "\f019"
-    .file .filename
-      background: #ddf
-  ul.filelist.fadeout
-    animation: filelist-fadeout 0.5s ease 0s infinite normal
-
-@keyframes filelist-fadeout
-  100%
-    right: 50%
-
-
-.mediaviewer
-  position: absolute
-  top: 0
-  bottom: 0
-  left: 0
-  right: 0
-  background: rgba(255, 255, 255, 0.7)
-  .close
-    position: absolute
-    top: 10px
-    right: 10px
-    padding: 5px
-    font-size: 30px
-    color: #fff
-    background: rgba(100, 100, 100, 0.5)
-    border-radius: 5px
-    cursor: pointer
-  .mediaview
-    width: 100%
-    height: 100%
-    text-align: center
-    overflow: scroll
-    .dn-media-book
-      width: 100%
-      height: 100%
-    .dn-media-movie, video
-      max-width: 100%
-      max-height: 100%
-    .dn-media-music
-      display: block
-      margin: 20% auto 10px
-      box-shadow: 0 1px 4px #999
-    i.fa.fa-repeat
-      padding: 10px
-      color: #434343
-      font-size: 36px
-      border: 5px solid #434343
-      border-radius: 10px
-      box-shadow: 0 1px 4px #999
-      cursor: pointer
+    i
+      margin-right: 15px

@@ -1,18 +1,14 @@
-- var site_title = 'davneko'
-- var site_description = 'nekobato.net webdav'
-
 doctype html
 html
   head
     meta(charset='utf-8')
-    title #{site_title} | #{site_description}
-    meta(name='description', content='')
-    meta(name='viewport', content='width=device-width, initial-scale=1.0')
-    link(rel='shortcut icon', href='/favicon.ico')
-    link(rel='stylesheet', href='//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css')
-    link(rel='stylesheet', href='/stylesheets/style.css')
-    link(rel='canonical', href="#{base_uri}")
-  body
+    title davneko
+    meta(name='description' content='')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    link(rel='shortcut icon' href='/favicon.ico')
+    link(rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/css/materialize.min.css")
+    link(rel='stylesheet' href='/stylesheets/style.css')
+    link(rel='canonical' href="#{base_uri}")
 
     block content
 

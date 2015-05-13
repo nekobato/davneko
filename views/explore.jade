@@ -1,22 +1,15 @@
 extends layout
 
 block content
-  div#davneko.davneko.hide
-    
-    div#filenavi.filenavi
-      h1 davneko
-      ul.filedepth
-        li(v-repeat='path: paths') {{{path}}
-        
-    div#fileviewer.fileviewer
-      ul.filelist(v-repeat='dirs', data-name='{{name}}', data-depth='{{depth}}')
-        li.directory-header {{name}}
-        li(v-repeat='file: files' class='{{file.type}}')
-          i.fileicon(class='{{file | file2icon}}' v-on='click: onIconClicked')
-          span.filename(v-on='click: fileOpen') {{file.name}}
-          
-    
-    include mediaviewer
+  
+  body#davneko
+    header(v-component='header')
+    main
+      section(v-component='{{app_component}}')
+      section(v-component='filer')
 
 block js
-  script(src='/javascripts/app.js',        type='text/javascript', async, defer)
+  include components/header
+  include components/filer
+  include components/audiobox
+  script(src='/javascripts/script.js', type='text/javascript', async, defer)

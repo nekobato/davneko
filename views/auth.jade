@@ -1,8 +1,13 @@
 extends layout
 
 block content
-  form(method='post' action='/auth' class='dn-auth')
-    h1 davneko
-    input(type='text' name='username' placeholder='username')
-    input(type='password' name='password' placeholder='password')
-    button(type='submit') Enter
+  body
+    div.container
+      div.card.dn_auth-container.center
+        h1.card-content.green-text.text-darken-1 davneko
+        form.card-action(method='post' action='/auth')
+          div.input-field
+            input.validate(type='text' name='username' placeholder='username')
+          div.input-field
+            input.validate(type='password' name='password' placeholder='password')
+          button.btn.waves-effect.waves-light(type='submit') Enter
