@@ -16,7 +16,7 @@ window.DN = new Vue
       template: '<p>hoge</p>'
 
   data:
-    app_component: 'appempty'
+    app_component: 'audiobox'
 
   filters: {}
 
