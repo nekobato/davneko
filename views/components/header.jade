@@ -1,11 +1,14 @@
-script#davneko_header(type='x-template')
+script#davneko_nav(type='x-template')
   nav.top-nav
-  ul.side-nav.fixed.collection.with-header
-    li.not-selectable.collection-header
-      h1 davneko
-    li.collection-item
-      i.mdi-av-my-library-music
-      span.bold Music
-    li.collection-item
-      i.mdi-av-my-library-books
-      span.bold Book
+    div.container
+      div.nav-wrapper
+        h2 Music
+  div.container
+    a.button-collapse.top-nav.full(href='#')
+      i.mdi-navigation-menu
+  div.side-nav.fixed
+    h1.center davneko
+    ul.collection
+
+script#davneko_header_overlay
+  div#sidenav-overlay

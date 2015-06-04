@@ -9,8 +9,7 @@ window.DN = new Vue
   el: "#davneko"
 
   components:
-    header: require './header'
-    filer: require './filer'
+    nav: require './nav'
     audiobox: require './audiobox'
     appempty:
       template: '<p>hoge</p>'
@@ -23,3 +22,5 @@ window.DN = new Vue
   methods: {}
 
   ready: () ->
+    @$on 'filer-select-item', () ->
+      console.log 'hoge'

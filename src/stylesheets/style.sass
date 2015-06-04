@@ -1,3 +1,7 @@
+$width-pc: 992px
+
+$side-nav-width: 50%
+
 *
   box-sizing: border-box
 
@@ -6,8 +10,15 @@ html, body
   min-height: 100%
 
 h1
-  font-size: 3.3rem
+  font-size: 3rem
   font-weight: 300
+  margin: 10px auto
+
+h2
+  font-size: 2.4rem
+  font-weight: 300
+  margin: 0 auto
+  line-height: 64px
 
 .bold
   font-weight: bold
@@ -20,11 +31,62 @@ h1
 
 header
   .side-nav
-    width: 220px
+    width: $side-nav-width
     li.not-selectable
       &:hover
         background: #ffffff
   .collection-item
+    display: flex
     cursor: pointer
     i
       margin-right: 15px
+    a
+      height: 1.5rem
+      line-height: 1.5rem
+
+  a.button-collapse.top-nav
+    position: absolute
+    text-align: center
+    height: 48px
+    width: 48px
+    left: 7.5%
+    top: 8px
+    float: none
+    margin-left: 1.5rem
+    color: #fff
+    font-size: 32px
+    z-index: 2
+
+// main
+
+header, main, footer
+  @media only screen and (max-width: $width-pc)
+    text-align: center
+  @media only screen and (min-width: $width-pc)
+    padding-left: $side-nav-width
+
+
+.audiobox
+  audio
+    width: 100%
+  .controller
+    font-size: 1.8em
+    i
+      margin-left: 5px
+      cursor: pointer
+
+  .playlist
+    p
+      margin: 0
+    .playlist-deleter, .playlist-replacer
+      display: none
+      position: absolute
+    .playlist-deleter
+      right: -6px
+    .playlist-replacer
+      left: -6px
+      font-size: 2em
+      cursor: pointer
+    li:hover
+      .playlist-deleter, .playlist-replacer
+        display: inline-block

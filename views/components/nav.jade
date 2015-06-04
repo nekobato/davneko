@@ -1,0 +1,16 @@
+script#davneko_nav(type='x-template')
+  nav.top-nav
+    div.container
+      div.nav-wrapper
+        h2 Music
+  div.container
+    a.button-collapse.top-nav.full(href='#')
+      i.mdi-navigation-menu
+  ul.side-nav.fixed.collection.with-header
+    li.not-selectable.collection-header
+      h1 davneko
+    li.collection-item.not-selectable
+      span.truncate file way
+    li.collection-item(v-repeat='file:current_dir' v-on='click: onSelectItem(file)')
+      i(v-attr='class: file.icon' v-on='click: onSelectItemIcon')
+      a.truncate {{file.name}}

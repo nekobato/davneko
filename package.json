@@ -1,11 +1,11 @@
 {
-  "name": "appname",
+  "name": "davneko",
   "version": "0.0.1",
   "private": true,
   "scripts": {
     "start": "bin/www",
     "test": "mocha --compilers coffee:coffee-script/register --colors --growl --bail --check-leaks test",
-    "dev": "grunt & DEBUG=* node-dev bin/www"
+    "dev": "gulp"
   },
   "dependencies": {
     "body-parser": "~1.8.1",

@@ -29,6 +29,8 @@ app.use passport.session()
 # app set
 app.set "views", './views'
 app.set "view engine", "jade"
+if app.get("env") is "development"
+  app.set 'view options', { pretty: true };
 
 # app use
 app.use favicon './public/favicon.ico'

@@ -1,2 +1,22 @@
 script#davneko_audiobox(type='x-template')
-  p hoge---
+  div.card.audiobox
+    div.card-action.black.white-text
+      h5.truncate Music Title
+      audio(controls)
+      div.controller.left-align
+        div.right
+          i.mdi-action-trending-neutral.btn-small.teal.darken-1
+          i.mdi-av-repeat.btn-small.teal.darken-1(v-if='controls.repeat-all')
+          i.mdi-av-repeat-one.btn-small.teal.darken-1(v-if='controls.repeat-one')
+        div
+          i.mdi-av-skip-previous.btn-small.teal.darken-1
+          i.mdi-av-skip-next.btn-small.teal.darken-1
+      
+    ul.collection.blue-grey-text.darken-4.left-align.playlist
+      li.collection-item
+        i.mdi-navigation-unfold-more.teal-text.playlist-replacer
+        i.mdi-content-clear.btn-floating.btn-small.center.red.playlist-deleter
+        p.truncate Music 2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaasffssdfasdffdasfads
+          
+      
+    

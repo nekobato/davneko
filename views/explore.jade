@@ -3,13 +3,11 @@ extends layout
 block content
   
   body#davneko
-    header(v-component='header')
+    header(v-component='nav')
     main
-      section(v-component='{{app_component}}')
-      section(v-component='filer')
+      section.container(v-component='{{app_component}}')
 
 block js
-  include components/header
-  include components/filer
+  include components/nav
   include components/audiobox
   script(src='/javascripts/script.js', type='text/javascript', async, defer)
