@@ -57,6 +57,38 @@ header
     font-size: 32px
     z-index: 2
 
+// side nav
+
+.side-nav
+  .file-depth
+    vertical-align: bottom
+
+    i
+      font-size: 2em
+    span
+      font-size: 1.2em
+
+  .file-item
+    position: relative
+    height: 44px
+    animation: filer-arrival 0.4s ease 0s 1 normal
+
+    a
+      font-size: 14px
+      position: absolute
+      left: -30px
+      transition: left 0.2s ease 0s
+
+    &:hover
+      a
+        left: 0
+
+@keyframes filer-arrival
+  0%
+    left: 100%
+  100%
+    left: 0
+
 // main
 
 header, main, footer
@@ -64,6 +96,10 @@ header, main, footer
     text-align: center
   @media only screen and (min-width: $width-pc)
     padding-left: $side-nav-width
+
+main
+  section
+    margin: 20px
 
 
 .audiobox
