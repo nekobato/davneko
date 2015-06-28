@@ -2,7 +2,7 @@ Vue = require('vue')
 request = require('superagent')
 _ = require('lodash')
 
-# Vue.config.debug = true
+Vue.config.debug = true
 
 window.DN = new Vue
 
@@ -22,5 +22,6 @@ window.DN = new Vue
   methods: {}
 
   ready: () ->
-    @$on 'filer-select-item', () ->
-      console.log 'hoge'
+    @$on 'filer-dispatch-file', (file) ->
+      console.log 'filer-dispatch-file'
+      @$broadcast 'set-file', file

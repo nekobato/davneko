@@ -28,11 +28,13 @@ router.get "/api/path", (req, res, next) ->
     finder = []
     for p in fs.readdirSync(targetpath) when not /^\..*/.test(p)
       stats = fs.statSync path.join(targetpath, p)
-      finder.push {
+      finder.push
         name: p
+        path: path.join(reqpath, p)
         type: if stats.isDirectory() then 'directory' else 'file'
-      }
-    res.send JSON.stringify(finder)
+    res
+    .type 'json'
+    .send finder
 
   if req.param('download')
     res.download targetpath

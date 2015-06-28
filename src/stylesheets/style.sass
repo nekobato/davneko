@@ -30,11 +30,38 @@ h2
 // header
 
 header
+
+  .nav-wrapper
+    padding-left: 20px
+
   .side-nav
-    width: $side-nav-width
+    min-width: $side-nav-width
+    transition: left 0.4s ease 0s
+    &.show-mobile
+      left: 0
     li.not-selectable
       &:hover
         background: #ffffff
+    .file-depth
+      vertical-align: bottom
+      i
+        font-size: 2em
+      span
+        font-size: 1.2em
+    .file-item
+      position: relative
+      height: 44px
+      animation: filer-arrival 0.2s ease 0s 1 normal
+      a
+        font-size: 14px
+        position: relative
+        left: -60px
+        padding: 0 10px
+        transition: left 0.2s ease 0s
+      &:hover
+        a
+          left: 0
+
   .collection-item
     display: flex
     cursor: pointer
@@ -57,35 +84,9 @@ header
     font-size: 32px
     z-index: 2
 
-// side nav
-
-.side-nav
-  .file-depth
-    vertical-align: bottom
-
-    i
-      font-size: 2em
-    span
-      font-size: 1.2em
-
-  .file-item
-    position: relative
-    height: 44px
-    animation: filer-arrival 0.4s ease 0s 1 normal
-
-    a
-      font-size: 14px
-      position: absolute
-      left: -30px
-      transition: left 0.2s ease 0s
-
-    &:hover
-      a
-        left: 0
-
 @keyframes filer-arrival
   0%
-    left: 100%
+    left: 30%
   100%
     left: 0
 
