@@ -4,16 +4,10 @@ _ = require('lodash')
 
 root_dir = [{
   name: 'Music'
-  path: 'Music'
+  path: 'Musics'
   type: 'component'
   icon: 'mdi-av-my-library-music'
   component_name: 'filer_music'
-}, {
-  name: 'Book'
-  path: 'Books'
-  type: 'component'
-  icon: 'mdi-av-my-library-books'
-  component_name: 'filer_book'
 }]
 
 module.exports =
