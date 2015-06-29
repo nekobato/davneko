@@ -15,7 +15,9 @@ module.exports =
   template: '#davneko_nav'
 
   data: () ->
-    depth: []
+    depth: [
+      { name: 'Root' }
+    ]
     current:
       name: 'Root'
     filelist: root_dir
@@ -35,7 +37,7 @@ module.exports =
 
       if file.type is 'directory' or file.type is 'component'
         @$emit 'filer-get-dir',   file
-        @$emit 'filer-set-depth', file
+        @$emit 'filer-add-depth', file
 
       if file.type is 'file'
         @$dispatch 'filer-dispatch-file', file
@@ -51,9 +53,10 @@ module.exports =
       console.log 'onSelectItemAddIcon'
       @$dispatch 'filer-dispatch-file', file
 
-    onSelectDepth: (file) ->
-      @$emit 'filer-get-dir',   file
-      @$emit 'filer-set-depth', file
+    onSelectDepth: (file, depth) ->
+
+      @$data.depth.length = depth;
+      @$emit 'filer-get-item', file
 
 
     getDir: (file) ->
@@ -66,20 +69,17 @@ module.exports =
       .end (err, res) =>
         @$emit 'filer-set-dir', JSON.parse res.text
 
-
     setDir: (files) ->
       console.log 'setdir', files
-
       @filelist = files
 
-    setDepth: (file) ->
-      @depth = file.path.split '/'
-
+    addDepth: (file) ->
+      @depth.push file
       console.log 'setdepth', @depth
 
   ready: () ->
 
     @$on 'filer-get-dir', @getDir
     @$on 'filer-set-dir', @setDir
-
-    @$on 'filer-set-depth', @setDepth
+    @$on 'filer-get-item', @onSelectItemName
+    @$on 'filer-add-depth', @addDepth
