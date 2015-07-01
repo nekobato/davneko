@@ -67,6 +67,7 @@ module.exports =
         path: file.path
       .set 'Accept', 'application/json'
       .end (err, res) =>
+        throw err if err
         @$emit 'filer-set-dir', JSON.parse res.text
 
     setDir: (files) ->
