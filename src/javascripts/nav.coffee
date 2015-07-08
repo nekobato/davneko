@@ -4,7 +4,7 @@ _ = require('lodash')
 
 root_dir = [{
   name: 'Music'
-  path: 'Musics'
+  path: 'Music'
   type: 'component'
   icon: 'mdi-av-my-library-music'
   component_name: 'filer_music'

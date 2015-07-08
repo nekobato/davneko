@@ -46,10 +46,14 @@ module.exports =
         document.querySelector('#audio_player').play()
       , 200
 
+    onTriggerNext: () ->
+      @$emit 'audio-trigger-next'
+
 
   ready: () ->
     @$on 'set-file', @onReceiveFile
     @$on 'audio-add-audio', @addAudioToPlaylist
+    @$on 'audio-trigger-next', @playNextQueue
     @$on 'nowplaying ended', @playNextQueue
 
     audio_el = document.querySelector '#audio_player'
