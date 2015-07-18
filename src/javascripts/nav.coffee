@@ -58,7 +58,6 @@ module.exports =
       @$data.depth.length = depth;
       @$emit 'filer-get-item', file
 
-
     getDir: (file) ->
       console.log 'getdir', file
 
