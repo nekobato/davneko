@@ -1,5 +1,7 @@
 div.mediaviewer(v-show='media.src')
-  div#dn_media.mediaview(v-component='{{media.component}}' v-with='media')
+  div#dn_media.mediaview(
+    v-component='{{media.component}}'
+    v-with='media')
   i.close.fa.fa-times(v-on='click: closeMedia')
 
 
@@ -7,12 +9,24 @@ script#dn_media_book(type='x-template')
   iframe.dn-media-book(src='{{src}}')
 
 script#dn_media_music(type='x-template')
-  audio.dn-media-music(src='{{src}}' v-on='ended: onEnded' autoplay='{{audio.autoplay}}' loop='{{audio.loop}}' volume='{{audio.volume}}' controls)
+  audio.dn-media-music(
+    v-on='ended: onEnded'
+    v-attr='src: src?'
+    autoplay='{{audio.autoplay}}'
+    loop='{{audio.loop}}'
+    volume='{{audio.volume}}'
+    controls)
   i.fa.fa-repeat(v-on='click: toggleRepeat')
 
 script#dn_media_movie(type='x-template')
   div.dn-media-movie
-    video(v-attr='src: src' v-on='ended: onEnded' autoplay='{{audio.autoplay}}' loop='{{audio.loop}}' volume='{{audio.volume}}' controls)
+    video(
+      v-attr='src: src'
+      v-on='ended: onEnded'
+      autoplay='{{audio.autoplay}}'
+      loop='{{audio.loop}}'
+      volume='{{audio.volume}}'
+      controls)
 
 script#dn_media_image(type='x-template')
   img.dn-media-image(src='{{src}}')

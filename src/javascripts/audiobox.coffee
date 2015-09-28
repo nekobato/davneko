@@ -1,5 +1,4 @@
 request = require('superagent')
-_ = require('lodash')
 
 module.exports =
   template: '#davneko_audiobox'
@@ -17,6 +16,7 @@ module.exports =
   filters:
 
     pathToQuery: (path) ->
+      return "" unless path
       return "/api/path?path=#{encodeURIComponent(path)}";
 
   methods:

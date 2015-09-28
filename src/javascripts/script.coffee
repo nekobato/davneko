@@ -1,10 +1,6 @@
 Vue = require('vue')
-request = require('superagent')
-_ = require('lodash')
 
-Vue.config.debug = true
-
-window.DN = new Vue
+new Vue
 
   el: "#davneko"
 
@@ -16,8 +12,6 @@ window.DN = new Vue
 
   data:
     app_component: 'audiobox'
-
-  filters: {}
 
   methods: {}
 
