@@ -79,7 +79,6 @@ module.exports =
 
   ready: () ->
 
-    @$on 'filer-get-dir', @getDir
     @$on 'filer-set-dir', @setDir
     @$on 'filer-get-item', @onSelectItemName
     @$on 'filer-add-depth', @addDepth
