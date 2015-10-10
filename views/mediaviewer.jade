@@ -1,5 +1,7 @@
 div.mediaviewer(v-show='media.src')
-  div#dn_media.mediaview(v-component='{{media.component}}' v-with='media')
+  div#dn_media.mediaview(
+    v-component='{{media.component}}'
+    v-with='media')
   i.close.fa.fa-times(v-on='click: closeMedia')
 
 

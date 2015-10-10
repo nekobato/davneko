@@ -1,6 +1,4 @@
 request = require('superagent')
-_ = require('lodash')
-
 
 root_dir = [{
   name: 'Music'
@@ -55,7 +53,7 @@ module.exports =
 
     onSelectDepth: (file, depth) ->
 
-      @$data.depth.length = depth;
+      @$data.depth.length = depth
       @$emit 'filer-get-item', file
 
     getDir: (file) ->
