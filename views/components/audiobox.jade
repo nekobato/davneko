@@ -8,17 +8,23 @@ script#davneko_audiobox(type='x-template')
         autoplay)
       div.controller.left-align
         div.right
-          i.mdi-action-trending-neutral.btn-small.teal.darken-4.z-depth-1(v-if='player.controls.repeat === "no"')
-          i.mdi-av-repeat.btn-small.teal.darken-4.z-depth-1(v-if='player.controls.repeat === "all"')
-          i.mdi-av-repeat-one.btn-small.teal.darken-4.z-depth-1(v-if='player.controls.repeat === "one"')
+          i.mdi-action-trending-neutral.btn-small.teal.darken-4.z-depth-1(
+            v-if='player.controls.repeat === "no"')
+          i.mdi-av-repeat.btn-small.teal.darken-4.z-depth-1(
+            v-if='player.controls.repeat === "all"')
+          i.mdi-av-repeat-one.btn-small.teal.darken-4.z-depth-1(
+            v-if='player.controls.repeat === "one"')
         div
-          i.mdi-av-skip-previous.btn-small.teal.darken-4.z-depth-1(v-on='click: onTriggerPrev()')
-          i.mdi-av-skip-next.btn-small.teal.darken-4.z-depth-1(v-on='click: onTriggerNext()')
+          i.mdi-av-skip-previous.btn-small.teal.darken-4.z-depth-1(
+            v-on='click: onTriggerPrev()')
+          i.mdi-av-skip-next.btn-small.teal.darken-4.z-depth-1(
+            v-on='click: onTriggerNext()')
       
     ul.collection.blue-grey-text.darken-4.left-align.playlist
       li.collection-item(v-repeat='file : playlist')
         i.mdi-navigation-unfold-more.teal-text.playlist-replacer
-        i.mdi-content-clear.btn-floating.btn-small.center.red.playlist-deleter
+        i.mdi-content-clear.btn-floating.btn-small.center.red.playlist-deleter(
+          v-on='click: deleteItem($index)')
         p.truncate {{file.name}}
           
       

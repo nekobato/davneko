@@ -49,6 +49,9 @@ module.exports =
     onTriggerNext: () ->
       @$emit 'audio-trigger-next'
 
+    deleteItem: (index) ->
+      @$delete @playlist[index]
+
 
   ready: () ->
     @$on 'set-file', @onReceiveFile
