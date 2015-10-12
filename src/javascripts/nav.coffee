@@ -8,7 +8,7 @@ module.exports =
 
   data: ->
     depth: [
-      { name: '/' }
+      { name: '/', path: '/' }
     ]
     current: {}
     filelist: {}
@@ -47,7 +47,7 @@ module.exports =
     onSelectDepth: (file, depth) ->
 
       @$data.depth.length = depth
-      @$emit 'filer-get-item', file
+      @$emit 'filer-get-dir', file
 
     getDir: (file) ->
       console.log 'getdir', file
