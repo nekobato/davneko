@@ -3,6 +3,8 @@ request = require('superagent')
 module.exports =
   template: '#davneko_audiobox'
 
+  replace: false
+
   data: () ->
     player:
       file:

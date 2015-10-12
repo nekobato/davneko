@@ -1,24 +1,17 @@
 request = require('superagent')
 
-root_dir = [{
-  name: 'Music'
-  path: 'Musics'
-  type: 'component'
-  icon: 'mdi-av-my-library-music'
-  component_name: 'filer_music'
-}]
-
 module.exports =
 
   template: '#davneko_nav'
 
-  data: () ->
+  replace: false
+
+  data: ->
     depth: [
-      { name: 'Root' }
+      { name: '/' }
     ]
-    current:
-      name: 'Root'
-    filelist: root_dir
+    current: {}
+    filelist: {}
 
   methods:
 
@@ -33,7 +26,7 @@ module.exports =
 
       file = JSON.parse JSON.stringify file
 
-      if file.type is 'directory' or file.type is 'component'
+      if file.type is 'directory'
         @$emit 'filer-get-dir',   file
         @$emit 'filer-add-depth', file
 
@@ -78,5 +71,8 @@ module.exports =
   ready: () ->
 
     @$on 'filer-set-dir', @setDir
+    @$on 'filer-get-dir', @getDir
     @$on 'filer-get-item', @onSelectItemName
     @$on 'filer-add-depth', @addDepth
+
+    @getDir { path: '/' }

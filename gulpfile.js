@@ -114,7 +114,7 @@ gulp.task('server', function() {
 
 // Tasks
 
-gulp.task('default', ['js', 'css', 'server'], function() {
+gulp.task('default', ['js', 'css'], function() {
   gulp.watch('./src/stylesheets/**/*.sass', ['css']);
 });
 

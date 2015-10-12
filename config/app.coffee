@@ -22,6 +22,8 @@ app.use session
   store: new RedisStore(),
   secret: config.secret
   cookie: { maxAge: 60 * 60 * 24 * 1000 }
+  resave: true
+  saveUninitialized: true
 
 app.use passport.initialize()
 app.use passport.session()

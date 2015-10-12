@@ -16,13 +16,15 @@ router.get "/", (req, res, next) ->
 
 router.get "/api/path", (req, res, next) ->
 
+  console.log 'path:', req.query.path
+
   res.status(403).end() if not req.isAuthenticated()
 
-  reqpath = path.normalize(req.param('path') || '/')
-  res.status(500).end() if /\.\./.test reqpath
+  reqpath = path.normalize(req.query.path || '/')
+  res.status(500).end('bad query') if /\.\./.test reqpath
 
   targetpath = path.join config.basepath, reqpath
-  res.status(500).end() if not fs.existsSync(targetpath)
+  res.status(500).end("not exists: #{targetpath}") if not fs.existsSync(targetpath)
 
   if fs.statSync(targetpath).isDirectory()
     finder = []
@@ -36,7 +38,7 @@ router.get "/api/path", (req, res, next) ->
     .type 'json'
     .send finder
 
-  if req.param('download')
+  if req.query.download
     res.download targetpath
 
   else

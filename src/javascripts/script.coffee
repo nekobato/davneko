@@ -4,8 +4,10 @@ new Vue
 
   el: "#davneko"
 
+  replace: false
+
   components:
-    nav: require './nav'
+    filer: require './nav'
     audiobox: require './audiobox'
     appempty:
       template: '<p>hoge</p>'
