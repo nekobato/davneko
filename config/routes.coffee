@@ -14,6 +14,10 @@ router.get "/", (req, res, next) ->
     res.render "auth"
   return
 
+router.get "/failure", (req, res, next) ->
+  res.render "auth"
+  return
+
 router.get "/api/path", (req, res, next) ->
 
   console.log 'path:', req.query.path
