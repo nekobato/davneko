@@ -18,6 +18,6 @@ script#davneko_nav(type='x-template')
     div.side-nav-header.fixed
       li.not-selectable.collection-header
         h1(v-on='click: toggleNav') davneko
-      li.collection-item.not-selectable.file-depth
+      li.collection-item.not-selectable.file-depth.cyan.lighten-4
         i.mdi-navigation-chevron-right(v-repeat='file : depth' v-on='click: onSelectDepth(file, $index)')
         span(v-text='depth[depth.length-1].name') 
