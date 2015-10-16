@@ -10,13 +10,11 @@ script#davneko_nav(type='x-template')
         
   ul.side-nav.fixed.collection.with-header
     div.side-nav-contents
-      li.collection-item.file-item(v-repeat='file:filelist')
-        a(v-on='click: onSelectItemAddIcon')
-          i.mdi-content-add-box.file-commander
-        a(v-on='click: onSelectItemFileIcon')
-          i(v-attr='class: file.icon')
-        a(v-on='click: onSelectItemName(file)')
-          span.truncate {{file.name}}
+      li.collection-item.file-item(
+        v-repeat='file:filelist' v-on='click: onSelectItem(file)')
+        span(v-on='click: onSelectItemFileIcon')
+          i(v-attr='class: file | file2IconName')
+        span.truncate {{file.name}}
     div.side-nav-header.fixed
       li.not-selectable.collection-header
         h1(v-on='click: toggleNav') davneko

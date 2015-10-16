@@ -13,6 +13,13 @@ module.exports =
     current: {}
     filelist: {}
 
+  filters:
+    file2IconName: (file) ->
+      if /\.(ogg|wav|mp3|aac|m4a)$/.test file.name
+        return "fa fa-music"
+      if file.type is "directory"
+        return "fa fa-folder"
+
   methods:
 
     toggleNav: (e) ->
@@ -20,9 +27,7 @@ module.exports =
       nav = document.querySelector '.side-nav'
       nav.classList.toggle 'show-mobile'
 
-    onSelectItemName: (file) ->
-
-      console.log 'onselectitemName', file
+    onSelectItem: (file) ->
 
       file = JSON.parse JSON.stringify file
 
@@ -50,8 +55,6 @@ module.exports =
       @$emit 'filer-get-dir', file
 
     getDir: (file) ->
-      console.log 'getdir', file
-
       request.get '/api/path'
       .query
         path: file.path
