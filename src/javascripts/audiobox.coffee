@@ -52,7 +52,7 @@ module.exports =
       @$emit 'audio-trigger-next'
 
     deleteItem: (index) ->
-      @$delete @playlist[index]
+      @$data.playlist.splice(index, 1)
 
 
   ready: () ->
