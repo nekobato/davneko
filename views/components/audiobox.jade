@@ -21,8 +21,9 @@ script#davneko_audiobox(type='x-template')
             v-on='click: onTriggerNext()')
       
     ul.collection.blue-grey-text.darken-4.left-align.playlist
-      li.collection-item(v-repeat='file : playlist')
-        i.mdi-navigation-unfold-more.teal-text.playlist-replacer
+      li.collection-item(draggable='true' v-repeat='file : playlist')
+        i.mdi-navigation-unfold-more.teal-text.playlist-replacer(
+          v-on='dragstart: onDragQueueStart')
         i.mdi-content-clear.btn-floating.btn-small.center.red.playlist-deleter(
           v-on='click: deleteItem($index)')
         p.truncate {{file.name}}

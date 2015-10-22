@@ -7,9 +7,7 @@ module.exports =
   replace: false
 
   data: ->
-    depth: [
-      { name: '/', path: '/' }
-    ]
+    depth: []
     current: {}
     filelist: {}
 
@@ -32,8 +30,7 @@ module.exports =
       file = JSON.parse JSON.stringify file
 
       if file.type is 'directory'
-        @$emit 'filer-get-dir',   file
-        @$emit 'filer-add-depth', file
+        @$emit 'filer-get-dir', file
 
       if file.type is 'file'
         @$dispatch 'filer-dispatch-file', file
@@ -62,14 +59,15 @@ module.exports =
       .end (err, res) =>
         throw err if err
         @$emit 'filer-set-dir', JSON.parse res.text
+        @addDepth file
 
     setDir: (files) ->
       console.log 'setdir', files
-      @filelist = files
+      @$set 'filelist', files
 
     addDepth: (file) ->
-      @depth.push file
-      console.log 'setdepth', @depth
+      @$data.depth.push file
+      console.log 'setdepth:', @depth
 
   ready: () ->
 
@@ -78,4 +76,4 @@ module.exports =
     @$on 'filer-get-item', @onSelectItemName
     @$on 'filer-add-depth', @addDepth
 
-    @getDir { path: '/' }
+    @getDir { path: '/', name: '/' }
