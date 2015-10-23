@@ -53,8 +53,12 @@ module.exports =
 
     deleteItem: (index) ->
       console.log 'delete', "playlist[#{index}]"
-      @$data.playlist.splice(index, index)
+      @$data.playlist.splice(index, 1)
 
+    onDragQueueStart: () ->
+      console.log 'dragstart'
+    onDragQueueEnd: (el) ->
+      console.log el
 
   ready: () ->
     @$on 'set-file', @onReceiveFile

@@ -1,25 +1,19 @@
 script#davneko_nav(type='x-template')
   
-  nav.top-nav
-    div.nav-wrapper
-      h2 Music
-      
   div
     a.button-collapse.top-nav.full(href='#' v-on='click: toggleNav')
       i.mdi-navigation-menu
         
   ul.side-nav.fixed.collection.with-header
     div.side-nav-contents
-      li.collection-item.file-item(v-repeat='file:filelist')
-        a(v-on='click: onSelectItemAddIcon')
-          i.mdi-content-add-box.file-commander
-        a(v-on='click: onSelectItemFileIcon')
-          i(v-attr='class: file.icon')
-        a(v-on='click: onSelectItemName(file)')
-          span.truncate {{file.name}}
+      li.collection-item.file-item(
+        v-repeat='file:filelist' v-on='click: onSelectItem(file)')
+        span(v-on='click: onSelectItemFileIcon')
+          i(v-attr='class: file | file2IconName')
+        span.truncate {{file.name}}
     div.side-nav-header.fixed
       li.not-selectable.collection-header
         h1(v-on='click: toggleNav') davneko
-      li.collection-item.not-selectable.file-depth
+      li.collection-item.not-selectable.file-depth.cyan.lighten-4
         i.mdi-navigation-chevron-right(v-repeat='file : depth' v-on='click: onSelectDepth(file, $index)')
-        span(v-text='depth[depth.length-1].name') 
+        span(v-if='depth[0]') {{depth[depth.length-1].name}}

@@ -7,11 +7,16 @@ module.exports =
   replace: false
 
   data: ->
-    depth: [
-      { name: '/', path: '/' }
-    ]
+    depth: []
     current: {}
     filelist: {}
+
+  filters:
+    file2IconName: (file) ->
+      if /\.(ogg|wav|mp3|aac|m4a)$/.test file.name
+        return "fa fa-music"
+      if file.type is "directory"
+        return "fa fa-folder"
 
   methods:
 
@@ -20,15 +25,12 @@ module.exports =
       nav = document.querySelector '.side-nav'
       nav.classList.toggle 'show-mobile'
 
-    onSelectItemName: (file) ->
-
-      console.log 'onselectitemName', file
+    onSelectItem: (file) ->
 
       file = JSON.parse JSON.stringify file
 
       if file.type is 'directory'
-        @$emit 'filer-get-dir',   file
-        @$emit 'filer-add-depth', file
+        @$emit 'filer-get-dir', file
 
       if file.type is 'file'
         @$dispatch 'filer-dispatch-file', file
@@ -50,8 +52,6 @@ module.exports =
       @$emit 'filer-get-dir', file
 
     getDir: (file) ->
-      console.log 'getdir', file
-
       request.get '/api/path'
       .query
         path: file.path
@@ -59,14 +59,15 @@ module.exports =
       .end (err, res) =>
         throw err if err
         @$emit 'filer-set-dir', JSON.parse res.text
+        @addDepth file
 
     setDir: (files) ->
       console.log 'setdir', files
-      @filelist = files
+      @$set 'filelist', files
 
     addDepth: (file) ->
-      @depth.push file
-      console.log 'setdepth', @depth
+      @$data.depth.push file
+      console.log 'setdepth:', @depth
 
   ready: () ->
 
@@ -75,4 +76,4 @@ module.exports =
     @$on 'filer-get-item', @onSelectItemName
     @$on 'filer-add-depth', @addDepth
 
-    @getDir { path: '/' }
+    @getDir { path: '/', name: '/' }
