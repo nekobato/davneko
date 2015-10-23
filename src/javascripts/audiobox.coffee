@@ -19,7 +19,7 @@ module.exports =
 
     pathToQuery: (path) ->
       return "" unless path
-      return "/api/path?path=#{encodeURIComponent(path)}";
+      return "/api/path?path=#{encodeURIComponent(path)}"
 
   methods:
 
@@ -27,7 +27,7 @@ module.exports =
 
       console.log 'onReceiveFile', file
 
-      if /\.(ogg|wav|mp3|aac|m4a)$/.test file.name
+      if /\.(ogg|wav|mp3|mp4|aac|m4a)$/.test file.name
         @$emit 'audio-add-audio', file
 
     addAudioToPlaylist: (file) ->
@@ -52,7 +52,8 @@ module.exports =
       @$emit 'audio-trigger-next'
 
     deleteItem: (index) ->
-      @$delete @playlist[index]
+      console.log 'delete', "playlist[#{index}]"
+      @$data.playlist.splice(index, index)
 
 
   ready: () ->

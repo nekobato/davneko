@@ -5,7 +5,8 @@
   "scripts": {
     "start": "bin/www",
     "test": "mocha --compilers coffee:coffee-script/register --colors --growl --bail --check-leaks test",
-    "dev": "gulp"
+    "dev": "gulp",
+    "build": "gulp build"
   },
   "dependencies": {
     "body-parser": "1.14.1",
