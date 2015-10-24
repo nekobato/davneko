@@ -9,7 +9,7 @@ module.exports =
   data: ->
     depth: []
     current: {}
-    filelist: {}
+    filelist: []
 
   filters:
     file2IconName: (file) ->
@@ -27,24 +27,10 @@ module.exports =
 
     onSelectItem: (file) ->
 
-      file = JSON.parse JSON.stringify file
-
       if file.type is 'directory'
         @$emit 'filer-get-dir', file
-
-      if file.type is 'file'
-        @$dispatch 'filer-dispatch-file', file
-
-      if file.type is 'component'
-        @$dispatch 'app-change', file.name
-
-    onSelectItemFileIcon: (e, file) ->
-      console.log 'onSelectItemFileIcon'
-      @$dispatch 'filer-dispatch-file', file
-
-    onSelectItemAddIcon: (file) ->
-      console.log 'onSelectItemAddIcon'
-      @$dispatch 'filer-dispatch-file', file
+      else if file.type is 'file'
+        @$dispatch 'dispatch-files', [file]
 
     onSelectDepth: (file, depth) ->
 
@@ -62,12 +48,13 @@ module.exports =
         @addDepth file
 
     setDir: (files) ->
-      console.log 'setdir', files
       @$set 'filelist', files
 
     addDepth: (file) ->
       @$data.depth.push file
-      console.log 'setdepth:', @depth
+
+    addFilesAll: () ->
+      @$dispatch 'dispatch-files', @$data.filelist
 
   ready: () ->
 

@@ -13,6 +13,7 @@ h1
   font-size: 3rem
   font-weight: 300
   margin: 10px auto
+  line-height: 1
 
 h2
   font-size: 2.4rem
@@ -38,24 +39,44 @@ header
     min-width: $side-nav-width
     height: 100%
     transition: left 0.4s ease 0s
+
     &.show-mobile
       left: 0
     .side-nav-contents
       position: absolute
-      top: 148px
+      top: 127px
       left: 0
       right: 0
       bottom: 0
       overflow-y: scroll
+      border-top: 3px solid #ddd
     li.not-selectable
       &:hover
         background: #ffffff
     .file-depth
+      position: relative
       vertical-align: bottom
       i
         font-size: 2em
       span
         font-size: 1.2em
+    .file-trigger
+      position: absolute
+      top: 6px
+      right: 10px
+      padding: 0
+      width: 40px
+      height: 30px
+      i
+        position: absolute
+        margin: 0
+        font-size: 18px
+      .fa-folder-open
+        top: 2px
+        left: 5px
+      .fa-arrow-right
+        top: -6px
+        left: 20px
     .file-item
       position: relative
       height: 44px

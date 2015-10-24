@@ -15,9 +15,13 @@ new Vue
   data:
     app_component: 'audiobox'
 
+  events:
+    'dispatch-files': (files) ->
+      @$broadcast 'set-files', files
+
   methods: {}
 
   ready: () ->
-    @$on 'filer-dispatch-file', (file) ->
+    @$on 'dispatch-file', (file) ->
       console.log 'filer-dispatch-file'
       @$broadcast 'set-file', file

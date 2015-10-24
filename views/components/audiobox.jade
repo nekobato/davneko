@@ -4,8 +4,7 @@ script#davneko_audiobox(type='x-template')
       h5.truncate {{player.file.name}}
       audio#audio_player.z-depth-1(
         v-attr='src : player.file.path | pathToQuery'
-        controls
-        autoplay)
+        controls autoplay)
       div.controller.left-align
         div.right
           i.mdi-action-trending-neutral.btn-small.teal.darken-4.z-depth-1(

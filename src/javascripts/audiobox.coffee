@@ -23,28 +23,19 @@ module.exports =
 
   methods:
 
-    onReceiveFile: (file) ->
-
-      console.log 'onReceiveFile', file
-
-      if /\.(ogg|wav|mp3|mp4|aac|m4a)$/.test file.name
-        @$emit 'audio-add-audio', file
-
-    addAudioToPlaylist: (file) ->
-      console.log 'AddAudioToPlaylist'
-
-      if @player.file.path is null
-        @player.file = file
-      else
-        @playlist.push file
+    onReceiveFiles: (files) ->
+      for file in files
+        if /\.(ogg|wav|mp3|mp4|aac|m4a)$/.test file.name
+          if @player.file.path is null
+            @player.file = file
+          else
+            @playlist.push file
 
     playNextQueue: () ->
-      console.log 'play next queue'
       return if @playlist.length is 0
-
       @player.file = @playlist.shift()
 
-      setTimeout () ->
+      setTimeout ->
         document.querySelector('#audio_player').play()
       , 200
 
@@ -52,7 +43,6 @@ module.exports =
       @$emit 'audio-trigger-next'
 
     deleteItem: (index) ->
-      console.log 'delete', "playlist[#{index}]"
       @$data.playlist.splice(index, 1)
 
     onDragQueueStart: () ->
@@ -61,8 +51,7 @@ module.exports =
       console.log el
 
   ready: () ->
-    @$on 'set-file', @onReceiveFile
-    @$on 'audio-add-audio', @addAudioToPlaylist
+    @$on 'set-files', @onReceiveFiles
     @$on 'audio-trigger-next', @playNextQueue
     @$on 'nowplaying ended', @playNextQueue
 
