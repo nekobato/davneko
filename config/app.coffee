@@ -29,18 +29,18 @@ app.use passport.initialize()
 app.use passport.session()
 
 # app set
-app.set "views", './views'
+app.set "views", path.join(__dirname, '../views')
 app.set "view engine", "jade"
 if app.get("env") is "development"
-  app.set 'view options', { pretty: true };
+  app.set 'view options', { pretty: true }
 
 # app use
-app.use favicon './public/favicon.ico'
+# app.use favicon './public/favicon.ico'
 app.use logger "dev"
 app.use bodyParser.json()
 app.use bodyParser.urlencoded extended: false
 app.use cookieParser()
-app.use express.static './public'
+app.use express.static path.join(__dirname, '../public')
 app.use '/', require './routes'
 
 (require './auth')(app)
