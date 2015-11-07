@@ -20,7 +20,7 @@ var assign = require('lodash').assign;
 var source = require('vinyl-source-stream');
 
 // css
-var sass = require('gulp-sass');
+var less = require('gulp-less');
 var autoprefixer = require('gulp-autoprefixer');
 var minifyCSS = require('gulp-minify-css');
 var concat = require('gulp-concat');
@@ -78,13 +78,11 @@ gulp.task('js-build', function() {
 
 // task "css"
 gulp.task('css', function() {
-  return gulp.src('./src/stylesheets/**/*.sass')
+  return gulp.src('./src/stylesheets/**/*.less')
     .pipe(sourcemaps.init({
       loadMaps: true
     }))
-    .pipe(sass({
-      indentedSyntax: true
-    }))
+    .pipe(less())
     .on('error', notify.onError('<%= error.message %>'))
     .pipe(autoprefixer({
       browsers: ['last 2 versions'],
@@ -114,8 +112,8 @@ gulp.task('server', function() {
 
 // Tasks
 
-gulp.task('default', ['js', 'css'], function() {
-  gulp.watch('./src/stylesheets/**/*.sass', ['css']);
+gulp.task('default', ['js', 'css', 'server'], function() {
+  gulp.watch('./src/stylesheets/**/*.less', ['css']);
 });
 
 gulp.task('build', ['js-build', 'css']);
