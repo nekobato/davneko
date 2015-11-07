@@ -21,6 +21,11 @@ module.exports =
       return "" unless path
       return "/api/path?path=#{encodeURIComponent(path)}"
 
+  events:
+    "set-files": "onReceiveFiles"
+    "audio-trigger-next": "playNextQueue"
+    "nowplaying ended": "playNextQueue"
+
   methods:
 
     onReceiveFiles: (files) ->
@@ -35,8 +40,8 @@ module.exports =
       return if @playlist.length is 0
       @player.file = @playlist.shift()
 
-      setTimeout ->
-        document.querySelector('#audio_player').play()
+      setTimeout =>
+        @$$.audio_player.play()
       , 200
 
     onTriggerNext: () ->
@@ -45,18 +50,16 @@ module.exports =
     deleteItem: (index) ->
       @$data.playlist.splice(index, 1)
 
+    clearPlaylist: ->
+      @$data.playlist = []
+
     onDragQueueStart: () ->
       console.log 'dragstart'
     onDragQueueEnd: (el) ->
       console.log el
 
   ready: () ->
-    @$on 'set-files', @onReceiveFiles
-    @$on 'audio-trigger-next', @playNextQueue
-    @$on 'nowplaying ended', @playNextQueue
 
-    audio_el = document.querySelector '#audio_player'
-
-    audio_el.addEventListener 'ended', () =>
+    @$$.audio_player.addEventListener 'ended', () =>
       console.log 'player ended'
       @$emit 'nowplaying ended'
