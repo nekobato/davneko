@@ -21,15 +21,12 @@ module.exports =
   events:
     'filer-set-dir': "setDir"
     'filer-get-dir': "getDir"
-    'filer-get-item': "onSelectItemName"
     'filer-add-depth': "addDepth"
 
   methods:
 
-    toggleNav: (e) ->
-      e.preventDefault()
-      nav = document.querySelector '.side-nav'
-      nav.classList.toggle 'show-mobile'
+    toggleNav: () ->
+      @$$.nav.classList.toggle 'show-mobile'
 
     onSelectItem: (file) ->
 
@@ -63,5 +60,4 @@ module.exports =
       @$dispatch 'dispatch-files', @$data.filelist
 
   ready: () ->
-
     @getDir { path: '/', name: '/' }

@@ -3,25 +3,25 @@ script#davneko_audiobox(type='x-template')
     div.card-action.teal.white-text
       h5.truncate {{player.file.name}}
       audio#audio_player.z-depth-1(
-        v-el='audio_player'
-        v-attr='src : player.file.path | pathToQuery'
+        v-el:audio_player
+        v-bind:src='player.file.path | pathToQuery'
         controls autoplay)
       div.controller.left-align
         div.right
           button.btn-floating.teal.darken-4.z-depth-1(
-            v-on="click: clearPlaylist")
+            v-on:click='clearPlaylist')
             i.fa.fa-trash-o
         div
           button.btn-floating.teal.darken-4.z-depth-1(
-            v-on='click: onTriggerNext')
+            v-on:click='onTriggerNext')
             i.fa.fa-step-forward
       
     ul.collection.blue-grey-text.darken-4.left-align.playlist
-      li.collection-item(draggable='true' v-repeat='file : playlist')
+      li.collection-item(draggable='true' v-for='file in playlist')
         i.mdi-navigation-unfold-more.teal-text.playlist-replacer(
-          v-on='dragstart: onDragQueueStart')
+          v-on:dragstat='onDragQueueStart')
         i.mdi-content-clear.btn-floating.btn-small.center.red.playlist-deleter(
-          v-on='click: deleteItem($index)')
+          v-on:click='deleteItem($index)')
         p.truncate {{file.name}}
           
       
