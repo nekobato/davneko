@@ -8,14 +8,13 @@ script#davneko_audiobox(type='x-template')
         controls autoplay)
       div.controller.left-align
         div.right
-          button.btn-floating.teal.darken-4.z-depth-1
-            i.fa.fa-trash-o(
-              v-on="click: clearPlaylist")
+          button.btn-floating.teal.darken-4.z-depth-1(
+            v-on="click: clearPlaylist")
+            i.fa.fa-trash-o
         div
-          i.mdi-av-skip-previous.btn-small.teal.darken-4.z-depth-1(
-            v-on='click: onTriggerPrev()')
-          i.mdi-av-skip-next.btn-small.teal.darken-4.z-depth-1(
-            v-on='click: onTriggerNext()')
+          button.btn-floating.teal.darken-4.z-depth-1(
+            v-on='click: onTriggerNext')
+            i.fa.fa-step-forward
       
     ul.collection.blue-grey-text.darken-4.left-align.playlist
       li.collection-item(draggable='true' v-repeat='file : playlist')

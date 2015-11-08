@@ -34,7 +34,7 @@ module.exports =
           if @player.file.path is null
             @player.file = file
           else
-            @playlist.push file
+            @playlist.push JSON.parse(JSON.stringify(file))
 
     playNextQueue: () ->
       return if @playlist.length is 0
