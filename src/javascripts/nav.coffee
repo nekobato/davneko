@@ -18,6 +18,12 @@ module.exports =
       if file.type is "directory"
         return "fa fa-folder"
 
+  events:
+    'filer-set-dir': "setDir"
+    'filer-get-dir': "getDir"
+    'filer-get-item': "onSelectItemName"
+    'filer-add-depth': "addDepth"
+
   methods:
 
     toggleNav: (e) ->
@@ -57,10 +63,5 @@ module.exports =
       @$dispatch 'dispatch-files', @$data.filelist
 
   ready: () ->
-
-    @$on 'filer-set-dir', @setDir
-    @$on 'filer-get-dir', @getDir
-    @$on 'filer-get-item', @onSelectItemName
-    @$on 'filer-add-depth', @addDepth
 
     @getDir { path: '/', name: '/' }
