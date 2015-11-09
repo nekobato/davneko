@@ -26,7 +26,7 @@ module.exports =
   methods:
 
     toggleNav: () ->
-      @$$.nav.classList.toggle 'show-mobile'
+      @$els.nav.classList.toggle 'show-mobile'
 
     onSelectItem: (file) ->
 

@@ -1,10 +1,10 @@
 script#davneko_nav(type='x-template')
   
   div
-    a.button-collapse.top-nav.full(v-on:click='toggleNav')
+    a.button-collapse.top-nav.full.btn-floating(v-on:click='toggleNav')
       i.mdi-navigation-menu
         
-  ul.side-nav.fixed.collection.with-header(v-el='nav')
+  ul.side-nav.fixed.collection.with-header(v-el:nav)
     div.side-nav-contents
       li.collection-item.file-item(
         v-for='file in filelist' v-on:click='onSelectItem(file)')
