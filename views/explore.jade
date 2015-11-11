@@ -3,9 +3,11 @@ extends layout
 block content
   
   body#davneko
-    header(v-component='filer')
+    header
+      filer
     main
-      section(v-component='{{app_component}}')
+      section
+        component(:is='app_component')
 
 block js
   include components/nav

@@ -34,6 +34,9 @@ header {
     padding-left: 20px;
   }
   .side-nav {
+    @media only screen and (max-width: @width-pc) {
+      width: 100%;
+    }
     min-width: @side-nav-width;
     height: 100%;
     transition: left 0.4s ease 0s;
@@ -116,14 +119,13 @@ header {
     }
   }
   a.button-collapse.top-nav {
-    position: absolute;
+    position: fixed;
     text-align: center;
-    height: 48px;
-    width: 48px;
-    left: 7.5%;
-    top: 8px;
+    height: 40px;
+    width: 40px;
+    left: 10px;
+    top: 10px;
     float: none;
-    margin-left: 1.5rem;
     color: white;
     font-size: 32px;
     z-index: 2;
@@ -152,6 +154,10 @@ footer {
 main {
   section {
     margin: 20px;
+
+    @media only screen and (max-width: @width-pc) {
+      margin: 5px;
+    }
   }
 }
 .audiobox {

@@ -41,7 +41,7 @@ module.exports =
       @player.file = @playlist.shift()
 
       setTimeout =>
-        @$$.audio_player.play()
+        @$els.audio_player.play()
       , 200
 
     onTriggerNext: () ->
@@ -60,6 +60,8 @@ module.exports =
 
   ready: () ->
 
-    @$$.audio_player.addEventListener 'ended', () =>
+    player = @$els.audio_player
+
+    player.addEventListener 'ended', () =>
       console.log 'player ended'
       @$emit 'nowplaying ended'
