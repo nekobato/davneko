@@ -1,6 +1,6 @@
 script#davneko_audiobox(type='x-template')
   div.card.audiobox
-    div.card-action.teal.white-text
+    div.card-action.teal.white-text(:class="{boundbox: reaction.addfile}")
       h5.truncate {{player.file.name}}
       audio#audio_player.z-depth-1(
         v-el:audio_player

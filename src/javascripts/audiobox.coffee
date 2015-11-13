@@ -12,8 +12,9 @@ module.exports =
         path: null
       controls:
         repeat: 'no'
-
     playlist: []
+    reaction:
+      addfile: false
 
   filters:
 
@@ -25,16 +26,20 @@ module.exports =
     "set-files": "onReceiveFiles"
     "audio-trigger-next": "playNextQueue"
     "nowplaying ended": "playNextQueue"
+    "file added": "reactionAddFile"
 
   methods:
 
     onReceiveFiles: (files) ->
+      valid = false # anything valid?
       for file in files
         if /\.(ogg|wav|mp3|mp4|aac|m4a)$/.test file.name
+          valid = true
           if @player.file.path is null
             @player.file = file
           else
             @playlist.push JSON.parse(JSON.stringify(file))
+      @$emit 'file added' if valid
 
     playNextQueue: () ->
       return if @playlist.length is 0
@@ -57,6 +62,12 @@ module.exports =
       console.log 'dragstart'
     onDragQueueEnd: (el) ->
       console.log el
+
+    reactionAddFile: ->
+      @$data.reaction.addfile = true
+      setTimeout =>
+        @$data.reaction.addfile = false
+      , 500
 
   ready: () ->
 
