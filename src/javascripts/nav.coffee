@@ -10,6 +10,8 @@ module.exports =
     depth: []
     current: {}
     filelist: []
+    reaction:
+      loadingDir: false
 
   filters:
     file2IconName: (file) ->
@@ -41,6 +43,7 @@ module.exports =
       @$emit 'filer-get-dir', file
 
     getDir: (file) ->
+      @$data.reaction.loadingDir = true
       request.get '/api/path'
       .query
         path: file.path
@@ -49,6 +52,7 @@ module.exports =
         throw err if err
         @$emit 'filer-set-dir', JSON.parse res.text
         @addDepth file
+        @$data.reaction.loadingDir = false
 
     setDir: (files) ->
       @$set 'filelist', files
