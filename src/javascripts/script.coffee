@@ -23,5 +23,4 @@ new Vue
 
   ready: () ->
     @$on 'dispatch-file', (file) ->
-      console.log 'filer-dispatch-file'
       @$broadcast 'set-file', file
