@@ -10,8 +10,8 @@ module.exports =
       file:
         name: 'no audio'
         path: null
-      controls:
-        repeat: 'no'
+      control:
+        loop: false
     playlist: []
     reaction:
       addfile: false
@@ -57,6 +57,9 @@ module.exports =
 
     clearPlaylist: ->
       @$data.playlist = []
+
+    toggleLoop: ->
+      @$data.player.control.loop = if @$data.player.control.loop then false else true
 
     onDragQueueStart: () ->
       console.log 'dragstart'

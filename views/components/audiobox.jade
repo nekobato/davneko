@@ -3,7 +3,7 @@ script#davneko_audiobox(type='x-template')
     div.card-action.teal.white-text(:class="{boundbox: reaction.addfile}")
       h5.truncate {{player.file.name}}
       audio#audio_player.z-depth-1(
-        v-el:audio_player
+        v-el:audio_player :loop='player.control.loop'
         v-bind:src='player.file.path | pathToQuery'
         controls autoplay)
       div.controller.left-align
@@ -11,6 +11,11 @@ script#davneko_audiobox(type='x-template')
           button.btn-floating.teal.darken-4.z-depth-1(
             v-on:click='clearPlaylist')
             i.fa.fa-trash-o
+        div.right
+          button.btn-floating.teal.darken-4.z-depth-1(
+            v-on:click='toggleLoop',
+            v-bind:class='{ "darken-2": player.control.loop, "darken-4": !player.control.loop }')
+            i.fa.fa-repeat
         div
           button.btn-floating.teal.darken-4.z-depth-1(
             v-on:click='onTriggerNext')
