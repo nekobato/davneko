@@ -8,7 +8,6 @@ module.exports =
 
   data: ->
     depth: []
-    current: {}
     filelist: []
     reaction:
       loadingDir: false
@@ -24,6 +23,7 @@ module.exports =
     'filer-set-dir': "setDir"
     'filer-get-dir': "getDir"
     'filer-add-depth': "addDepth"
+    'depth:updated': "saveDepth"
 
   methods:
 
@@ -52,6 +52,7 @@ module.exports =
         throw err if err
         @$emit 'filer-set-dir', JSON.parse res.text
         @addDepth file
+        @$emit 'depth:updated'
         @$data.reaction.loadingDir = false
 
     setDir: (files) ->
@@ -63,5 +64,17 @@ module.exports =
     addFilesAll: () ->
       @$dispatch 'dispatch-files', @$data.filelist
 
+    saveDepth: ->
+      localStorage.setItem 'depth', JSON.stringify(@$data.depth)
+
+    startOrResurrect: ->
+      if localStorage.depth
+        depth = JSON.parse(localStorage.depth)
+        currentDir = depth.pop()
+        @$data.depth = depth
+        @getDir currentDir
+      else
+        @getDir { path: '/', name: '/' }
+
   ready: () ->
-    @getDir { path: '/', name: '/' }
+    @startOrResurrect()
