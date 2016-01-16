@@ -27,18 +27,17 @@ module.exports =
 
   methods:
 
-    toggleNav: () ->
+    toggleNav: ->
       @$els.nav.classList.toggle 'show-mobile'
 
     onSelectItem: (file) ->
-
       if file.type is 'directory'
+        @$set 'depth[depth.length-1].scroll', @$els.filelistBox.scrollTop
         @$emit 'filer-get-dir', file
       else if file.type is 'file'
         @$dispatch 'dispatch-files', [file]
 
     onSelectDepth: (file, depth) ->
-
       @$data.depth.length = depth
       @$emit 'filer-get-dir', file
 
@@ -54,6 +53,8 @@ module.exports =
         @addDepth file
         @$emit 'depth:updated'
         @$data.reaction.loadingDir = false
+        @$nextTick ->
+          @$els.filelistBox.scrollTop = @$data.depth[@$data.depth.length-1].scroll || 0
 
     setDir: (files) ->
       @$set 'filelist', files
@@ -61,7 +62,7 @@ module.exports =
     addDepth: (file) ->
       @$data.depth.push file
 
-    addFilesAll: () ->
+    addFilesAll: ->
       @$dispatch 'dispatch-files', @$data.filelist
 
     saveDepth: ->

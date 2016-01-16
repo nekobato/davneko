@@ -5,7 +5,7 @@ script#davneko_nav(type='x-template')
       i.mdi-navigation-menu
         
   ul.side-nav.fixed.collection.with-header(v-el:nav)
-    div.side-nav-contents
+    div.side-nav-contents(v-el:filelist-box)
       li.collection-item.file-item(
         v-for='file in filelist' v-on:click='onSelectItem(file)')
         span
