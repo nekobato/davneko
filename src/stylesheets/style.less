@@ -195,7 +195,16 @@ main {
       cursor: pointer;
     }
   }
-  .playlist {
+  ul.playlist {
+    & > li {
+      position: relative;
+      &:hover {
+        .playlist-deleter,
+        .playlist-replacer {
+          display: inline-block;
+        }
+      }
+    }
     p {
       margin: 0;
     }
@@ -212,12 +221,6 @@ main {
       left: -6px;
       font-size: 2em;
       cursor: pointer;
-    }
-    li:hover {
-      .playlist-deleter,
-      .playlist-replacer {
-        display: inline-block;
-      }
     }
   }
 }
