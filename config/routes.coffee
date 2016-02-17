@@ -25,7 +25,7 @@ router.get "/api/path", (req, res, next) ->
   res.status(403).end() if not req.isAuthenticated()
 
   reqpath = path.normalize(req.query.path || '/')
-  res.status(500).end('bad query') if /\.\./.test reqpath
+  res.status(500).end('bad query') if /^\.\./.test reqpath
 
   targetpath = path.join config.basepath, reqpath
   res.status(500).end("not exists: #{targetpath}") if not fs.existsSync(targetpath)
