@@ -4,8 +4,6 @@ module.exports =
 
   template: '#davneko_nav'
 
-  replace: false
-
   data: ->
     depth: []
     filelist: []

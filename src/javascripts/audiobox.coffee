@@ -2,9 +2,6 @@ request = require('superagent')
 
 module.exports =
   template: '#davneko_audiobox'
-
-  replace: false
-
   data: () ->
     player:
       file:
@@ -12,11 +9,15 @@ module.exports =
         path: null
       control:
         loop: false
+        currentTime: 0
+        currentSeekParcent: 0
     playlist: []
     reaction:
       addfile: false
 
   filters:
+
+    currentTimeToSeekParcent: (time) ->
 
     pathToQuery: (path) ->
       return "" unless path
@@ -61,16 +62,21 @@ module.exports =
     toggleLoop: ->
       @$data.player.control.loop = if @$data.player.control.loop then false else true
 
-    onDragQueueStart: () ->
-      console.log 'dragstart'
-    onDragQueueEnd: (el) ->
-      console.log el
-
     reactionAddFile: ->
       @$data.reaction.addfile = true
       setTimeout =>
         @$data.reaction.addfile = false
       , 500
+
+    onAudioPlay: ->
+      console.log 'play!'
+
+    onAudioTimeUpdate: ->
+      @$data.player.control.currentTime = @$els.audio_player.currentTime
+      @$data.player.control.currentSeekParcent = @$els.audio_player.currentTime / @$els.audio_player.duration * 100
+
+    onClickSeekbar: (e) ->
+      @$els.audio_player.currentTime = @$els.audio_player.duration * ( e.offsetX / e.target.offsetWidth )
 
   ready: () ->
 

@@ -131,8 +131,8 @@ header {
     text-align: center;
     height: 40px;
     width: 40px;
-    left: 5px;
-    top: 5px;
+    left: 20px;
+    top: 12px;
     float: none;
     color: white;
     font-size: 32px;
@@ -163,7 +163,22 @@ main {
   height: 100%;
   section {
     height: 100%;
-    padding: 10px 20px;
+    padding: 30px 10px 20px;
+    .controller {
+      position: absolute;
+      top: 12px;
+      left: 65px;
+      right: 20px;
+      font-size: 1.8em;
+      .btn-floating,
+      .btn-small {
+        margin-left: 5px;
+        cursor: pointer;
+        &.with-separater {
+          margin-right: 42px;
+        }
+      }
+    }
   }
 }
 
@@ -187,19 +202,27 @@ main {
   margin: 0;
   height: 100%;
   audio {
-    width: 100%;
+    display: none;
   }
-  .controller {
-    font-size: 1.8em;
-    .btn-floating,
-    .btn-small {
-      margin-left: 5px;
-      cursor: pointer;
+  .seekbar {
+    position: absolute;
+    top: 77px;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 10px;
+    border-raidus: 5px;
+    .seekbar-inner {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      transition: width .1s ease 0s;
     }
   }
   ul.playlist {
     position: absolute;
-    top: 160px;
+    top: 90px;
     bottom: 0;
     margin: 0;
     width: 100%;

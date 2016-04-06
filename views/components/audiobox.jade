@@ -1,25 +1,30 @@
 script#davneko_audiobox(type='x-template')
+  div.controller.left-align
+    button.btn-floating.teal.darken-4.z-depth-1(
+      v-on:click='onTriggerNext')
+      i.fa.fa-step-forward
+    button.btn-floating.teal.darken-4.z-depth-1.right(
+      v-on:click='clearPlaylist')
+      i.fa.fa-trash-o
+    button.btn-floating.teal.darken-4.z-depth-1.right.with-separater(
+      v-on:click='toggleLoop',
+      v-bind:class='{ "darken-2": player.control.loop, "darken-4": !player.control.loop }')
+      i.fa.fa-repeat
   div.card.audiobox
-    div.card-action.teal.white-text(:class="{boundbox: reaction.addfile}")
+    div.card-action.teal.white-text(:class="{ boundbox: reaction.addfile }")
       h5.truncate {{player.file.name}}
-      audio#audio_player.z-depth-1(
-        v-el:audio_player :loop='player.control.loop'
+      audio#audio_player(
+        v-el:audio_player
+        :loop='player.control.loop'
         v-bind:src='player.file.path | pathToQuery'
-        controls autoplay)
-      div.controller.left-align
-        div.right
-          button.btn-floating.teal.darken-4.z-depth-1(
-            v-on:click='clearPlaylist')
-            i.fa.fa-trash-o
-        div.right
-          button.btn-floating.teal.darken-4.z-depth-1(
-            v-on:click='toggleLoop',
-            v-bind:class='{ "darken-2": player.control.loop, "darken-4": !player.control.loop }')
-            i.fa.fa-repeat
-        div
-          button.btn-floating.teal.darken-4.z-depth-1(
-            v-on:click='onTriggerNext')
-            i.fa.fa-step-forward
+        @play='onAudioPlay'
+        @timeupdate='onAudioTimeUpdate | debounce 300'
+        autoplay)
+      div.seekbar.black(
+        v-el:seekbar
+        @click='onClickSeekbar')
+        div.seekbar-inner.red.darken-2(
+          v-bind:style='{ width: player.control.currentSeekParcent + "%" }')
       
     ul.collection.blue-grey-text.darken-4.left-align.playlist
       li.collection-item(draggable='true' v-for='file in playlist')
