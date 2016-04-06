@@ -20,7 +20,7 @@ module.exports =
     currentTimeToSeekParcent: (time) ->
 
     pathToQuery: (path) ->
-      return "" unless path
+      return false unless path
       return "/api/path?path=#{encodeURIComponent(path)}"
 
   events:
@@ -76,7 +76,8 @@ module.exports =
       @$data.player.control.currentSeekParcent = @$els.audio_player.currentTime / @$els.audio_player.duration * 100
 
     onClickSeekbar: (e) ->
-      @$els.audio_player.currentTime = @$els.audio_player.duration * ( e.offsetX / e.target.offsetWidth )
+      if @$els.audio_player.src
+        @$els.audio_player.currentTime = @$els.audio_player.duration * ( e.offsetX / e.target.offsetWidth )
 
   ready: () ->
 
