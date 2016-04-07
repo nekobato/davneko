@@ -3,6 +3,11 @@ script#davneko_audiobox(type='x-template')
     button.btn-floating.teal.darken-4.z-depth-1(
       v-on:click='onTriggerNext')
       i.fa.fa-step-forward
+    button.btn-floating.teal.darken-4.z-depth-1(
+      v-show='player.file.path'
+      v-on:click='togglePlayPause')
+      i.fa.fa-pause(v-show='player.control.playing')
+      i.fa.fa-play(v-show='!player.control.playing')
     button.btn-floating.teal.darken-4.z-depth-1.right(
       v-on:click='clearPlaylist')
       i.fa.fa-trash-o
@@ -18,6 +23,8 @@ script#davneko_audiobox(type='x-template')
         :loop='player.control.loop'
         v-bind:src='player.file.path | pathToQuery'
         @play='onAudioPlay'
+        @pause='onAudioPause'
+        @stop='onAudioStop'
         @timeupdate='onAudioTimeUpdate | debounce 300'
         autoplay)
       div.seekbar.black(

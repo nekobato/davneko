@@ -8,6 +8,7 @@ module.exports =
         name: 'no audio'
         path: null
       control:
+        playing: false
         loop: false
         currentTime: 0
         currentSeekParcent: 0
@@ -69,7 +70,19 @@ module.exports =
       , 500
 
     onAudioPlay: ->
-      console.log 'play!'
+      @player.control.playing = true
+
+    onAudioPause: ->
+      @player.control.playing = false
+
+    onAudioStop: ->
+      @player.control.playing = false
+
+    togglePlayPause: ->
+      if @player.control.playing
+        @$els.audio_player.pause()
+      else
+        @$els.audio_player.play()
 
     onAudioTimeUpdate: ->
       @$data.player.control.currentTime = @$els.audio_player.currentTime
