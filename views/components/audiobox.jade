@@ -25,7 +25,7 @@ script#davneko_audiobox(type='x-template')
         @play='onAudioPlay'
         @pause='onAudioPause'
         @stop='onAudioStop'
-        @timeupdate='onAudioTimeUpdate | debounce 300'
+        @timeupdate='updateAudioTime | debounce 300'
         autoplay)
       div.seekbar.black(
         v-el:seekbar

@@ -84,13 +84,14 @@ module.exports =
       else
         @$els.audio_player.play()
 
-    onAudioTimeUpdate: ->
+    updateAudioTime: ->
       @$data.player.control.currentTime = @$els.audio_player.currentTime
       @$data.player.control.currentSeekParcent = @$els.audio_player.currentTime / @$els.audio_player.duration * 100
 
     onClickSeekbar: (e) ->
       if @$els.audio_player.src
-        @$els.audio_player.currentTime = @$els.audio_player.duration * ( e.offsetX / e.target.offsetWidth )
+        @$els.audio_player.currentTime = @$els.audio_player.duration * ( e.offsetX / @$els.seekbar.offsetWidth )
+        @updateAudioTime()
 
   ready: () ->
 
