@@ -1,6 +1,7 @@
 script#davneko_audiobox(type='x-template')
   div.controller.left-align
     button.btn-floating.teal.darken-4.z-depth-1(
+      v-show='player.file.path'
       v-on:click='onTriggerNext')
       i.fa.fa-step-forward
     button.btn-floating.teal.darken-4.z-depth-1(
