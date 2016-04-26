@@ -1,5 +1,8 @@
 Vue = require('vue')
 
+require('materialize-css/bin/materialize.css')
+require('./style.styl')
+
 new Vue
 
   el: "#davneko"

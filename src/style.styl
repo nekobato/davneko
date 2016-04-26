@@ -1,5 +1,6 @@
-@width-pc: 992px;
-@side-nav-width: 50%;
+$width-pc = 992px;
+$side-nav-width = 50%;
+
 * {
   box-sizing: border-box;
 }
@@ -35,10 +36,10 @@ header {
     padding-left: 20px;
   }
   .side-nav {
-    @media only screen and (max-width: @width-pc) {
+    @media only screen and (max-width: $width-pc) {
       width: 100%;
     }
-    min-width: @side-nav-width;
+    min-width: $side-nav-width;
     height: 100%;
     transition: left 0.4s ease 0s;
     &.show-mobile {
@@ -139,7 +140,7 @@ header {
     z-index: 2;
   }
 }
-@keyframes filer-arrival {
+$keyframes filer-arrival {
   0% {
     left: 30%;
   }
@@ -152,11 +153,11 @@ header {
 header,
 main,
 footer {
-  @media only screen and (max-width: @width-pc) {
+  @media only screen and (max-width: $width-pc) {
     text-align: center;
   }
-  @media only screen and (min-width: @width-pc) {
-    padding-left: @side-nav-width;
+  @media only screen and (min-width: $width-pc) {
+    padding-left: $side-nav-width;
   }
 }
 main {
