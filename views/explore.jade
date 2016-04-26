@@ -2,14 +2,10 @@ extends layout
 
 block content
   
+  script(src='/main.js', type='text/javascript', async, defer)
   body#davneko
     header
       filer
     main
       section
         component(:is='app_component')
-
-block js
-  include components/nav
-  include components/audiobox
-  script(src='/main.js', type='text/javascript', async, defer)
