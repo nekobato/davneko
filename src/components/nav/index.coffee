@@ -2,7 +2,7 @@ request = require('superagent')
 
 module.exports =
 
-  template: '#davneko_nav'
+  template: require('./template')()
 
   data: ->
     depth: []

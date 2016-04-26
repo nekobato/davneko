@@ -12,7 +12,7 @@ module.exports = {
     publicPath: "/"
   },
   resolve: {
-    extensions: ['', '.js', '.coffee', '.styl']
+    extensions: ['', '.js', '.coffee', '.styl', '.jade']
   },
   module: {
     loaders: [

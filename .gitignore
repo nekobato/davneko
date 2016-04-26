@@ -7,13 +7,7 @@ Thumbs.db
 node_modules
 npm-debug.log
 
-# bower
-bower_components
-
-.sass-cache
-
 config/config.json
 *.rdb
 
-public/javascripts
-public/stylesheets
+public/
