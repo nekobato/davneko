@@ -10,8 +10,8 @@ new Vue
   replace: false
 
   components:
-    filer: require './components/nav'
-    audiobox: require './components/audiobox'
+    filer: require('./components/nav')
+    audiobox: require('./components/audiobox')
     appempty:
       template: '<p>hoge</p>'
 
