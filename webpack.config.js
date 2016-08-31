@@ -12,7 +12,7 @@ module.exports = {
     publicPath: "/"
   },
   resolve: {
-    extensions: ['', '.js', '.coffee', '.styl', '.jade']
+    extensions: ['', '.js', '.styl', '.jade', '.vue']
   },
   module: {
     loaders: [
@@ -25,12 +25,20 @@ module.exports = {
         }
       },
       {
-        test: /\.coffee$/,
-        loader: "coffee"
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: "babel",
+        query: {
+          presets: ['es2015']
+        }
       },
       {
         test: /\.json$/,
-        loader: "json"
+        loaders: ['json']
+      },
+      {
+        test: /\.vue$/,
+        loaders: ['vue']
       },
       {
         test: /\.jade$/,
@@ -43,7 +51,7 @@ module.exports = {
       {
         test: /\.css$/,
         loader: "style!css"
-      }
+      },
     ]
   },
   plugins: [
