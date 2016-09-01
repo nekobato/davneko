@@ -12,6 +12,7 @@ module.exports = {
     publicPath: "/"
   },
   resolve: {
+    alias: { vue: 'vue/dist/vue.js' },
     extensions: ['', '.js', '.styl', '.jade', '.vue']
   },
   module: {
