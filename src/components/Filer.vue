@@ -22,7 +22,7 @@ ul.side-nav.fixed.collection.with-header(v-el:nav)
       span(v-if='depth[0]') {{depth[depth.length-1].name}}
 </template>
 <script>
-import { fetchFilePath } from '../api'
+import { fetchPath } from '../api'
 
 export default {
   data() {
@@ -68,7 +68,7 @@ export default {
     },
     getDir(file) {
       this.$data.reaction.loadingDir = true
-      fetchFilePath(file.path)
+      fetchPath(file.path)
         .then((data) => {
           this.$emit('filer-set-dir', data)
           this.addDepth(file)
