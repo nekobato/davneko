@@ -12,6 +12,7 @@ module.exports = {
     publicPath: "/"
   },
   resolve: {
+    alias: { vue: 'vue/dist/vue.js' },
     extensions: ['', '.js', '.styl', '.jade', '.vue']
   },
   module: {
@@ -27,10 +28,7 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: "babel",
-        query: {
-          presets: ['es2015']
-        }
+        loader: "babel!eslint"
       },
       {
         test: /\.json$/,

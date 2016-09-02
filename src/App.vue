@@ -1,23 +1,25 @@
 <template lang="jade">
-header
-  filer
-main
-  section
-    component(:is='app_component')
+div.app-container
+  header
+    filer
+  main
+    section
+      component(:is='app_component')
 </template>
+
 <script>
-import Filer from './components/Filer'
-import AudioBox from './components/AudioBox'
+import Filer from './components/Filer.vue'
+import AudioBox from './components/AudioBox.vue'
 
 export default {
-  el: "#davneko",
-  replace: false,
   components: {
     Filer,
     AudioBox
   },
-  data: {
-    app_component: 'audio-box'
+  data() {
+    return {
+      app_component: 'audio-box'
+    }
   },
   events: {
     'dispatch-files': function(files) {
@@ -32,6 +34,7 @@ export default {
   }
 }
 </script>
+
 <style lang="stylus">
 $width-pc = 992px
 $side-nav-width = 50%

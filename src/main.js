@@ -1,6 +1,11 @@
 import Vue from 'vue'
 import materialize from 'materialize-css/bin/materialize.css'
 import materialIcons from 'material-design-icons/iconfont/material-icons.css'
-import App from './App'
+import store from './store'
+import App from './App.vue'
 
-new Vue(App)
+new Vue({
+  el: '#davneko',
+  store,
+  components: { App }
+})
