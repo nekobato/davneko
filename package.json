@@ -32,6 +32,7 @@
     "vue": "^1.0.7"
   },
   "devDependencies": {
+    "axios": "^0.14.0",
     "coffee-loader": "^0.7.2",
     "css-loader": "^0.23.1",
     "file-loader": "^0.8.5",

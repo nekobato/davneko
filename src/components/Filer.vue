@@ -22,7 +22,7 @@ ul.side-nav.fixed.collection.with-header(v-el:nav)
       span(v-if='depth[0]') {{depth[depth.length-1].name}}
 </template>
 <script>
-import request from 'superagent'
+import { fetchFilePath } from '../api'
 
 export default {
   data() {
@@ -68,19 +68,17 @@ export default {
     },
     getDir(file) {
       this.$data.reaction.loadingDir = true
-      request.get('/api/path')
-      .query({ path: file.path })
-      .set('Accept', 'application/json')
-      .end((err, res) => {
-        if (err) throw err
-        this.$emit('filer-set-dir', JSON.parse(res.text))
-        this.addDepth(file)
-        this.$emit('depth:updated')
-        this.$data.reaction.loadingDir = false
-        this.$nextTick(() => {
-          this.$els.filelistBox.scrollTop = this.$data.depth[this.$data.depth.length-1].scroll || 0
+      fetchFilePath(file.path)
+        .then((data) => {
+          this.$emit('filer-set-dir', data)
+          this.addDepth(file)
+          this.$emit('depth:updated')
+          this.$data.reaction.loadingDir = false
+          this.$nextTick(() => {
+            this.$els.filelistBox.scrollTop = this.$data.depth[this.$data.depth.length-1].scroll || 0
+          })
         })
-      })
+        .catch((err) => { throw(err) })
     },
     setDir(files) {
       this.$data.filelist = files
