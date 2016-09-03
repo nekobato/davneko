@@ -154,6 +154,81 @@ export default {
 }
 
 </script>
-<style lang="stylus">
+<style lang="stylus" scoped>
+$width-pc = 992px
+$side-nav-width = 50%
 
+@keyframes anime-boundbox {
+  0% {
+    transform: scale(1)
+  }
+  30% {
+    transform: scale(1.02)
+  }
+  100% {
+    transform: scale(1)
+  }
+}
+.boundbox {
+  animation: anime-boundbox 0.3s ease 0s 1 normal
+}
+
+.audiobox {
+  position: relative
+  margin: 0
+  height: 100%
+  audio {
+    display: none
+  }
+  .seekbar {
+    position: absolute
+    top: 77px
+    left: 0
+    right: 0
+    width: 100%
+    height: 10px
+    border-raidus: 5px
+    .seekbar-inner {
+      position: absolute
+      top: 0
+      left: 0
+      height: 100%
+      transition: width .1s ease 0s
+    }
+  }
+  ul.playlist {
+    position: absolute
+    top: 90px
+    bottom: 0
+    margin: 0
+    width: 100%
+    overflow-y: scroll
+    & > li {
+      position: relative
+      &:hover {
+        .playlist-deleter,
+        .playlist-replacer {
+          display: inline-block
+        }
+      }
+    }
+    p {
+      margin: 0
+    }
+    .playlist-deleter,
+    .playlist-replacer {
+      display: none
+      position: absolute
+    }
+    .playlist-deleter {
+      right: 5px
+      top: 2px
+    }
+    .playlist-replacer {
+      left: -6px
+      font-size: 2em
+      cursor: pointer
+    }
+  }
+}
 </style>
