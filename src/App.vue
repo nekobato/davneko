@@ -1,35 +1,23 @@
 <template lang="jade">
-header
-  filer
-main
-  section
-    component(:is='app_component')
+div
+  header
+    filer
+  main
+    section
+      audio-box
 </template>
 <script>
+import store from './vuex/store'
 import Filer from './components/Filer'
 import AudioBox from './components/AudioBox'
 
 export default {
   el: "#davneko",
-  replace: false,
   components: {
     Filer,
     AudioBox
   },
-  data: {
-    app_component: 'audio-box'
-  },
-  events: {
-    'dispatch-files': function(files) {
-      this.$broadcast('set-files', files)
-    }
-  },
-  methods: {},
-  ready() {
-    this.$on('dispatch-file', (file) => {
-      this.$broadcast('set-file', file)
-    })
-  }
+  store
 }
 </script>
 <style lang="stylus">

@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-export const fetchPath = function(path) {
+export const fetchDir = function(path) {
   return new Promise(function(resolve, reject) {
     axios.get('/api/path', {
       params: { path: path },
