@@ -71,12 +71,6 @@ export default {
       return `/api/path?path=${encodeURIComponent(path)}`
     }
   },
-  events: {
-    "set-files": "onReceiveFiles",
-    "audio-trigger-next": "playNextQueue",
-    "nowplaying ended": "playNextQueue",
-    "file added": "reactionAddFile"
-  },
   methods: {
     onReceiveFiles(files) {
       let valid = false // anything valid?

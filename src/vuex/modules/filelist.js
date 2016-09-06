@@ -2,11 +2,13 @@ import {
   RECEIVE_DIR
 } from '../mutation-types'
 
-const state = []
+const state = {
+  all: []
+}
 
 const mutations = {
   [RECEIVE_DIR] (state, files) {
-    state.filelist = files
+    state.all = files
   }
 }
 

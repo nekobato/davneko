@@ -20,6 +20,9 @@ import { fetchDir, addDir2Queue, selectFile } from '../vuex/actions'
 
 export default {
   vuex: {
+    getters: {
+      filelist: ({ filelist }) => filelist.all
+    },
     actions: {
       fetchDir,
       addDir2Queue,

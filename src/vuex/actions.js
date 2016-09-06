@@ -1,4 +1,4 @@
-import api from '../api'
+import * as api from '../api'
 import * as types from './mutation-types'
 
 export const startOrResurrect = ({ dispatch }) => {
@@ -25,7 +25,7 @@ export const selectDepth = ({ dispatch }, dir) => {
 }
 
 export const fetchDir = ({ dispatch }, path) => {
-  api.fetcDir(file.path)
+  api.fetchDir(path)
     .then((files) => {
       dispatch(types.RECEIVE_DIR, files)
     })
