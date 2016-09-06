@@ -1,19 +1,25 @@
 import {
-  RECEIVE_DIR,
+  FETCH_DIR,
+  INIT_DIR,
+  INIT_DEPTH,
   ADD_DEPTH,
-  UPDATE_DEPTH,
-  ADD_QUEUE
+  MOVE_DEPTH
 } from '../mutation-types'
 
-const state = []
+const state = {
+  files: []
+}
 
 const mutations = {
-  [ADD_DEPTH] ({ state }, file) {
-    state.depth.push(file)
+  [INIT_DEPTH] (state, files) {
+    state.files = files
   },
-  [UPDATE_DEPTH] ({ state }) {
-    localStorage.setItem('depth', JSON.stringify(state.depth))
+  [ADD_DEPTH] (state, file) {
+    state.files.push(file)
   },
+  [MOVE_DEPTH] (state) {
+    localStorage.setItem('depth', JSON.stringify(state.files))
+  }
 }
 
 export default {

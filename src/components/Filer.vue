@@ -7,8 +7,7 @@ div.side-nav.fixed
     h1(@click='toggleNav') davneko
   breadcrumbs
   div.btn.file-trigger(@click='addDir2Queue()')
-    i.fa.fa-folder-open.yellow-text
-    i.fa.fa-arrow-right
+    i.material-icons playlist_add
   ul.collection(v-el:filelist-box)
     li.collection-item.file-item(v-for='file in filelist', @click='selectFile(file)')
       i.material-icons {{ file | file2IconName }}
@@ -16,7 +15,13 @@ div.side-nav.fixed
 </template>
 <script>
 import Breadcrumbs from './Breadcrumbs.vue'
-import { fetchDir, addDir2Queue, selectFile } from '../vuex/actions'
+import { fetchDir, addDir2Queue, selectFile, ressurectDepth } from '../vuex/actions'
+
+const defaultDir = {
+  path: '/Users/nekobato',
+  name: 'nekobato',
+  type: 'directory'
+}
 
 export default {
   vuex: {
@@ -26,7 +31,8 @@ export default {
     actions: {
       fetchDir,
       addDir2Queue,
-      selectFile
+      selectFile,
+      ressurectDepth
     }
   },
   components: {
@@ -56,13 +62,12 @@ export default {
   },
   created() {
     // start or resurrect
-    if (window.localStorage.depth) {
-      let depth = JSON.parse(window.localStorage.depth)
-      let currentDir = depth.pop()
-      this.fetchDir(currentDir.path)
-    } else {
-      this.fetchDir('/')
-    }
+    this.ressurectDepth()
+    .then((curerntDir) => {
+      this.fetchDir(curerntDir)
+    }).catch(() => {
+      this.fetchDir(defaultDir)
+    })
   }
 }
 </script>
@@ -130,20 +135,6 @@ $keyframes filer-arrival {
   right: 10px
   padding: 0
   width: 40px
-  height: 30px
-  i {
-    position: absolute
-    margin: 0
-    font-size: 18px
-  }
-  .fa-folder-open {
-    top: 2px
-    left: 5px
-  }
-  .fa-arrow-right {
-    top: -6px
-    left: 20px
-  }
 }
 .file-item {
   position: relative

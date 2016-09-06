@@ -7,15 +7,15 @@ div.controller.left-align
   button.btn-floating.teal.darken-4.z-depth-1(
     v-show='player.file.path'
   v-on:click='togglePlayPause')
-    i.fa.fa-pause(v-show='player.control.playing')
-    i.fa.fa-play(v-show='!player.control.playing')
+    i.material-icons(v-show='player.control.playing') pause
+    i.material-icons(v-show='!player.control.playing') play_arrow
   button.btn-floating.teal.darken-4.z-depth-1.right(
     v-on:click='clearPlaylist')
-    i.fa.fa-trash-o
+    i.material-icons delete
   button.btn-floating.teal.darken-4.z-depth-1.right.with-separater(
     v-on:click='toggleLoop',
     v-bind:class='{ "darken-2": player.control.loop, "darken-4": !player.control.loop }')
-    i.fa.fa-repeat
+    i.material-icons repeat
 div.card.audiobox
   div.card-action.teal.white-text(:class="{ boundbox: reaction.addfile }")
     h5.truncate {{player.file.name}}
