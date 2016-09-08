@@ -1,67 +1,62 @@
 <template lang="jade">
 div.controller.left-align
   button.btn-floating.teal.darken-4.z-depth-1(
-    v-show='player.file.path'
-    v-on:click='onTriggerNext')
+    v-show='file.path'
+    v-on:click='playNext')
     i.fa.fa-step-forward
   button.btn-floating.teal.darken-4.z-depth-1(
-    v-show='player.file.path'
-  v-on:click='togglePlayPause')
-    i.material-icons(v-show='player.control.playing') pause
-    i.material-icons(v-show='!player.control.playing') play_arrow
-  button.btn-floating.teal.darken-4.z-depth-1.right(
-    v-on:click='clearPlaylist')
-    i.material-icons delete
+    v-show='file.path'
+    @click='onTriggerPlayPause')
+    i.material-icons(v-show='control.isPlaying') pause
+    i.material-icons(v-show='!control.isPlaying') play_arrow
   button.btn-floating.teal.darken-4.z-depth-1.right.with-separater(
     v-on:click='toggleLoop',
-    v-bind:class='{ "darken-2": player.control.loop, "darken-4": !player.control.loop }')
+    v-bind:class='{ "darken-2": control.loop, "darken-4": !control.loop }')
     i.material-icons repeat
 div.card.audiobox
-  div.card-action.teal.white-text(:class="{ boundbox: reaction.addfile }")
-    h5.truncate {{player.file.name}}
+  div.card-action.teal.white-text
+    h5.truncate {{file.name}}
     audio#audio_player(
-      v-el:audio_player
-      :loop='player.control.loop'
-      v-bind:src='player.file.path | pathToQuery'
-      @play='onAudioPlay'
-      @pause='onAudioPause'
-      @stop='onAudioStop'
-      @timeupdate='updateAudioTime | debounce 300'
+      v-el:audio
+      :loop='control.loop',
+      :src='file.path | pathToQuery',
+      @play='onAudioPlay',
+      @pause='onAudioPause',
+      @stop='onAudioStop',
+      @timeupdate='updateAudioTime | debounce 300',
+      @ended='onAudioEnded',
       autoplay)
     div.seekbar.black(
       v-el:seekbar
       @click='onClickSeekbar')
       div.seekbar-inner.red.darken-2(
-        v-bind:style='{ width: player.control.currentSeekParcent + "%" }')
-
-  ul.collection.blue-grey-text.darken-4.left-align.playlist
-    li.collection-item(draggable='true' v-for='file in playlist')
-      i.mdi-content-clear.btn-floating.btn-small.center.red.playlist-deleter(
-        v-on:click='deleteItem($index)')
-      p.truncate {{file.name}}
+        v-bind:style='{ width: control.currentSeekParcent + "%" }')
+  playlist
 </template>
 <script>
-import request from 'superagent'
+import { PLAYER_PLAYED, PLAYER_PAUSED, PLAYER_ENDED } from '../vuex/mutation-types'
+import { togglePlayPause } from '../vuex/actions'
+import Playlist from './Playlist.vue'
 
 export default {
-  data() {
-    return {
-      player: {
-        file: {
-          name: 'no audio',
-          path: null
-        },
-        control: {
-          playing: false,
-          loop: false,
-          currentTime: 0,
-          currentSeekParcent: 0,
-        }
-      },
-      playlist: [],
-      reaction: {
-        addfile: false
-      }
+  components: {
+    Playlist
+  },
+  vuex: {
+    getters: {
+      file: ({ player }) => player.file,
+      control: ({ player }) => player.control
+    },
+    actions: {
+      togglePlayPause,
+      playNext: () => {},
+      toggleLoop: () => {},
+      onAudioPlay: () => {},
+      onAudioPause: () => {},
+      onAudioStop: () => {},
+      onAudioEnded: () => {},
+      onClickSeekbar: () => {},
+      updateAudioTime: () => {}
     }
   },
   filters: {
@@ -72,78 +67,10 @@ export default {
     }
   },
   methods: {
-    onReceiveFiles(files) {
-      let valid = false // anything valid?
-      for (const file of files) {
-        if (/\.(ogg|wav|mp3|mp4|aac|m4a)$/.test(file.name)) {
-          valid = true
-          if (this.player.file.path === null) {
-            this.player.file = file
-          } else {
-            this.playlist.push(JSON.parse(JSON.stringify(file)))
-          }
-        }
-      }
-      if (valid) this.$emit('file added')
-    },
-    playNextQueue() {
-      if (this.playlist.length === 0) return false
-      this.player.file = this.playlist.shift()
-      setTimeout( () => {
-        this.$els.audio_player.play()
-      }, 200)
-    },
-    onTriggerNext() {
-      this.$emit('audio-trigger-next')
-    },
-    deleteItem(index) {
-      this.$data.playlist.splice(index, 1)
-    },
-    clearPlaylist() {
-      this.$data.playlist = []
-    },
-    toggleLoop() {
-      this.$data.player.control.loop = this.$data.player.control.loop ? false : true
-    },
-    reactionAddFile() {
-      this.$data.reaction.addfile = true
-      setTimeout( () => {
-        this.$data.reaction.addfile = false
-      }, 500)
-    },
-    onAudioPlay() {
-      this.player.control.playing = true
-    },
-    onAudioPause() {
-      this.player.control.playing = false
-    },
-    onAudioStop() {
-      this.player.control.playing = false
-    },
-    togglePlayPause() {
-      if (this.player.control.playing) {
-        this.$els.audio_player.pause()
-      } else {
-        this.$els.audio_player.play()
-      }
-    },
-    updateAudioTime() {
-      this.$data.player.control.currentTime = this.$els.audio_player.currentTime
-      this.$data.player.control.currentSeekParcent = this.$els.audio_player.currentTime / this.$els.audio_player.duration * 100
-    },
-    onClickSeekbar(e) {
-      if (this.$els.audio_player.src) {
-        this.$els.audio_player.currentTime = this.$els.audio_player.duration * ( e.offsetX / this.$els.seekbar.offsetWidth )
-        this.updateAudioTime()
-      }
+    onTriggerPlayPause () {
+      this.control.isPlaying ? this.$els.audio.pause() : this.$els.audio.play()
+      this.togglePlayPause()
     }
-  },
-  ready() {
-    let player = this.$els.audio_player
-    player.addEventListener('ended', () => {
-      console.log('player ended')
-      this.$emit('nowplaying ended')
-    })
   }
 }
 
@@ -188,40 +115,6 @@ $side-nav-width = 50%
       left: 0
       height: 100%
       transition: width .1s ease 0s
-    }
-  }
-  ul.playlist {
-    position: absolute
-    top: 90px
-    bottom: 0
-    margin: 0
-    width: 100%
-    overflow-y: scroll
-    & > li {
-      position: relative
-      &:hover {
-        .playlist-deleter,
-        .playlist-replacer {
-          display: inline-block
-        }
-      }
-    }
-    p {
-      margin: 0
-    }
-    .playlist-deleter,
-    .playlist-replacer {
-      display: none
-      position: absolute
-    }
-    .playlist-deleter {
-      right: 5px
-      top: 2px
-    }
-    .playlist-replacer {
-      left: -6px
-      font-size: 2em
-      cursor: pointer
     }
   }
 }

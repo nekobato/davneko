@@ -1,18 +1,16 @@
+import _ from 'lodash'
 import {
-  FETCH_DIR,
-  RECEIVE_DIR,
-  ADD_DEPTH,
-  UPDATE_DEPTH,
-  ADD_QUEUE
+  ADD_QUEUE,
+  ADD_QUEUES,
+  PLAYER_PLAYED,
+  PLAYER_PAUSED,
+  PLAYER_ENDED
 } from '../mutation-types'
 
 const state = {
-  file: {
-    name: 'no audio',
-    path: null
-  },
+  file: {},
   control: {
-    playing: false,
+    isPlaying: false,
     loop: false,
     currentTime: 0,
     currentSeekParcent: 0
@@ -23,7 +21,23 @@ const state = {
 }
 
 const mutations = {
-
+  [ADD_QUEUE] (state, file) {
+    if (_.isEmpty(state.file)) {
+      state.file = file
+      state.control.isPlaying = true
+    }
+  },
+  [ADD_QUEUES] (state, files) {
+    if (_.isEmpty(state.file)) {
+      state.file = files[0]
+    }
+  },
+  [PLAYER_PLAYED] (state) {
+    state.control.isPlaying = true
+  },
+  [PLAYER_PAUSED] (state) {
+    state.control.isPlaying = false
+  }
 }
 
 export default {

@@ -2,9 +2,9 @@
 div.nav-wrapper.breadcrumbs
   div.col.s12
     i.fa.fa-spinner.fa-pulse
-    span.breadcrumb
-      i.material-icons(v-for='file in files' @click='selectDepth(file, $index)') keyboard_arrow_right
-    span {{ headFileName }}
+    i.material-icons.breadcrumb-icon(v-for='file in files' track-by="$index"
+      @click='selectDepth($index)') keyboard_arrow_right
+    span.dirname {{ headFileName }}
 </template>
 <script>
 import { selectDepth } from '../vuex/actions'
@@ -29,5 +29,12 @@ export default {
 <style lang="stylus">
 .breadcrumb {
   color: #000000
+}
+.breadcrumb-icon {
+  cursor: pointer
+}
+.dirname {
+  display: inline-block
+  line-height: 24px
 }
 </style>

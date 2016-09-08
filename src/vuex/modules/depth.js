@@ -3,7 +3,7 @@ import {
   INIT_DIR,
   INIT_DEPTH,
   ADD_DEPTH,
-  MOVE_DEPTH
+  UPDATE_DEPTH
 } from '../mutation-types'
 
 const state = {
@@ -16,8 +16,10 @@ const mutations = {
   },
   [ADD_DEPTH] (state, file) {
     state.files.push(file)
+    localStorage.setItem('depth', JSON.stringify(state.files))
   },
-  [MOVE_DEPTH] (state) {
+  [UPDATE_DEPTH] (state, index) {
+    state.files.splice(index+1)
     localStorage.setItem('depth', JSON.stringify(state.files))
   }
 }

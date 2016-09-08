@@ -18,8 +18,8 @@ import Breadcrumbs from './Breadcrumbs.vue'
 import { fetchDir, addDir2Queue, selectFile, ressurectDepth } from '../vuex/actions'
 
 const defaultDir = {
-  path: '/Users/nekobato',
-  name: 'nekobato',
+  path: '/',
+  name: 'me',
   type: 'directory'
 }
 
