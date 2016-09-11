@@ -1,10 +1,8 @@
 <template lang="jade">
-div
-  header
-    filer
-  main
-    section
-      audio-box
+div.davneko
+  filer
+  div.audio-box-container
+    audio-box
 </template>
 <script>
 import store from './vuex/store'
@@ -20,72 +18,15 @@ export default {
   store
 }
 </script>
-<style lang="stylus">
+<style lang="stylus" scoped>
 $width-pc = 992px
 $side-nav-width = 50%
 
-* {
-  box-sizing: border-box
-}
-html,
-body {
+.davneko {
   height: 100%
-  min-height: 100%
-  background-color: #ffffff
-}
-h1 {
-  font-size: 3rem
-  font-weight: 300
-  margin: 10px auto
-  line-height: 1
-}
-h2 {
-  font-size: 2.4rem
-  font-weight: 300
-  margin: 0 auto
-  line-height: 64px
-}
-.bold {
-  font-weight: bold
-}
-.dn_auth-container {
-  margin: 0 auto
-  max-width: 250px
 }
 
-// main
-header,
-main,
-footer {
-  @media only screen and (max-width: $width-pc) {
-    text-align: center
-  }
-  @media only screen and (min-width: $width-pc) {
-    padding-left: $side-nav-width
-  }
-}
-main {
+.audio-box-container {
   height: 100%
-  section {
-    position: relative
-    height: 100%
-    padding: 30px 10px 20px
-    .controller {
-      position: absolute
-      top: 12px
-      left: 65px
-      right: 20px
-      font-size: 1.8em
-      z-index: 3
-      .btn-floating,
-      .btn-small {
-        margin-left: 5px
-        cursor: pointer
-        &.with-separater {
-          margin-right: 42px
-        }
-      }
-    }
-  }
 }
 </style>

@@ -76,3 +76,14 @@ export const togglePlayPause = ({ dispatch, state }) => {
     dispatch(types.PLAYER_PLAYED)
   }
 }
+
+export const playNext = ({ dispatch, state }) => {
+  const nowPlayingIndex = _.findIndex(state.playlist.queues, state.playlist.file)
+  if (state.playlist.file.length === 0) {
+    // nothing to do
+  } else if (state.playlist.file[nowPlayingIndex + 1]) {
+    dispatch(types.PLAY_QUEUE, state.playlist.file[nowPlayingIndex + 1])
+  } else {
+    dispatch(types.PLAY_QUEUE, state.playlist.file[0])
+  }
+}

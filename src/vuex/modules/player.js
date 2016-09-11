@@ -12,8 +12,7 @@ const state = {
   control: {
     isPlaying: false,
     loop: false,
-    currentTime: 0,
-    currentSeekParcent: 0
+    currentTime: 0
   },
   reaction: {
     addfile: false

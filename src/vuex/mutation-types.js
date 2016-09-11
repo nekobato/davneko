@@ -12,3 +12,6 @@ export const REMOVE_QUEUES = 'REMOVE_QUEUES'
 export const PLAYER_PLAYED = 'PLAYER_PLAYED'
 export const PLAYER_PAUSED = 'PLAYER_PAUSED'
 export const PLAYER_ENDED = 'PLAYER_ENDED'
+
+export const PLAY_NEXT = 'PLAY_NEXT'
+export const PLAY_PREV = 'PLAY_PREV'

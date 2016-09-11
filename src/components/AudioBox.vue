@@ -1,41 +1,38 @@
 <template lang="jade">
-div.controller.left-align
-  button.btn-floating.teal.darken-4.z-depth-1(
-    v-show='file.path'
-    v-on:click='playNext')
-    i.fa.fa-step-forward
-  button.btn-floating.teal.darken-4.z-depth-1(
-    v-show='file.path'
-    @click='onTriggerPlayPause')
-    i.material-icons(v-show='control.isPlaying') pause
-    i.material-icons(v-show='!control.isPlaying') play_arrow
-  button.btn-floating.teal.darken-4.z-depth-1.right.with-separater(
-    v-on:click='toggleLoop',
-    v-bind:class='{ "darken-2": control.loop, "darken-4": !control.loop }')
-    i.material-icons repeat
-div.card.audiobox
-  div.card-action.teal.white-text
-    h5.truncate {{file.name}}
-    audio#audio_player(
-      v-el:audio
-      :loop='control.loop',
-      :src='file.path | pathToQuery',
-      @play='onAudioPlay',
-      @pause='onAudioPause',
-      @stop='onAudioStop',
-      @timeupdate='updateAudioTime | debounce 300',
-      @ended='onAudioEnded',
-      autoplay)
-    div.seekbar.black(
-      v-el:seekbar
-      @click='onClickSeekbar')
-      div.seekbar-inner.red.darken-2(
-        v-bind:style='{ width: control.currentSeekParcent + "%" }')
+div.audio-box
+  div.card.blue-grey.darken-2.white-text.audiobox
+    div.card-content
+      audio.audio#audio_player(
+        v-el:audio
+        :loop='control.loop',
+        :src='file.path | pathToQuery',
+        @play='onAudioPlay',
+        @pause='onAudioPause',
+        @stop='onAudioStop',
+        @timeupdate='updateAudioTime | debounce 300',
+        @ended='onAudioEnded',
+        autoplay)
+      span.card-title {{ file.name || 'No Audio' }}
+      div.seekbar.black(
+        v-el:seekbar
+        @click='onClickSeekbar')
+        div.seekbar-inner.red.darken-2(
+          :style='{ width: seekbarWidth + '%' }')
+    div.card-action.controller
+      button.btn.teal.controller-btn(@click='togglePlayPause')
+        i.material-icons(v-show='control.isPlaying') pause
+        i.material-icons(v-show='!control.isPlaying') play_arrow
+      button.btn.teal.controller-btn(@click='playNext')
+        i.material-icons skip_next
+      button.btn.teal.right.controller-btn(
+        @click='toggleLoop',
+        v-bind:class='{ "darken-2": !control.loop }')
+        i.material-icons repeat
   playlist
 </template>
 <script>
 import { PLAYER_PLAYED, PLAYER_PAUSED, PLAYER_ENDED } from '../vuex/mutation-types'
-import { togglePlayPause } from '../vuex/actions'
+import { togglePlayPause, playNext } from '../vuex/actions'
 import Playlist from './Playlist.vue'
 
 export default {
@@ -49,7 +46,7 @@ export default {
     },
     actions: {
       togglePlayPause,
-      playNext: () => {},
+      playNext,
       toggleLoop: () => {},
       onAudioPlay: () => {},
       onAudioPause: () => {},
@@ -59,6 +56,11 @@ export default {
       updateAudioTime: () => {}
     }
   },
+  watch: {
+    'control.isPlaying' (newVal, oldVal) {
+      newVal ? this.$els.audio.play() : this.$els.audio.pause()
+    }
+  },
   filters: {
     currentTimeToSeekParcent: (time) => {},
     pathToQuery(path) {
@@ -66,10 +68,9 @@ export default {
       return `/api/path?path=${encodeURIComponent(path)}`
     }
   },
-  methods: {
-    onTriggerPlayPause () {
-      this.control.isPlaying ? this.$els.audio.pause() : this.$els.audio.play()
-      this.togglePlayPause()
+  computed: {
+    seekbarWidth () {
+      return this.control.currentTime / this.$el.audio.duration * 100
     }
   }
 }
@@ -78,6 +79,25 @@ export default {
 <style lang="stylus" scoped>
 $width-pc = 992px
 $side-nav-width = 50%
+
+.audio-box {
+  display: flex
+  flex-direction: column
+  margin: 0 0 0 50%
+  height: 100%
+}
+
+.audio {
+  display: none
+}
+
+.controller-btn {
+  margin-right: 5px
+
+  &:last-child {
+    margin-right: 0
+  }
+}
 
 @keyframes anime-boundbox {
   0% {
@@ -97,18 +117,13 @@ $side-nav-width = 50%
 .audiobox {
   position: relative
   margin: 0
-  height: 100%
-  audio {
-    display: none
-  }
+  width: 100%
   .seekbar {
-    position: absolute
-    top: 77px
-    left: 0
-    right: 0
+    position: relative
+    margin: 10px 0 0
     width: 100%
     height: 10px
-    border-raidus: 5px
+    border-radius: 5px
     .seekbar-inner {
       position: absolute
       top: 0

@@ -1,9 +1,9 @@
 <template lang="jade">
 ul.collection.blue-grey-text.darken-4.left-align.playlist
-  li.collection-item(draggable='true' v-for='file in playlist')
+  li.collection-item(draggable='true' v-for='queue in queues' track-by="$index")
     i.mdi-content-clear.btn-floating.btn-small.center.red.playlist-deleter(
       v-on:click='removeQueue($index)')
-    p.truncate {{file.name}}
+    p.truncate {{queue.name}}
 </template>
 <script>
 import { removeQueue, removeQueues } from '../vuex/actions'
@@ -26,11 +26,7 @@ $width-pc = 992px
 $side-nav-width = 50%
 
 .playlist {
-  position: absolute
-  top: 90px
-  bottom: 0
-  margin: 0
-  width: 100%
+  height: 100%
   overflow-y: scroll
   & > li {
     position: relative
