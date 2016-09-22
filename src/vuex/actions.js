@@ -57,8 +57,8 @@ export const addQueue = ({ dispatch }, file) => {
 }
 
 export const addDir2Queue = ({ dispatch, state }) => {
-  const files = [...state.filelist]
-  dispatch(types.ADD_QUEUE, state.filelist)
+  const files = [...state.filelist.all]
+  dispatch(types.ADD_QUEUES, files)
 }
 
 export const removeQueue = ({ dispatch }, index) => {
@@ -69,21 +69,40 @@ export const removeQueues = ({ dispatch }) => {
   dispatch(types.REMOVE_QUEUES_ALL)
 }
 
-export const togglePlayPause = ({ dispatch, state }) => {
-  if (state.player.control.isPlaying) {
-    dispatch(types.PLAYER_PAUSED)
+export const play = ({ dispatch }) => {
+  dispatch(types.PLAYER_PLAYED)
+}
+
+export const pause = ({ dispatch }) => {
+  dispatch(types.PLAYER_PAUSED)
+}
+
+export const playPrev = ({ dispatch, state }) => {
+  const maxIndex = state.playlist.queues.length - 1
+  if (state.playlist.queues.length <= 1) {
+    // nothing to do
+  } else if (state.playlist.queues[index - 1]) {
+    dispatch(types.PLAY_QUEUE, state.playlist.queues[index - 1], index - 1)
   } else {
-    dispatch(types.PLAYER_PLAYED)
+    dispatch(types.PLAY_QUEUE, state.playlist.queues[maxIndex], maxIndex)
   }
 }
 
 export const playNext = ({ dispatch, state }) => {
-  const nowPlayingIndex = _.findIndex(state.playlist.queues, state.playlist.file)
-  if (state.playlist.file.length === 0) {
+  const index = state.player.control.playIndex
+  if (state.playlist.queues.length <= 1) {
     // nothing to do
-  } else if (state.playlist.file[nowPlayingIndex + 1]) {
-    dispatch(types.PLAY_QUEUE, state.playlist.file[nowPlayingIndex + 1])
+  } else if (state.playlist.queues[index + 1]) {
+    dispatch(types.PLAY_QUEUE, state.playlist.queues[index + 1], index + 1)
   } else {
-    dispatch(types.PLAY_QUEUE, state.playlist.file[0])
+    dispatch(types.PLAY_QUEUE, state.playlist.queues[0], 0)
   }
+}
+
+export const onAudioEnded = ({ dispatch }) => {
+  dispatch(types.PLAYER_ENDED)
+}
+
+export const changeLoop = ({ dispatch }) => {
+  dispatch(types.CHANGE_LOOP)
 }

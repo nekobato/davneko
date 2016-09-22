@@ -1,11 +1,15 @@
 <template lang="jade">
-ul.collection.blue-grey-text.darken-4.left-align.playlist
+ul.collection.white.blue-grey-text.darken-4.left-align.playlist
   li.collection-item(draggable='true' v-for='queue in queues' track-by="$index")
-    i.mdi-content-clear.btn-floating.btn-small.center.red.playlist-deleter(
-      v-on:click='removeQueue($index)')
-    p.truncate {{queue.name}}
+    i.material-icons.btn-floating.btn-small.center.red.playlist-deleter(
+      v-on:click='removeQueue($index)') close
+    span.truncate {{ queue.name }}
+  li.collection-item
+    button.btn.teal.white-text(@click='clearPlayList')
+      i.material-icons clear_all
 </template>
 <script>
+import * as types from '../vuex/mutation-types'
 import { removeQueue, removeQueues } from '../vuex/actions'
 
 export default {
@@ -17,6 +21,11 @@ export default {
       removeQueue,
       removeQueues
     }
+  },
+  methods: {
+    clearPlayList: function () {
+      this.$store.dispatch(types.REMOVE_QUEUES)
+    }
   }
 }
 
@@ -26,6 +35,7 @@ $width-pc = 992px
 $side-nav-width = 50%
 
 .playlist {
+  margin: 0
   height: 100%
   overflow-y: scroll
   & > li {
@@ -36,9 +46,6 @@ $side-nav-width = 50%
         display: inline-block
       }
     }
-  }
-  p {
-    margin: 0
   }
 }
 .playlist-deleter,

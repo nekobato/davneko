@@ -1,9 +1,8 @@
 <template lang="jade">
-div.nav-wrapper.breadcrumbs
-  div.col.s12
+div.col.s12.breadcrumbs
     i.fa.fa-spinner.fa-pulse
     i.material-icons.breadcrumb-icon(v-for='file in files' track-by="$index"
-      @click='selectDepth($index)') keyboard_arrow_right
+      @click='selectDepth($index)') chevron_right
     span.dirname {{ headFileName }}
 </template>
 <script>
@@ -26,15 +25,20 @@ export default {
   }
 }
 </script>
-<style lang="stylus">
-.breadcrumb {
+<style lang="stylus" scoped>
+.breadcrumbs {
+  display: flex
+  flex-shrink: 0
+  align-items: center
+  padding: 0 0 0 20px
   color: #000000
 }
 .breadcrumb-icon {
+  font-size: 28px
   cursor: pointer
 }
 .dirname {
   display: inline-block
-  line-height: 24px
+  line-height: 28px
 }
 </style>

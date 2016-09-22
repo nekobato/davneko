@@ -1,16 +1,15 @@
 <template lang="jade">
-div.side-nav.fixed
-  div
-    a.button-collapse.top-nav.full.btn-floating(@click='toggleNav')
-      i.mdi-navigation-menu
-  div.header-container
-    h1(@click='toggleNav') davneko
+div.filer(:class='isShow')
+  div.card.blue-grey.darken-2.white-text
+    div.card-content
+      span.title(@click='toggleNav') davneko
+    div.card-action
+      div.btn.file-trigger(@click='addDir2Queue')
+        i.material-icons playlist_add
   breadcrumbs
-  div.btn.file-trigger(@click='addDir2Queue()')
-    i.material-icons playlist_add
-  ul.collection(v-el:filelist-box)
+  ul.collection.filelist(v-el:filelist-box)
     li.collection-item.file-item(v-for='file in filelist', @click='selectFile(file)')
-      i.material-icons {{ file | file2IconName }}
+      //- i.material-icons {{ file | file2IconName }}
       span.truncate {{file.name}}
 </template>
 <script>
@@ -73,107 +72,32 @@ export default {
 </script>
 <style lang="stylus" scoped>
 $width-pc = 992px
-$side-nav-width = 50%
 
-$keyframes filer-arrival {
-  0% {
+$keyframes filer-arrival
+  0%
     left: 30%
-  }
-  100% {
+  100%
     left: 0
-  }
-}
 
-.side-nav {
-  @media only screen and (max-width: $width-pc) {
-    width: 100%
-  }
-  min-width: $side-nav-width
+.filer
+  position: absolute
+  left: -460px
+  right: 0
+  display: flex
+  flex-direction: column
+  margin: auto
+  width: 460px
   height: 100%
   transition: left 0.4s ease 0s
-  &.show-mobile {
+  @media (max-width: $width-pc)
     left: 0
-  }
-
-  li.not-selectable {
-    &:hover {
+.collection
+  li.not-selectable
+    &:hover
       background: white
-    }
-  }
-}
-.side-nav-contents {
-  position: absolute
-  top: 138px
-  left: 0
-  right: 0
-  bottom: 0
+.title
+  font-size: 2em
+.filelist
+  overflow-x: hidden
   overflow-y: scroll
-  border-top: 3px solid #ddd
-}
-.file-depth {
-  position: relative
-  vertical-align: bottom
-  white-space: nowrap
-  i {
-    font-size: 2em
-    &.fa-spinner {
-      position: absolute
-      left: 10px
-      font-size: 22px
-      width: 22px
-      height: 22px
-    }
-  }
-  span {
-    font-size: 1.2em
-    line-height: 1.8em
-  }
-}
-.file-trigger {
-  position: absolute
-  top: 46px
-  right: 10px
-  padding: 0
-  width: 40px
-}
-.file-item {
-  position: relative
-  height: 44px
-  animation: filer-arrival 0.1s ease 0s 1 normal
-  a {
-    font-size: 14px
-    position: relative
-    left: -60px
-    padding: 0 10px
-    transition: left 0.2s ease 0s
-  }
-  &:hover {
-    a {
-      left: 0
-    }
-  }
-}
-.collection-item {
-  display: flex
-  cursor: pointer
-  i {
-    margin-right: 15px
-  }
-  a {
-    height: 1.5rem
-    line-height: 1.5rem
-  }
-}
-.button-collapse.top-nav {
-  position: fixed
-  text-align: center
-  height: 40px
-  width: 40px
-  left: 20px
-  top: 12px
-  float: none
-  color: white
-  font-size: 32px
-  z-index: 2
-}
 </style>
