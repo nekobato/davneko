@@ -19,7 +19,8 @@ div.card.blue-grey.darken-2.white-text.player
       div.btn-container
         i.material-icons(@click='volumeDown') remove
       div.btn-container
-        i.material-icons(@click='toggleMute') volume_up
+        i.material-icons(v-if='control.muted', @click='toggleMute') volume_off
+        i.material-icons(v-else, @click='toggleMute') volume_up
       div.btn-container
         i.material-icons(@click='volumeUp') add
     div.play-btn-group
@@ -177,7 +178,8 @@ $side-nav-width = 50%
   left: 0
   right: 0
   display: inline-block
-  text-align: center
+  margin: auto
+  width: 110px
 .volume-btn-group
   display: inline-block
   margin: 0 auto 0 auto
