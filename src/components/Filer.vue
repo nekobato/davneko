@@ -13,7 +13,7 @@ div.filer(:class='isShow')
       span.truncate {{file.name}}
 </template>
 <script>
-import Breadcrumbs from './Breadcrumbs.vue'
+import Breadcrumbs from './BreadCrumbs.vue'
 import { fetchDir, addDir2Queue, selectFile, ressurectDepth } from '../vuex/actions'
 
 const defaultDir = {
