@@ -7,6 +7,9 @@ import {
   AUDIO_PAUSED,
   AUDIO_TIME_UPDATED,
   AUDIO_ENDED,
+  AUDIO_TOGGLE_MUTE,
+  AUDIO_VOLUME_UP,
+  AUDIO_VOLUME_DOWN,
   CHANGE_LOOP
 } from '../mutation-types'
 
@@ -18,7 +21,8 @@ const state = {
     currentTime: null,
     duration: null,
     playIndex: null,
-    volume: 100
+    volume: 1,
+    muted: false
   },
   reaction: {
     addfile: false
@@ -56,6 +60,17 @@ const mutations = {
   },
   [AUDIO_ENDED] (state) {
     state.control.isPlaying = false
+  },
+  [AUDIO_TOGGLE_MUTE] () {
+    state.control.muted = !state.control.muted
+  },
+  [AUDIO_VOLUME_UP] () {
+    if (state.control.volume === 1) return
+    state.control.volume += 0.1
+  },
+  [AUDIO_VOLUME_DOWN] () {
+    if (state.control.volume === 0) return
+    state.control.volume -= 0.1
   },
   [CHANGE_LOOP] (state) {
     if (state.control.loop === 'no') {

@@ -15,28 +15,28 @@ div.card.blue-grey.darken-2.white-text.player
     div.seekbar.black(v-el:seekbar, @click='onClickSeekbar($event)')
       div.seekbar-inner.red.darken-2(:style='{ width: seekingParcent }')
   div.card-action.controller
-    div.btn-container
-      button.btn.teal.controller-btn(@click='playPrev', v-if='isAudioExists')
-        i.material-icons skip_previous
-      button.btn.teal.darken-2.controller-btn(v-else)
-        i.material-icons.grey-text skip_previous
-    div.btn-container
-      button.btn.teal.controller-btn(v-show='control.isPlaying', @click='pause')
-        i.material-icons pause
-      button.btn.teal.controller-btn(v-show='!control.isPlaying', @click='play', v-if='isAudioExists')
-        i.material-icons play_arrow
-      button.btn.teal.darken-2.controller-btn(v-else)
-        i.material-icons.grey-text play_arrow
-    div.btn-container
-      button.btn.teal.controller-btn(@click='playNext', v-if='isAudioExists')
-        i.material-icons skip_next
-      button.btn.teal.darken-2.controller-btn(v-else)
-        i.material-icons.grey-text skip_next
-    div.btn-container.right
-      button.btn.teal.controller-btn(@click='changeLoop')
-        i.material-icons(v-show="control.loop === 'no'") arrow_forward
-        i.material-icons(v-show="control.loop === 'one'") repeat_one
-        i.material-icons(v-show="control.loop === 'all'") repeat
+    div.volume-btn-group
+      div.btn-container
+        i.material-icons(@click='volumeDown') remove
+      div.btn-container
+        i.material-icons(@click='toggleMute') volume_up
+      div.btn-container
+        i.material-icons(@click='volumeUp') add
+    div.play-btn-group
+      div.btn-container
+        i.material-icons(@click='playPrev', v-if='isAudioExists') skip_previous
+        i.material-icons.grey-text(v-else) skip_previous
+      div.btn-container
+        i.material-icons(v-show='control.isPlaying', @click='pause') pause
+        i.material-icons(v-show='!control.isPlaying', @click='play', v-if='isAudioExists') play_arrow
+        i.material-icons.grey-text(v-else) play_arrow
+      div.btn-container
+        i.material-icons(@click='playNext', v-if='isAudioExists') skip_next
+        i.material-icons.grey-text(v-else) skip_next
+    div.btn-container.right(@click='changeLoop')
+      i.material-icons(v-show="control.loop === 'no'") arrow_forward
+      i.material-icons(v-show="control.loop === 'one'") repeat_one
+      i.material-icons(v-show="control.loop === 'all'") repeat
 </template>
 <script>
 import _ from 'lodash'
@@ -52,6 +52,14 @@ export default {
     },
     actions: {
       changeLoop
+    }
+  },
+  watch: {
+    'control.volume': function (volume) {
+      this.$els.audio.volume = volume
+    },
+    'control.muted': function (muted) {
+      this.$els.audio.muted = muted
     }
   },
   computed: {
@@ -122,6 +130,15 @@ export default {
         this.playNext()
       }
     },
+    toggleMute: function () {
+      this.$store.dispatch(types.AUDIO_TOGGLE_MUTE)
+    },
+    volumeUp: function () {
+      this.$store.dispatch(types.AUDIO_VOLUME_UP)
+    },
+    volumeDown: function () {
+      this.$store.dispatch(types.AUDIO_VOLUME_DOWN)
+    },
     onClickSeekbar: function (e) {
       const parcentage = e.offsetX / this.$els.seekbar.offsetWidth
       this.$els.audio.currentTime = this.$els.audio.duration * parcentage
@@ -155,9 +172,19 @@ $side-nav-width = 50%
   overflow-x: hidden
 .audio
   display: none
+.play-btn-group
+  position: absolute
+  left: 0
+  right: 0
+  display: inline-block
+  text-align: center
+.volume-btn-group
+  display: inline-block
+  margin: 0 auto 0 auto
 .btn-container
   display: inline-block
-  margin-right: 5px
+  margin-right: 10px
+  cursor: pointer
   &:last-child
     margin-right: 0
 .boundbox
