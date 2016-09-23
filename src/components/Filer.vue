@@ -1,113 +1,104 @@
 <template lang="jade">
-div
-  a.button-collapse.top-nav.full.btn-floating(v-on:click='toggleNav')
-    i.mdi-navigation-menu
-
-ul.side-nav.fixed.collection.with-header(v-el:nav)
-  div.side-nav-contents(v-el:filelist-box)
-    li.collection-item.file-item(
-      v-for='file in filelist' v-on:click='onSelectItem(file)')
-      span
-        i(:class='file | file2IconName')
+div.filer(:class='isShow')
+  div.card.blue-grey.darken-2.white-text
+    div.card-content
+      span.title(@click='toggleNav') davneko
+    div.card-action
+      div.btn.file-trigger(@click='addDir2Queue')
+        i.material-icons playlist_add
+  breadcrumbs
+  ul.collection.filelist(v-el:filelist-box)
+    li.collection-item.grey-text.text-darken-1.file-item(v-for='file in filelist', @click='selectFile(file)')
+      //- i.material-icons {{ file | file2IconName }}
       span.truncate {{file.name}}
-  div.side-nav-header.fixed
-    li.not-selectable.collection-header
-      h1(v-on:click='toggleNav') davneko
-      div.btn.file-trigger(v-on:click='addFilesAll')
-        i.fa.fa-folder-open.yellow-text
-        i.fa.fa-arrow-right
-    li.collection-item.not-selectable.file-depth
-      i.fa.fa-spinner.fa-pulse(v-show='reaction.loadingDir')
-      i.material-icons(v-for='file in depth' v-on:click='onSelectDepth(file, $index)') keyboard_arrow_right
-      span(v-if='depth[0]') {{depth[depth.length-1].name}}
 </template>
 <script>
-import { fetchPath } from '../api'
+import Breadcrumbs from './Breadcrumbs.vue'
+import { fetchDir, addDir2Queue, selectFile, ressurectDepth } from '../vuex/actions'
+
+const defaultDir = {
+  path: '/',
+  name: 'me',
+  type: 'directory'
+}
 
 export default {
+  vuex: {
+    getters: {
+      filelist: ({ filelist }) => filelist.all
+    },
+    actions: {
+      fetchDir,
+      addDir2Queue,
+      selectFile,
+      ressurectDepth
+    }
+  },
+  components: {
+    Breadcrumbs
+  },
   data() {
     return {
-      depth: [],
-      filelist: [],
-      reaction: {
-        loadingDir: false
+      nav: {
+        isVisible: true
       }
     }
   },
   filters: {
     file2IconName(file) {
       if (/\.(ogg|wav|mp3|aac|m4a)$/.test(file.name)) {
-        return "fa fa-music"
+        return "file_audio"
       }
       if (file.type === "directory") {
-        return "fa fa-folder"
+        return "folder"
       }
     }
-  },
-  events: {
-    'filer-set-dir': "setDir",
-    'filer-get-dir': "getDir",
-    'filer-add-depth': "addDepth",
-    'depth:updated': "saveDepth"
   },
   methods: {
     toggleNav() {
-      this.$els.nav.classList.toggle('show-mobile')
-    },
-    onSelectItem(file) {
-      if (file.type === 'directory') {
-        this.$set('depth[depth.length-1].scroll', this.$els.filelistBox.scrollTop)
-        this.$emit('filer-get-dir', file)
-      } else if (file.type === 'file') {
-        this.$dispatch('dispatch-files', [file])
-      }
-    },
-    onSelectDepth(file, depth) {
-      this.$data.depth.length = depth
-      this.$emit('filer-get-dir', file)
-    },
-    getDir(file) {
-      this.$data.reaction.loadingDir = true
-      fetchPath(file.path)
-        .then((data) => {
-          this.$emit('filer-set-dir', data)
-          this.addDepth(file)
-          this.$emit('depth:updated')
-          this.$data.reaction.loadingDir = false
-          this.$nextTick(() => {
-            this.$els.filelistBox.scrollTop = this.$data.depth[this.$data.depth.length-1].scroll || 0
-          })
-        })
-        .catch((err) => { throw(err) })
-    },
-    setDir(files) {
-      this.$data.filelist = files
-    },
-    addDepth(file) {
-      this.$data.depth.push(file)
-    },
-    addFilesAll() {
-      this.$dispatch('dispatch-files', this.$data.filelist)
-    },
-    saveDepth() {
-      localStorage.setItem('depth', JSON.stringify(this.$data.depth))
-    },
-    startOrResurrect() {
-      if (localStorage.depth) {
-        let depth = JSON.parse(localStorage.depth)
-        let currentDir = depth.pop()
-        this.$data.depth = depth
-        this.getDir(currentDir)
-      } else {
-        this.getDir({ path: '/', name: '/' })
-      }
+      this.$data.nav.isVisible = !this.$data.nav.isVisible
     }
   },
-  ready() {
-    this.startOrResurrect()
+  created() {
+    // start or resurrect
+    this.ressurectDepth()
+    .then((curerntDir) => {
+      this.fetchDir(curerntDir)
+    }).catch(() => {
+      this.fetchDir(defaultDir)
+    })
   }
 }
 </script>
-<style lang="stylus">
+<style lang="stylus" scoped>
+$width-pc = 992px
 
+$keyframes filer-arrival
+  0%
+    left: 30%
+  100%
+    left: 0
+
+.filer
+  position: absolute
+  left: -440px
+  right: 0
+  display: flex
+  flex-direction: column
+  margin: auto
+  width: 440px
+  height: 100%
+  z-index: 1
+  transition: left 0.4s ease 0s
+  @media (max-width: $width-pc)
+    left: 0
+.collection
+  li.not-selectable
+    &:hover
+      background: white
+.title
+  font-size: 2em
+.filelist
+  overflow-x: hidden
+  overflow-y: scroll
 </style>
