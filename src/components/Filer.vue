@@ -8,6 +8,7 @@ div.filer(:class='isShow')
         input#search_input.search-input(type='text', v-model='searchText')
         label.search-label(for='search_input', v-show='!searchText')
           i.material-icons search
+        i.material-icons.search-clear(v-show='searchText', @click='clearSearch') close
       div.btn.right.action-btn.col.s2(@click='addDir2Queue')
         i.material-icons playlist_add
   breadcrumbs
@@ -69,6 +70,12 @@ export default {
       }
     }
   },
+  methods: {
+    // only handling model
+    clearSearch () {
+      this.$data.searchText = ''
+    }
+  },
   created() {
     // start or resurrect
     this.ressurectDepth()
@@ -121,6 +128,11 @@ $keyframes filer-arrival
   top: 0.5rem
   left: auto
   right: 0.25rem
+.search-clear
+  position: absolute
+  top: 0.5rem
+  right: 0.25rem
+  cursor: pointer
 .title
   font-size: 2em
 .filelist
