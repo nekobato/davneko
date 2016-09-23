@@ -6,7 +6,7 @@
     "start": "bin/www",
     "test": "mocha --compilers coffee:coffee-script/register --colors --growl --bail --check-leaks test",
     "dev": "gulp",
-    "build": "gulp build",
+    "build": "webpack",
     "webpack": "webpack --watch"
   },
   "dependencies": {
@@ -38,6 +38,8 @@
   },
   "devDependencies": {
     "axios": "^0.14.0",
+    "babel-preset-stage-0": "^6.5.0",
+    "babel-runtime": "^6.11.6",
     "coffee-loader": "^0.7.2",
     "css-loader": "^0.23.1",
     "file-loader": "^0.8.5",
