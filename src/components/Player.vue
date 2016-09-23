@@ -10,7 +10,8 @@ div.card.blue-grey.darken-2.white-text.player
       @timeupdate='onTimeUpdate',
       @ended='onEnded',
       autoplay)
-    span.card-title {{ file.name || 'No Audio' }}
+    div.audio-title-container
+      span.card-title {{ file.name || 'No Audio' }}
     div.seekbar.black(v-el:seekbar, @click='onClickSeekbar($event)')
       div.seekbar-inner.red.darken-2(:style='{ width: seekingParcent }')
   div.card-action.controller
@@ -117,6 +118,9 @@ export default {
     },
     onEnded: function () {
       this.$store.dispatch(types.AUDIO_ENDED)
+      if (this.control.loop !== 'one') {
+        this.playNext()
+      }
     },
     onClickSeekbar: function (e) {
       const parcentage = e.offsetX / this.$els.seekbar.offsetWidth
@@ -144,6 +148,11 @@ $side-nav-width = 50%
   flex-direction: column
   flex-shrink: 0
   margin: 0
+.card-title
+  word-break: break-all
+  white-space: nowrap
+.audio-title-container
+  overflow-x: hidden
 .audio
   display: none
 .btn-container

@@ -1,8 +1,11 @@
 <template lang="jade">
 ul.collection.white.blue-grey-text.darken-4.left-align.playlist
-  li.collection-item(draggable='true' v-for='queue in queues' track-by="$index")
-    i.material-icons.btn-floating.btn-small.center.red.playlist-deleter(
-      v-on:click='removeQueue($index)') close
+  li.collection-item(
+    v-for='queue in queues', track-by="$index",
+    @click='selectAudio($index)',
+    :class='{ active: control.playIndex === $index }')
+    i.material-icons.grey-text.playlist-deleter(
+      @click.prevent='removeQueue($index)') close
     span.truncate {{ queue.name }}
   li.collection-item
     button.btn.teal.white-text(@click='clearPlayList')
@@ -15,7 +18,8 @@ import { removeQueue, removeQueues } from '../vuex/actions'
 export default {
   vuex: {
     getters: {
-      queues: ({ playlist }) => playlist.queues
+      queues: ({ playlist }) => playlist.queues,
+      control: ({ player }) => player.control
     },
     actions: {
       removeQueue,
@@ -23,6 +27,9 @@ export default {
     }
   },
   methods: {
+    selectAudio: function (index) {
+      this.$store.dispatch(types.PLAY_QUEUE, this.queues[index], index)
+    },
     clearPlayList: function () {
       this.$store.dispatch(types.REMOVE_QUEUES)
     }
@@ -40,6 +47,7 @@ $side-nav-width = 50%
   overflow-y: scroll
   & > li {
     position: relative
+    cursor: pointer
     &:hover {
       .playlist-deleter,
       .playlist-replacer {
@@ -48,18 +56,9 @@ $side-nav-width = 50%
     }
   }
 }
-.playlist-deleter,
-.playlist-replacer {
-  display: none
-  position: absolute
-}
 .playlist-deleter {
   right: 5px
-  top: 2px
-}
-.playlist-replacer {
-  left: -6px
-  font-size: 2em
-  cursor: pointer
+  display: none
+  position: absolute
 }
 </style>

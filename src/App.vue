@@ -1,7 +1,7 @@
 <template lang="jade">
 div.davneko
   filer
-  div.audiobox(v-el:audiobox)
+  div.z-depth-2.audiobox(v-el:audiobox)
     player
     playlist
   button.btn.teal.filer-toggle(@click='toggleFiler')
@@ -35,8 +35,10 @@ $width-pc = 992px
 $side-nav-width = 50%
 
 .davneko
+  position: relative
   display: flex
   height: 100%
+  overflow: hidden
 .audiobox
   position: absolute
   left: 460px
@@ -46,13 +48,14 @@ $side-nav-width = 50%
   margin: auto
   width: 460px
   height: 100%
+  z-index: 2
   transition: left 0.4s ease 0s
   @media (max-width: $width-pc)
     left: 0
     &.filer-view
       left: 460px
 .filer-toggle
-  z-index: 1
+  z-index: 2
   @media (min-width: $width-pc)
     display: none
 </style>

@@ -8,7 +8,7 @@ div.filer(:class='isShow')
         i.material-icons playlist_add
   breadcrumbs
   ul.collection.filelist(v-el:filelist-box)
-    li.collection-item.file-item(v-for='file in filelist', @click='selectFile(file)')
+    li.collection-item.grey-text.text-darken-1.file-item(v-for='file in filelist', @click='selectFile(file)')
       //- i.material-icons {{ file | file2IconName }}
       span.truncate {{file.name}}
 </template>
@@ -81,13 +81,14 @@ $keyframes filer-arrival
 
 .filer
   position: absolute
-  left: -460px
+  left: -440px
   right: 0
   display: flex
   flex-direction: column
   margin: auto
-  width: 460px
+  width: 440px
   height: 100%
+  z-index: 1
   transition: left 0.4s ease 0s
   @media (max-width: $width-pc)
     left: 0

@@ -54,6 +54,9 @@ const mutations = {
   [AUDIO_PAUSED] (state) {
     state.control.isPlaying = false
   },
+  [AUDIO_ENDED] (state) {
+    state.control.isPlaying = false
+  },
   [CHANGE_LOOP] (state) {
     if (state.control.loop === 'no') {
       state.control.loop = 'one'
