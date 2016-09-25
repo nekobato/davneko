@@ -1,11 +1,9 @@
 import {
-  PLAY_QUEUE,
   ADD_QUEUE,
   ADD_QUEUES,
   REMOVE_QUEUE,
   REMOVE_QUEUES,
-  PLAY_PREV,
-  PLAY_NEXT
+  UPDATE_QUEUES
 } from '../mutation-types'
 
 const state = {
@@ -31,6 +29,12 @@ const mutations = {
   },
   [REMOVE_QUEUES] (state) {
     state.queues = []
+  },
+  [UPDATE_QUEUES] (state, e) {
+    const oldIndex = (e.newIndex > e.oldIndex) ? e.oldIndex : e.oldIndex + 1
+    const newIndex = (e.newIndex < e.oldIndex) ? e.newIndex : e.newIndex + 1
+    state.queues.splice(newIndex, 0, state.queues[e.oldIndex])
+    state.queues.splice(oldIndex, 1)
   }
 }
 

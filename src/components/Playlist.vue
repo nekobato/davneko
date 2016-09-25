@@ -1,5 +1,5 @@
 <template lang="jade">
-ul.collection.white.blue-grey-text.darken-4.left-align.playlist
+ul.collection.white.blue-grey-text.darken-4.left-align.playlist(v-el:playlist)
   li.collection-item(
     v-for='queue in queues', track-by="$index",
     @click='selectAudio($index)',
@@ -12,6 +12,7 @@ ul.collection.white.blue-grey-text.darken-4.left-align.playlist
       i.material-icons clear_all
 </template>
 <script>
+import Sortable from 'sortablejs'
 import * as types from '../vuex/mutation-types'
 import { removeQueue, removeQueues } from '../vuex/actions'
 
@@ -33,6 +34,13 @@ export default {
     clearPlayList: function () {
       this.$store.dispatch(types.REMOVE_QUEUES)
     }
+  },
+  ready () {
+    Sortable.create(this.$els.playlist, {
+      onEnd: (e) => {
+        this.$store.dispatch(types.UPDATE_QUEUES, e)
+      }
+    })
   }
 }
 

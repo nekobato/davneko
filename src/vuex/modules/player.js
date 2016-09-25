@@ -3,6 +3,7 @@ import {
   PLAY_QUEUE,
   ADD_QUEUE,
   ADD_QUEUES,
+  UPDATE_QUEUES,
   AUDIO_PLAYED,
   AUDIO_PAUSED,
   AUDIO_TIME_UPDATED,
@@ -50,6 +51,15 @@ const mutations = {
       state.file = files[0]
       state.control.isPlaying = true
       state.control.playIndex = 0
+    }
+  },
+  [UPDATE_QUEUES] (state, e) {
+    if ( e.oldIndex === state.control.playIndex ) {
+      state.control.playIndex = e.newIndex
+    } else if ( e.oldIndex < state.control.playIndex && state.control.playIndex <= e.newIndex ) {
+      state.control.playIndex -= 1
+    } else if ( e.newIndex <= state.control.playIndex && state.control.playIndex < e.oldIndex ) {
+      state.control.playIndex += 1
     }
   },
   [AUDIO_PLAYED] (state) {

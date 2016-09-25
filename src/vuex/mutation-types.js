@@ -8,6 +8,7 @@ export const UPDATE_DEPTH = 'UPDATE_DEPTH'
 export const ADD_QUEUE = 'ADD_QUEUE'
 export const REMOVE_QUEUE = 'REMOVE_QUEUE'
 export const REMOVE_QUEUES = 'REMOVE_QUEUES'
+export const UPDATE_QUEUES = 'UPDATE_QUEUES'
 
 export const PLAY_QUEUE = 'PLAY_QUEUE'
 export const PLAY_NEXT = 'PLAY_NEXT'

@@ -8,8 +8,6 @@ div.davneko
     i.material-icons.white-text menu
 </template>
 <script>
-import * as types from './vuex/mutation-types'
-
 import store from './vuex/store'
 import Filer from './components/Filer'
 import Player from './components/Player'
