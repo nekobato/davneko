@@ -1,6 +1,6 @@
 <template lang="jade">
 div.filer(:class='isShow')
-  div.card.blue-grey.darken-2.white-text
+  div.card.blue-grey.darken-2.white-text.actions
     div.card-action
       div.input-field
         input#search_input.search-input(type='text', v-model='searchText')
@@ -107,6 +107,8 @@ $keyframes filer-arrival
   transition: left 0.4s ease 0s
   @media (max-width: $width-pc)
     left: 0
+.actions
+  margin-bottom: 0
 .collection
   li.not-selectable
     &:hover
@@ -132,6 +134,7 @@ $keyframes filer-arrival
   right: 0.25rem
   cursor: pointer
 .filelist
+  margin-top: 0
   overflow-x: hidden
   overflow-y: scroll
 </style>

@@ -1,9 +1,9 @@
 <template lang="jade">
-div.col.s12.breadcrumbs
+div.col.s12.blue-grey.lighten-2.breadcrumbs
     i.fa.fa-spinner.fa-pulse
-    i.material-icons.breadcrumb-icon(v-for='file in files' track-by="$index"
-      @click='selectDepth($index)') chevron_right
-    span.dirname {{ headFileName }}
+    span.btn.btn-floating.white.button(v-for='file in files', track-by="$index")
+      i.material-icons.blue-grey-text.button-icon(@click='selectDepth($index)') chevron_right
+    span.white-text.dirname {{ headFileName }}
 </template>
 <script>
 import { selectDepth } from '../vuex/actions'
@@ -31,14 +31,19 @@ export default {
   flex-shrink: 0
   align-items: center
   padding: 0 0 0 20px
+  height: 60px
   color: #000000
 }
-.breadcrumb-icon {
+.button {
+  margin: 0 6px 0 0
+}
+.button-icon {
   font-size: 28px
   cursor: pointer
 }
 .dirname {
   display: inline-block
+  margin: 0 0 0 6px
   line-height: 28px
 }
 </style>
