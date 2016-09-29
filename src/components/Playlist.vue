@@ -9,7 +9,7 @@ div.white.playlist
       :class='{ active: control.playIndex === $index }')
       i.material-icons.playlist-deleter(
         @click.prevent.stop='removeQueue($index)',
-        :class='removeButtonColor') close
+        :class='{ "white-text": control.playIndex === $index, "grey-text": control.playIndex !== $index }') close
       span.truncate {{ queue.name }}
 </template>
 <script>
@@ -34,15 +34,6 @@ export default {
     },
     clearPlayList: function () {
       this.$store.dispatch(types.REMOVE_QUEUES)
-    }
-  },
-  computed: {
-    removeButtonColor: function (index) {
-      if ( control.playIndex === $index ) {
-        return 'white-text'
-      } else {
-        return 'grey-text'
-      }
     }
   },
   ready () {
