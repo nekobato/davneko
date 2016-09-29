@@ -1,8 +1,6 @@
 <template lang="jade">
 div.filer(:class='isShow')
   div.card.blue-grey.darken-2.white-text
-    div.card-content
-      span.title davneko
     div.card-action
       div.input-field
         input#search_input.search-input(type='text', v-model='searchText')
@@ -133,8 +131,6 @@ $keyframes filer-arrival
   top: 0.5rem
   right: 0.25rem
   cursor: pointer
-.title
-  font-size: 2em
 .filelist
   overflow-x: hidden
   overflow-y: scroll
