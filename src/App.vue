@@ -1,5 +1,5 @@
 <template lang="jade">
-div.davneko
+div.z-depth-1.davneko
   filer
   div.z-depth-2.audiobox(v-el:audiobox)
     player
@@ -34,8 +34,11 @@ $side-nav-width = 50%
 .davneko
   position: relative
   display: flex
+  margin: auto
   height: 100%
   overflow: hidden
+  @media (max-width: $width-pc)
+    width: 460px
 .audiobox
   position: absolute
   left: 460px
