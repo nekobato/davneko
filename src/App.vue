@@ -4,8 +4,7 @@ div.davneko
   div.z-depth-2.audiobox(v-el:audiobox)
     player
     playlist
-  button.btn.teal.filer-toggle(@click='toggleFiler')
-    i.material-icons.white-text menu
+    button.btn.teal.lighten-1.filer-toggle(@click='toggleFiler')
 </template>
 <script>
 import store from './vuex/store'
@@ -53,7 +52,17 @@ $side-nav-width = 50%
     &.filer-view
       left: 460px
 .filer-toggle
+  position: absolute
+  bottom: 10px
+  left: -40px
   z-index: 2
+  margin: auto
+  padding: 0
+  width: 80px
+  height: 60px
+  border-radius: 5px
+  .material-icons
+    font-size: 2rem
   @media (min-width: $width-pc)
     display: none
 </style>

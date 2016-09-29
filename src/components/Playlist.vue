@@ -1,5 +1,5 @@
 <template lang="jade">
-div.playlist
+div.white.playlist
   div.blue-grey.actions
     i.material-icons.action(@click='clearPlayList') clear_all
   ul.collection.white.blue-grey-text.darken-4.left-align.queues(v-el:playlist)
