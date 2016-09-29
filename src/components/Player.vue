@@ -179,7 +179,7 @@ $side-nav-width = 50%
   right: 0
   display: inline-block
   margin: auto
-  width: 110px
+  width: 120px
 .volume-btn-group
   display: inline-block
   margin: 0 auto 0 auto
