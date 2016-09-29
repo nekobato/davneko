@@ -8,7 +8,7 @@ div.white.playlist
       @click='selectAudio($index)',
       :class='{ active: control.playIndex === $index }')
       i.material-icons.playlist-deleter(
-        @click.prevent='removeQueue($index)',
+        @click.prevent.stop='removeQueue($index)',
         :class='removeButtonColor') close
       span.truncate {{ queue.name }}
 </template>
