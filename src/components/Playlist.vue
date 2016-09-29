@@ -1,15 +1,16 @@
 <template lang="jade">
-ul.collection.white.blue-grey-text.darken-4.left-align.playlist(v-el:playlist)
-  li.collection-item(
-    v-for='queue in queues', track-by="$index",
-    @click='selectAudio($index)',
-    :class='{ active: control.playIndex === $index }')
-    i.material-icons.grey-text.playlist-deleter(
-      @click.prevent='removeQueue($index)') close
-    span.truncate {{ queue.name }}
-  li.collection-item
-    button.btn.teal.white-text(@click='clearPlayList')
-      i.material-icons clear_all
+div.playlist
+  div.blue-grey.actions
+    i.material-icons.action(@click='clearPlayList') clear_all
+  ul.collection.white.blue-grey-text.darken-4.left-align.queues(v-el:playlist)
+    li.collection-item(
+      v-for='queue in queues', track-by="$index",
+      @click='selectAudio($index)',
+      :class='{ active: control.playIndex === $index }')
+      i.material-icons.playlist-deleter(
+        @click.prevent='removeQueue($index)',
+        :class='deleteButtonColor') close
+      span.truncate {{ queue.name }}
 </template>
 <script>
 import Sortable from 'sortablejs'
@@ -35,6 +36,15 @@ export default {
       this.$store.dispatch(types.REMOVE_QUEUES)
     }
   },
+  computed: {
+    deleteButtonColor: function (index) {
+      if ( control.playIndex === $index ) {
+        return 'white-text'
+      } else {
+        return 'grey-text'
+      }
+    }
+  },
   ready () {
     Sortable.create(this.$els.playlist, {
       onEnd: (e) => {
@@ -50,6 +60,28 @@ $width-pc = 992px
 $side-nav-width = 50%
 
 .playlist {
+  display: flex
+  height: 100%
+}
+.actions {
+  flex-shrink: 0
+  display: inline-block
+  padding: 10px 0 0
+  width: 46px
+  height: 100%
+}
+.action {
+  width: 100%
+  height: 32px
+  line-height: 32px
+  text-align: center
+  cursor: pointer
+  color: #ffffff // white
+  &:hover {
+    color: #90caf9 // blue lighten-3
+  }
+}
+.queues {
   margin: 0
   height: 100%
   overflow-y: scroll
