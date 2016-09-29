@@ -1,0 +1,23 @@
+#!/usr/bin/env node
+
+const webpack = require("webpack")
+
+const compiler = webpack(require('../webpack.config.js'))
+
+compiler.watch({
+    aggregateTimeout: 300,
+    poll: true
+}, function(err, stats) {
+  if (err) console.log(err)
+  if (stats) console.log(stats.toString({ colors: true }))
+});
+
+require('coffee-script/register')
+const debug = require('debug')('express-template')
+const app = require('../config/app')
+
+app.set('port', process.env.PORT || 3000)
+
+const server = app.listen(app.get('port'), function() {
+  debug('Debug server listening on port ' + server.address().port)
+})
