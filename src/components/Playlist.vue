@@ -53,6 +53,7 @@ $side-nav-width = 50%
 .playlist {
   display: flex
   height: 100%
+  align-items: stretch
 }
 .actions {
   flex-shrink: 0
