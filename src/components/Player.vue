@@ -97,6 +97,7 @@ export default {
       this.$els.audio.pause()
     },
     playPrev: function () {
+      const index = this.control.playIndex
       const maxIndex = this.playlist.queues.length - 1
       if (this.playlist.queues.length <= 1) {
         // nothing to do
