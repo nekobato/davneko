@@ -4,6 +4,7 @@ import filelist from './modules/filelist'
 import playlist from './modules/playlist'
 import depth from './modules/depth'
 import player from './modules/player'
+import uiStatus from './modules/uiStatus'
 
 Vue.use(Vuex)
 
@@ -16,7 +17,8 @@ export default new Vuex.Store({
     filelist,
     playlist,
     depth,
-    player
+    player,
+    uiStatus
   },
   strict: debug
 })

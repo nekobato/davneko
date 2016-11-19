@@ -16,6 +16,7 @@ export const ressurectDepth = ({ dispatch }) => {
 
 export const selectFile = ({ dispatch }, file) => {
   if (file.type === 'directory') {
+    dispatch(types.START_FETCH_DIR)
     api.fetchDir(file.path)
     .then((files) => {
       dispatch(types.RECEIVE_DIR, files)
@@ -31,6 +32,7 @@ export const selectFile = ({ dispatch }, file) => {
 
 export const selectDepth = ({ dispatch, state }, index) => {
   const depth = state.depth.files
+  dispatch(types.START_FETCH_DIR)
   api.fetchDir(depth[index].path)
   .then((files) => {
     dispatch(types.RECEIVE_DIR, files)
@@ -42,6 +44,7 @@ export const selectDepth = ({ dispatch, state }, index) => {
 }
 
 export const fetchDir = ({ dispatch }, file) => {
+  dispatch(types.START_FETCH_DIR)
   api.fetchDir(file.path)
   .then((files) => {
     dispatch(types.RECEIVE_DIR, files)

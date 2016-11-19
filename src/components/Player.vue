@@ -1,6 +1,6 @@
 <template lang="jade">
 div.card.blue-grey.darken-2.white-text.player
-  div.card-content
+  div.card-content.player-content
     audio.audio#audio_player(
       v-el:audio,
       :loop='isLoopOne',
@@ -11,7 +11,7 @@ div.card.blue-grey.darken-2.white-text.player
       @ended='onEnded',
       autoplay)
     div.audio-title-container
-      span.card-title {{ file.name || 'No Audio' }}
+      span.card-title.audio-title {{ file.name || 'No Audio' }}
     div.seekbar.black(v-el:seekbar, @click='onClickSeekbar($event)')
       div.seekbar-inner.red.darken-2(:style='{ width: seekingParcent }')
   div.card-action.controller
@@ -166,11 +166,16 @@ $side-nav-width = 50%
   flex-direction: column
   flex-shrink: 0
   margin: 0
+.player-content
+  padding: 10px 20px;
 .card-title
   word-break: break-all
   white-space: nowrap
 .audio-title-container
   overflow-x: hidden
+  height: 36px
+  .audio-title
+    line-height: 36px
 .audio
   display: none
 .play-btn-group
@@ -204,5 +209,7 @@ $side-nav-width = 50%
   height: 100%
   border-radius: 5px
   transition: width .1s ease 0s
+.controller
+  padding: 10px 20px
 
 </style>

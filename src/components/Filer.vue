@@ -1,7 +1,7 @@
 <template lang="jade">
 div.filer(:class='isShow')
   div.card.blue-grey.darken-2.white-text.actions
-    div.card-action
+    div.card-action.actions-content
       div.input-field
         input#search_input.search-input(type='text', v-model='searchText')
         label.search-label(for='search_input', v-show='!searchText')
@@ -109,6 +109,8 @@ $keyframes filer-arrival
     left: 0
 .actions
   margin-bottom: 0
+.actions-content
+  padding: 10px 20px
 .collection
   li.not-selectable
     &:hover

@@ -1,3 +1,4 @@
+export const START_FETCH_DIR = 'START_FETCH_DIR'
 export const FETCH_DIR = 'FETCH_DIR'
 export const RECEIVE_DIR = 'RECEIVE_DIR'
 

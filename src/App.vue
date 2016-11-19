@@ -56,7 +56,7 @@ $side-nav-width = 50%
       left: 460px
 .filer-toggle
   position: absolute
-  bottom: 10px
+  top: 130px
   left: -40px
   z-index: 2
   margin: auto
