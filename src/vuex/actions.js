@@ -59,9 +59,15 @@ export const addQueue = ({ dispatch }, file) => {
   dispatch(types.ADD_QUEUE, file)
 }
 
+// Add Dir by Recursive
 export const addDir2Queue = ({ dispatch, state }) => {
-  const files = [...state.filelist.all]
-  dispatch(types.ADD_QUEUES, files)
+  api.fetchDirRecursive(state.depth.files[state.depth.files.length - 1])
+  .then((files) => {
+    dispatch(types.ADD_QUEUES, files)
+  })
+  .catch(() => {
+    // FIXME
+  })
 }
 
 export const removeQueue = ({ dispatch }, index) => {

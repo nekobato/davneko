@@ -14,3 +14,18 @@ export const fetchDir = (path) => {
     })
   })
 }
+
+export const fetchDirRecursive = (file) => {
+  return new Promise((resolve, reject) => {
+    axios.get('/api/pathr', {
+      params: { path: file.path },
+      responseType: 'json'
+    })
+    .then((res) => {
+      resolve(res.data)
+    })
+    .catch((err) => {
+      reject(err)
+    })
+  })
+}
