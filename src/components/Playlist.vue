@@ -57,7 +57,7 @@ $side-nav-width = 50%
 }
 .actions {
   display: flex
-  align-items: flex-end
+  align-items: flex-start
   flex-shrink: 0
   padding: 10px 0 0
   width: 46px

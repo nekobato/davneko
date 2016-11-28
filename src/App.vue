@@ -56,13 +56,13 @@ $side-nav-width = 50%
       left: 460px
 .filer-toggle
   position: absolute
-  top: 130px
+  top: 80px
   left: -40px
   z-index: 2
   margin: auto
   padding: 0
   width: 80px
-  height: 60px
+  height: 40px
   border-radius: 5px
   .material-icons
     font-size: 2rem

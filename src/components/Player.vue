@@ -15,14 +15,6 @@ div.card.blue-grey.darken-2.white-text.player
     div.seekbar.black(v-el:seekbar, @click='onClickSeekbar($event)')
       div.seekbar-inner.red.darken-2(:style='{ width: seekingParcent }')
   div.card-action.controller
-    div.volume-btn-group
-      div.btn-container
-        i.material-icons(@click='volumeDown') remove
-      div.btn-container
-        i.material-icons(v-if='control.muted', @click='toggleMute') volume_off
-        i.material-icons(v-else, @click='toggleMute') volume_up
-      div.btn-container
-        i.material-icons(@click='volumeUp') add
     div.play-btn-group
       div.btn-container
         i.material-icons(@click='playPrev', v-if='isAudioExists') skip_previous
@@ -34,6 +26,14 @@ div.card.blue-grey.darken-2.white-text.player
       div.btn-container
         i.material-icons(@click='playNext', v-if='isAudioExists') skip_next
         i.material-icons.grey-text(v-else) skip_next
+    div.volume-btn-group
+      div.btn-container
+        i.material-icons(@click='volumeDown') remove
+      div.btn-container
+        i.material-icons(v-if='control.muted', @click='toggleMute') volume_off
+        i.material-icons(v-else, @click='toggleMute') volume_up
+      div.btn-container
+        i.material-icons(@click='volumeUp') add
     div.btn-container.right(@click='changeLoop')
       i.material-icons(v-show="control.loop === 'no'") arrow_forward
       i.material-icons(v-show="control.loop === 'one'") repeat_one
@@ -187,8 +187,8 @@ $side-nav-width = 50%
   margin: auto
   width: 120px
 .volume-btn-group
-  display: inline-block
-  margin: 0 auto 0 auto
+  position: absolute
+  right: 70px
 .btn-container
   display: inline-block
   margin-right: 10px
