@@ -2,9 +2,9 @@
 div.col.s12.blue-grey.lighten-2.breadcrumbs
   div.progress(v-show="status.isFetching")
     div.indeterminate
+  span.dirname {{ headFileName }}
   div.breadcrumbs-content(v-show="!status.isFetching")
     i.material-icons.depth(v-for='file in files', track-by="$index", @click='selectDepth($index)') navigate_next
-  span.dirname {{ headFileName }}
 </template>
 <script>
 import { selectDepth } from '../vuex/actions'
@@ -29,8 +29,6 @@ export default {
 </script>
 <style lang="stylus" scoped>
 .breadcrumbs
-  display: flex
-  align-items: center
   position: relative
   width: 100%
   height: 60px
@@ -40,16 +38,23 @@ export default {
   bottom: 0
   margin: auto
 .depth
+  position: relative
   display: inline-block
   width: 40px
   height: 100%
   font-size: 36px
   color: #ffffff
-  text-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.32), 0 2px 10px 0 rgba(0, 0, 0, 0.18)
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.16), 0 2px 10px rgba(0, 0, 0, 0.12)
   cursor: pointer
   transition: color 0.2s ease 0s
+  line-height: 60px
   &:hover
     color: #455a64
+.breadcrumbs-content
+  display: flex
+  align-items: center
+  width: 100%
+  height: 60px
 .dirname
   position: absolute
   left: 5px
