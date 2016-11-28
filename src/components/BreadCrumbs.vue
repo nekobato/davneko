@@ -1,10 +1,10 @@
 <template lang="jade">
-div.col.s12.blue-grey.lighten-2.breadcrumbs
+div.blue-grey.lighten-2.breadcrumbs
   div.progress(v-show="status.isFetching")
     div.indeterminate
-  span.dirname {{ headFileName }}
-  div.breadcrumbs-content(v-show="!status.isFetching")
-    i.material-icons.depth(v-for='file in files', track-by="$index", @click='selectDepth($index)') navigate_next
+  span.dirname(v-show="!status.isFetching") {{ headFileName }}
+  div.breadcrumbs-content
+    i.material-icons.depth(v-show="!status.isFetching", v-for='file in files', track-by="$index", @click='selectDepth($index)') navigate_next
 </template>
 <script>
 import { selectDepth } from '../vuex/actions'
