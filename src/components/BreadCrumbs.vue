@@ -1,11 +1,10 @@
 <template lang="jade">
 div.col.s12.blue-grey.lighten-2.breadcrumbs
-    div.breadcrumbs-loader(v-show="status.isFetching")
-      i.material-icons spinner
-    div.breadcrumbs-content(v-show="!status.isFetching")
-      span.btn.btn-floating.button(v-for='file in files', track-by="$index")
-        i.material-icons.blue-grey-text.button-icon(@click='selectDepth($index)') chevron_right
-      span.white-text.dirname {{ headFileName }}
+  div.progress(v-show="status.isFetching")
+    div.indeterminate
+  div.breadcrumbs-content(v-show="!status.isFetching")
+    i.material-icons.depth(v-for='file in files', track-by="$index", @click='selectDepth($index)') navigate_next
+  span.dirname {{ headFileName }}
 </template>
 <script>
 import { selectDepth } from '../vuex/actions'
@@ -29,32 +28,34 @@ export default {
 }
 </script>
 <style lang="stylus" scoped>
-.breadcrumbs {
+.breadcrumbs
   display: flex
-  flex-shrink: 0
   align-items: center
-  padding: 0 0 0 20px
+  position: relative
+  width: 100%
   height: 60px
-  color: #000000
-}
-.button {
-  flex-shrink: 0
-  margin: 0 6px 0 0
-  background-color: #fff
-  border: 2px solid #26a69a
-
-  &:active {
-    background-color: #ddd
-  }
-}
-.button-icon {
-  line-height: 33px
-  font-size: 28px
-  cursor: pointer
-}
-.dirname {
+.progress
+  position: absolute
+  left: 0
+  bottom: 0
+  margin: auto
+.depth
   display: inline-block
-  margin: 0 0 0 6px
+  width: 40px
+  height: 100%
+  font-size: 36px
+  color: #ffffff
+  text-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.32), 0 2px 10px 0 rgba(0, 0, 0, 0.18)
+  cursor: pointer
+  transition: color 0.2s ease 0s
+  &:hover
+    color: #455a64
+.dirname
+  position: absolute
+  left: 5px
+  bottom: 0
+  font-size: 24px
   white-space: nowrap
-}
+  color: #d0d5d8
+  pointer-events: none
 </style>
