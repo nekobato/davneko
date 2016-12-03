@@ -2,7 +2,7 @@
 div.blue-grey.lighten-2.breadcrumbs
   div.progress(v-show="status.isFetching")
     div.indeterminate
-  span.dirname(v-show="!status.isFetching") {{ headFileName }}
+  span.blue-grey-text.text-lighten-3.dirname(v-show="!status.isFetching") {{ headFileName }}
   div.breadcrumbs-content
     i.material-icons.depth(v-show="!status.isFetching", v-for='file in files', track-by="$index", @click='selectDepth($index)') navigate_next
 </template>
@@ -46,7 +46,7 @@ export default {
   color: #ffffff
   text-shadow: 0 2px 5px rgba(0, 0, 0, 0.16), 0 2px 10px rgba(0, 0, 0, 0.12)
   cursor: pointer
-  transition: color 0.2s ease 0s
+  transition: color 0.1s ease 0s
   line-height: 60px
   &:hover
     color: #455a64
@@ -61,6 +61,5 @@ export default {
   bottom: 0
   font-size: 24px
   white-space: nowrap
-  color: #d0d5d8
   pointer-events: none
 </style>
