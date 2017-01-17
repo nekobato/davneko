@@ -2,6 +2,10 @@ import * as api from '../api'
 import * as types from './mutation-types'
 import _ from 'lodash'
 
+function forceRestart () {
+  window.location.reload()
+}
+
 export const ressurectDepth = ({ dispatch }) => {
   return new Promise((resolve, reject) => {
     if (window.localStorage.depth) {
@@ -18,12 +22,15 @@ export const selectFile = ({ dispatch }, file) => {
   if (file.type === 'directory') {
     dispatch(types.START_FETCH_DIR)
     api.fetchDir(file.path)
-    .then((files) => {
+    .then( (files) => {
       dispatch(types.RECEIVE_DIR, files)
       dispatch(types.ADD_DEPTH, file)
     })
-    .catch(() => {
-      // FIXME
+    .catch( (err) => {
+      // lost auth
+      if (err.response.status === 403) {
+        forceRestart()
+      }
     })
   } else {
     dispatch(types.ADD_QUEUE, file)
@@ -34,24 +41,30 @@ export const selectDepth = ({ dispatch, state }, index) => {
   const depth = state.depth.files
   dispatch(types.START_FETCH_DIR)
   api.fetchDir(depth[index].path)
-  .then((files) => {
+  .then( (files) => {
     dispatch(types.RECEIVE_DIR, files)
     dispatch(types.UPDATE_DEPTH, index)
   })
-  .catch(() => {
-    // FIXME
+  .catch( (err) => {
+    // lost auth
+    if (err.response.status === 403) {
+      forceRestart()
+    }
   })
 }
 
 export const fetchDir = ({ dispatch }, file) => {
   dispatch(types.START_FETCH_DIR)
   api.fetchDir(file.path)
-  .then((files) => {
+  .then( (files) => {
     dispatch(types.RECEIVE_DIR, files)
     dispatch(types.ADD_DEPTH, file)
   })
-  .catch(() => {
-    // FIXME
+  .catch( (err) => {
+    // lost auth
+    if (err.response.status === 403) {
+      forceRestart()
+    }
   })
 }
 
@@ -62,11 +75,14 @@ export const addQueue = ({ dispatch }, file) => {
 // Add Dir by Recursive
 export const addDir2Queue = ({ dispatch, state }) => {
   api.fetchDirRecursive(state.depth.files[state.depth.files.length - 1])
-  .then((files) => {
+  .then( (files) => {
     dispatch(types.ADD_QUEUES, files)
   })
-  .catch(() => {
-    // FIXME
+  .catch( (err) => {
+    // lost auth
+    if (err.response.status === 403) {
+      forceRestart()
+    }
   })
 }
 
