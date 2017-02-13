@@ -59,14 +59,15 @@ $side-nav-width = 50%
   display: flex
   align-items: flex-start
   flex-shrink: 0
+  display: inline-block
   padding: 10px 0 0
   width: 46px
   height: 100%
 }
 .action {
   width: 100%
-  height: 48px
-  line-height: 48px
+  height: 32px
+  line-height: 32px
   text-align: center
   cursor: pointer
   color: #ffffff // white

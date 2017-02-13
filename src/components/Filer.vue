@@ -23,12 +23,6 @@ import _ from 'lodash'
 import Breadcrumbs from './BreadCrumbs.vue'
 import { fetchDir, addDir2Queue, selectFile, ressurectDepth } from '../vuex/actions'
 
-const defaultDir = {
-  path: '/',
-  name: 'me',
-  type: 'directory'
-}
-
 export default {
   vuex: {
     getters: {
@@ -77,11 +71,6 @@ export default {
   created() {
     // start or resurrect
     this.ressurectDepth()
-    .then((curerntDir) => {
-      this.fetchDir(curerntDir)
-    }).catch(() => {
-      this.fetchDir(defaultDir)
-    })
   }
 }
 </script>

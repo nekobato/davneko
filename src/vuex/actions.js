@@ -2,20 +2,25 @@ import * as api from '../api'
 import * as types from './mutation-types'
 import _ from 'lodash'
 
+const defaultDir = {
+  path: '/',
+  name: 'me',
+  type: 'directory'
+}
+
 function forceRestart () {
   window.location.reload()
 }
 
 export const ressurectDepth = ({ dispatch }) => {
-  return new Promise((resolve, reject) => {
-    if (window.localStorage.depth) {
-      let depth = JSON.parse(window.localStorage.depth)
-      resolve(depth.pop())
-      dispatch(types.INIT_DEPTH, depth)
-    } else {
-      reject(null)
-    }
-  })
+  let depth = JSON.parse(window.localStorage.getItem('depth'))
+  console.log(depth)
+  if (_.isEmpty(depth)) {
+    fetchDir({ dispatch }, defaultDir)
+  } else {
+    fetchDir({ dispatch }, depth.pop())
+    dispatch(types.INIT_DEPTH, depth)
+  }
 }
 
 export const selectFile = ({ dispatch }, file) => {
@@ -54,6 +59,7 @@ export const selectDepth = ({ dispatch, state }, index) => {
 }
 
 export const fetchDir = ({ dispatch }, file) => {
+  console.log(file)
   dispatch(types.START_FETCH_DIR)
   api.fetchDir(file.path)
   .then( (files) => {
@@ -61,9 +67,15 @@ export const fetchDir = ({ dispatch }, file) => {
     dispatch(types.ADD_DEPTH, file)
   })
   .catch( (err) => {
+    console.log(err.responseType)
     // lost auth
     if (err.response.status === 403) {
       forceRestart()
+    }
+    // lost dir
+    if (err.response.status === 500) {
+      localStorage.setItem('depth', JSON.stringify([]))
+      ressurectDepth({ dispatch })
     }
   })
 }

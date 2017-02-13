@@ -10,6 +10,7 @@ export const fetchDir = (path) => {
       resolve(res.data)
     })
     .catch((err) => {
+      console.log(err)
       reject(err)
     })
   })

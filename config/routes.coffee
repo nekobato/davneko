@@ -23,13 +23,13 @@ router.get "/api/path", (req, res, next) ->
 
   console.log 'path:', req.query.path
 
-  res.status(403).end() if not req.isAuthenticated()
+  return res.status(403).send('not authenticated') if not req.isAuthenticated()
 
   reqpath = path.normalize(req.query.path || '/')
-  res.status(500).end('bad query') if /^\.\./.test reqpath
+  return res.status(500).send('bad query') if /^\.\./.test reqpath
 
   targetpath = path.join config.basepath, reqpath
-  res.status(500).end("not exists: #{targetpath}") if not fs.existsSync(targetpath)
+  return res.status(500).send("not exists: #{targetpath}") if not fs.existsSync(targetpath)
 
   if fs.statSync(targetpath).isDirectory()
     finder = []
