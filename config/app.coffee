@@ -1,29 +1,18 @@
 debug = require('debug')('application')
-cookieParser = require("cookie-parser")
 bodyParser = require("body-parser")
 express = require("express")
-favicon = require("serve-favicon")
-logger = require("morgan")
 passport = require('passport')
 path = require("path")
 app = express()
 
-pkg = require '../package'
-config = require './config'
+pkg = require('../package')
+config = require('./config')
 
-# optional
-# mongoose = require('mongoose')
-# mongoose.connect "mongodb://localhost/#{pkg.name}"
-# redis = require('redis').createClient()
-
-session = require('express-session')
-RedisStore = require('connect-redis')(session)
-app.use session
-  store: new RedisStore(),
-  secret: config.secret
-  cookie: { maxAge: 60 * 60 * 24 * 1000 }
-  resave: true
-  saveUninitialized: true
+app.use require('express-session')({
+  secret: config.secret,
+  resave: false,
+  saveUninitialized: false
+})
 
 app.use passport.initialize()
 app.use passport.session()
@@ -35,15 +24,14 @@ if app.get("env") is "development"
   app.set 'view options', { pretty: true }
 
 # app use
-# app.use favicon './public/favicon.ico'
-app.use logger "dev"
+# app.use require("serve-favicon")('./public/favicon.ico')
+app.use require("morgan")("dev")
 app.use bodyParser.json()
-app.use bodyParser.urlencoded extended: false
-app.use cookieParser()
+app.use bodyParser.urlencoded extended: true
+app.use require("cookie-parser")()
 app.use express.static path.join(__dirname, '../public')
 app.use '/', require './routes'
-
-(require './auth')(app)
+app.post '/auth', require './auth'
 
 # catch 404 and forward to error handler
 app.use (req, res, next) ->

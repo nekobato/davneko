@@ -19,6 +19,15 @@ router.get "/failure", (req, res, next) ->
   res.render "auth"
   return
 
+router.get "/logout", (req, res, next) ->
+  if req.isAuthenticated()
+    console.log "### logout"
+    req.logout()
+    res.redirect '/'
+  else
+    res.redirect '/'
+
+
 router.get "/api/path", (req, res, next) ->
 
   console.log 'path:', req.query.path
