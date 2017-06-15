@@ -23,13 +23,13 @@ export const ressurectDepth = ({ dispatch }) => {
   }
 }
 
-export const selectFile = ({ dispatch }, file) => {
+export const selectFile = ({ dispatch }, file, scrollTop) => {
   if (file.type === 'directory') {
     dispatch(types.START_FETCH_DIR)
     api.fetchDir(file.path)
     .then( (files) => {
       dispatch(types.RECEIVE_DIR, files)
-      dispatch(types.ADD_DEPTH, file)
+      dispatch(types.ADD_DEPTH, file, scrollTop)
     })
     .catch( (err) => {
       // lost auth

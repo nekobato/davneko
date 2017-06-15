@@ -14,8 +14,7 @@ div.filer(:class='isShow')
     li.collection-item.grey-text.text-darken-1.file-item(
       v-for='file in filelist | filelistFilter',
       track-by="$index"
-      @click='selectFile(file)')
-      //- i.material-icons {{ file | file2IconName }}
+      @click='onClickFile(file)')
       span.truncate {{file.name}}
 </template>
 <script>
@@ -26,7 +25,8 @@ import { fetchDir, addDir2Queue, selectFile, ressurectDepth } from '../vuex/acti
 export default {
   vuex: {
     getters: {
-      filelist: ({ filelist }) => filelist.all
+      filelist: ({ filelist }) => filelist.all,
+      depthDirs: ({ depth }) => depth.files
     },
     actions: {
       fetchDir,
@@ -41,6 +41,13 @@ export default {
   data () {
     return {
       searchText: ''
+    }
+  },
+  watch: {
+    ['depthDirs'] (dirs, oldDirs) {
+      if (dirs[dirs.length-1] && dirs[dirs.length-1].scrollTop) {
+        this.$els.filelistBox.scrollTop = dirs[dirs.length-1].scrollTop
+      }
     }
   },
   filters: {
@@ -66,6 +73,9 @@ export default {
     // only handling model
     clearSearch () {
       this.$data.searchText = ''
+    },
+    onClickFile (file) {
+      this.selectFile(file, this.$els.filelistBox.scrollTop)
     }
   },
   created() {
