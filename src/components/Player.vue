@@ -128,7 +128,10 @@ export default {
     },
     onEnded: function () {
       this.$store.dispatch(types.AUDIO_ENDED)
-      if (this.control.loop !== 'one') {
+      console.log(this.control.playIndex, this.playlist.queues.length)
+      if (this.control.loop === 'no' && (this.control.playIndex === this.playlist.queues.length - 1)) {
+        return
+      } else if (this.control.loop !== 'one') {
         this.playNext()
       }
     },
