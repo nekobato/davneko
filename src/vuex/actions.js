@@ -14,7 +14,6 @@ function forceRestart () {
 
 export const ressurectDepth = ({ dispatch }) => {
   let depth = JSON.parse(window.localStorage.getItem('depth'))
-  console.log(depth)
   if (_.isEmpty(depth)) {
     fetchDir({ dispatch }, defaultDir)
   } else {

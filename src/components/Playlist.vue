@@ -6,6 +6,7 @@ div.white.playlist
     li.collection-item(
       v-for='queue in queues', track-by="$index",
       @click='selectAudio($index)',
+      @dblclick='replayAudio',
       :class='{ active: control.playIndex === $index }')
       i.material-icons.playlist-deleter(
         @click.prevent.stop='removeQueue($index)',
@@ -31,6 +32,10 @@ export default {
   methods: {
     selectAudio: function (index) {
       this.$store.dispatch(types.PLAY_QUEUE, this.queues[index], index)
+    },
+    replayAudio: function () {
+      // player componentにイベント伝搬するのどうやるの
+      document.querySelector('#audio_player').currentTime = 0
     },
     clearPlayList: function () {
       this.$store.dispatch(types.REMOVE_QUEUES)
