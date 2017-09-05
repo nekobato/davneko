@@ -60,7 +60,8 @@ router.get "/api/path", (req, res, next) ->
       dotfiles: 'deny'
       headers:
         'x-timestamp': Date.now()
-        'x-sent': true
+        'x-sent': true,
+        'Cache-Control': ['private', 'no-store', 'no-cache', 'must-revalidate'].join(',')
     }, (err) ->
       res.status(err.status).end() if err
 
