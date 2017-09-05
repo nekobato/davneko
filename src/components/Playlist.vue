@@ -36,6 +36,7 @@ export default {
     replayAudio: function () {
       // player componentにイベント伝搬するのどうやるの
       document.querySelector('#audio_player').currentTime = 0
+      document.querySelector('#audio_player').load()
     },
     clearPlayList: function () {
       this.$store.dispatch(types.REMOVE_QUEUES)
