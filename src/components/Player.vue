@@ -28,11 +28,15 @@ div.card.blue-grey.darken-2.white-text.player
         i.material-icons.grey-text(v-else) skip_next
     div.sub-actions
       div.btn-flat.white-text
-        i.material-icons(@click='volumeUp') volume_up
+        i.material-icons(@click='toggleVolumeChangeMode') volume_up
       div.btn-flat.white-text(@click='changeLoop')
         i.material-icons(v-show="control.loop === 'no'") arrow_forward
         i.material-icons(v-show="control.loop === 'one'") repeat_one
         i.material-icons(v-show="control.loop === 'all'") repeat
+  div.volume-controller(v-show="volumeChangeMode")
+    i.material-icons.white-text volume_down
+    input.volume-range(type="range", min="0", max="100", v-model="volume", @change="onVolumeChanged")
+    i.material-icons.white-text volume_up
 </template>
 <script>
 import _ from 'lodash'
@@ -40,6 +44,12 @@ import * as types from '../vuex/mutation-types'
 import { changeLoop } from '../vuex/actions'
 
 export default {
+  data () {
+    return {
+      volumeChangeMode: false,
+      volume: 100
+    }
+  },
   vuex: {
     getters: {
       file: ({ player }) => player.file,
@@ -48,14 +58,6 @@ export default {
     },
     actions: {
       changeLoop
-    }
-  },
-  watch: {
-    'control.volume': function (volume) {
-      this.$els.audio.volume = volume
-    },
-    'control.muted': function (muted) {
-      this.$els.audio.muted = muted
     }
   },
   computed: {
@@ -82,7 +84,7 @@ export default {
       } else {
         return true
       }
-    },
+    }
   },
   methods: {
     play: function () {
@@ -133,15 +135,15 @@ export default {
     toggleMute: function () {
       this.$store.dispatch(types.AUDIO_TOGGLE_MUTE)
     },
-    volumeUp: function () {
-      this.$store.dispatch(types.AUDIO_VOLUME_UP)
-    },
-    volumeDown: function () {
-      this.$store.dispatch(types.AUDIO_VOLUME_DOWN)
+    onVolumeChanged: function () {
+      this.$els.audio.volume = this.$data.volume / 100
     },
     onClickSeekbar: function (e) {
       const parcentage = e.offsetX / this.$els.seekbar.offsetWidth
       this.$els.audio.currentTime = this.$els.audio.duration * parcentage
+    },
+    toggleVolumeChangeMode: function () {
+      this.$data.volumeChangeMode = !this.$data.volumeChangeMode
     }
   }
 }
@@ -213,5 +215,11 @@ $side-nav-width = 50%
 .controller
   padding: 8px 20px
   text-align: center
+.volume-controller
+  display: flex;
+  padding: 8px
+  .volume-range
+    margin: 0 8px
+    border: 0
 
 </style>
