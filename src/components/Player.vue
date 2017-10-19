@@ -16,28 +16,23 @@ div.card.blue-grey.darken-2.white-text.player
       div.seekbar-inner.red.darken-2(:style='{ width: seekingParcent }')
   div.card-action.controller
     div.play-btn-group
-      div.btn-container
-        i.material-icons(@click='playPrev', v-if='isAudioExists') skip_previous
+      div.btn-flat
+        i.material-icons.white-text(@click='playPrev', v-if='isAudioExists') skip_previous
         i.material-icons.grey-text(v-else) skip_previous
-      div.btn-container
+      div.btn-floating.waves-effect.waves-light.red
         i.material-icons(v-show='control.isPlaying', @click='pause') pause
         i.material-icons(v-show='!control.isPlaying', @click='play', v-if='isAudioExists') play_arrow
-        i.material-icons.grey-text(v-else) play_arrow
-      div.btn-container
-        i.material-icons(@click='playNext', v-if='isAudioExists') skip_next
+        i.material-icons(v-else) play_arrow
+      div.btn-flat
+        i.material-icons.white-text(@click='playNext', v-if='isAudioExists') skip_next
         i.material-icons.grey-text(v-else) skip_next
-    div.volume-btn-group
-      div.btn-container
-        i.material-icons(@click='volumeDown') remove
-      div.btn-container
-        i.material-icons(v-if='control.muted', @click='toggleMute') volume_off
-        i.material-icons(v-else, @click='toggleMute') volume_up
-      div.btn-container
-        i.material-icons(@click='volumeUp') add
-    div.btn-container.right(@click='changeLoop')
-      i.material-icons(v-show="control.loop === 'no'") arrow_forward
-      i.material-icons(v-show="control.loop === 'one'") repeat_one
-      i.material-icons(v-show="control.loop === 'all'") repeat
+    div.sub-actions
+      div.btn-flat.white-text
+        i.material-icons(@click='volumeUp') volume_up
+      div.btn-flat.white-text(@click='changeLoop')
+        i.material-icons(v-show="control.loop === 'no'") arrow_forward
+        i.material-icons(v-show="control.loop === 'one'") repeat_one
+        i.material-icons(v-show="control.loop === 'all'") repeat
 </template>
 <script>
 import _ from 'lodash'
@@ -183,21 +178,23 @@ $side-nav-width = 50%
 .audio
   display: none
 .play-btn-group
-  position: absolute
-  left: 0
-  right: 0
-  display: inline-block
+  display: flex
+  justify-content: center
+  align-items: center
   margin: auto
-  width: 120px
-.volume-btn-group
-  position: absolute
-  right: 70px
+  .btn-flat
+    padding: 0 8px
 .btn-container
   display: inline-block
-  margin-right: 10px
   cursor: pointer
-  &:last-child
-    margin-right: 0
+.sub-actions
+  position: absolute
+  top: 8px
+  right: 8px
+  margin: auto
+  height: 24px
+  .btn-flat
+    padding: 0 8px
 .boundbox
   animation: anime-boundbox 0.3s ease 0s 1 normal
 .seekbar
@@ -214,6 +211,7 @@ $side-nav-width = 50%
   border-radius: 5px
   transition: width .1s ease 0s
 .controller
-  padding: 10px 20px
+  padding: 8px 20px
+  text-align: center
 
 </style>
