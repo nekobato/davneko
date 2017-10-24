@@ -15,7 +15,7 @@ const mutations = {
     state.files = files
   },
   [ADD_DEPTH] (state, file, scrollTop) {
-    state.files[state.files.length-1].scrollTop = scrollTop
+    if (state.files.length) state.files[state.files.length-1].scrollTop = scrollTop
     state.files.push(file)
     localStorage.setItem('depth', JSON.stringify(state.files))
   },

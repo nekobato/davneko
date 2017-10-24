@@ -1,6 +1,7 @@
 debug = require('debug')('routes')
 express = require('express')
 mongoose = require('mongoose')
+audioDuration = require('../lib/audio-duration')
 path = require('path')
 fs = require('fs')
 config = require('./config')
@@ -48,6 +49,7 @@ router.get "/api/path", (req, res, next) ->
         name: p
         path: path.join(reqpath, p)
         type: if stats.isDirectory() then 'directory' else 'file'
+        duration: if /\.(ogg|wav|mp3|mp4|aac|m4a)$/.test(p) then audioDuration.getAudioDuration(path.join(targetpath, p)) else 0
     res
     .type 'json'
     .send finder
@@ -77,15 +79,19 @@ router.get "/api/pathr", (req, res, next) ->
   res.status(500).end("Not exists: #{targetpath}") if not fs.existsSync(targetpath)
 
   if fs.statSync(targetpath).isDirectory()
+    recursiveFiles = readirRecursive(targetpath)
+
+    if recursiveFiles.length > 200
+      res.status(200).type('json').end({})
+
     files = []
-    for p in readirRecursive(targetpath) when not /^\..*/.test(p)
+    for p in recursiveFiles when not /^\..*/.test(p)
       stats = fs.statSync path.join(targetpath, p)
       files.push
         name: path.basename(p)
         path: path.join(reqpath, p)
         type: if stats.isDirectory() then 'directory' else 'file'
-      if files.length > 200
-        return res.status(500).end("Target Directory include over 200 files. Response is aborted.")
+        duration: if /\.(ogg|wav|mp3|mp4|aac|m4a)$/.test(p) then audioDuration.getAudioDuration(path.join(targetpath, p)) else 0
     res.type('json').send(files)
   else
     res.status(500).end('Path must be a directory.')

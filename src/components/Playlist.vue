@@ -12,6 +12,7 @@ div.white.playlist
         @click.prevent.stop='removeQueue($index)',
         :class='{ "white-text": control.playIndex === $index, "grey-text": control.playIndex !== $index }') close
       span.truncate {{ queue.name }}
+      span.duration(v-if='queue.duration') {{ readableDuration(queue.duration) }}
 </template>
 <script>
 import Sortable from 'sortablejs'
@@ -40,6 +41,9 @@ export default {
     },
     clearPlayList: function () {
       this.$store.dispatch(types.REMOVE_QUEUES)
+    },
+    readableDuration: function (duration) {
+      return Math.floor(duration / 60) + ':' + ('00' + Math.floor(duration % 60)).slice(-2)
     }
   },
   ready () {
@@ -100,5 +104,13 @@ $side-nav-width = 50%
   right: 5px
   display: none
   position: absolute
+}
+.duration {
+  position: absolute
+  top: 0
+  right: 8px
+  bottom: 0
+  margin: auto
+  height: 1.5em
 }
 </style>

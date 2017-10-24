@@ -5,7 +5,8 @@ import _ from 'lodash'
 const defaultDir = {
   path: '/',
   name: 'me',
-  type: 'directory'
+  type: 'directory',
+  scrollTop: 0
 }
 
 function forceRestart () {
@@ -58,15 +59,15 @@ export const selectDepth = ({ dispatch, state }, index) => {
 }
 
 export const fetchDir = ({ dispatch }, file) => {
-  console.log(file)
   dispatch(types.START_FETCH_DIR)
   api.fetchDir(file.path)
   .then( (files) => {
     dispatch(types.RECEIVE_DIR, files)
-    dispatch(types.ADD_DEPTH, file)
+    console.log(file)
+    dispatch(types.ADD_DEPTH, file, 0)
   })
   .catch( (err) => {
-    console.log(err.responseType)
+    if (!err.response) return console.log(err)
     // lost auth
     if (err.response.status === 403) {
       forceRestart()
