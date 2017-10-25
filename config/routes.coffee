@@ -81,7 +81,7 @@ router.get "/api/pathr", (req, res, next) ->
   if fs.statSync(targetpath).isDirectory()
     recursiveFiles = readirRecursive(targetpath)
 
-    if recursiveFiles.length > 200
+    if recursiveFiles.length > 300
       res.status(200).type('json').end({})
 
     files = []
