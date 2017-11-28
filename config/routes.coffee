@@ -1,7 +1,6 @@
 debug = require('debug')('routes')
 express = require('express')
 mongoose = require('mongoose')
-audioDuration = require('../lib/audio-duration')
 path = require('path')
 fs = require('fs')
 config = require('./config')
@@ -49,7 +48,6 @@ router.get "/api/path", (req, res, next) ->
         name: p
         path: path.join(reqpath, p)
         type: if stats.isDirectory() then 'directory' else 'file'
-        duration: if /\.(ogg|wav|mp3|mp4|aac|m4a)$/.test(p) then audioDuration.getAudioDuration(path.join(targetpath, p)) else 0
     res
     .type 'json'
     .send finder
@@ -91,7 +89,6 @@ router.get "/api/pathr", (req, res, next) ->
         name: path.basename(p)
         path: path.join(reqpath, p)
         type: if stats.isDirectory() then 'directory' else 'file'
-        duration: if /\.(ogg|wav|mp3|mp4|aac|m4a)$/.test(p) then audioDuration.getAudioDuration(path.join(targetpath, p)) else 0
     res.type('json').send(files)
   else
     res.status(500).end('Path must be a directory.')
