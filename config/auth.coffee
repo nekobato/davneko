@@ -6,7 +6,7 @@ _ = require('lodash')
 
 passport.use new LocalStrategy (username, password, done) ->
   debug "LocalStrategy #{username} #{password}"
-  user = _.find(config.users, { username: username, password: password })
+  user = _.findOne(config.users, { username: username, password: password })
   if user
     return done(null, user)
   else
