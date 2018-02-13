@@ -2,17 +2,22 @@ debug = require('debug')('application')
 bodyParser = require("body-parser")
 express = require("express")
 passport = require('passport')
+session = require('express-session')
+MongoStore = require('connect-mongo')(session)
 path = require("path")
 app = express()
 
 pkg = require('../package')
 config = require('./config')
 
-app.use require('express-session')({
-  secret: config.secret,
-  resave: false,
-  saveUninitialized: false
-})
+app.use session
+  secret: config.secret
+  resave: true
+  saveUninitialized: true
+  store: new MongoStore
+    url: 'mongodb://root@localhost/davneko_session'
+  cookie:
+    httpOnly: false
 
 app.use passport.initialize()
 app.use passport.session()
