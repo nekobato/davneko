@@ -8,5 +8,12 @@ html
     link(rel='shortcut icon' href='/favicon.ico')
     link(rel='canonical' href="#{base_uri}")
     script(src='/main.js', type='text/javascript', async, defer)
+    script(async src="https://www.googletagmanager.com/gtag/js?id=UA-55009135-5")
+    script(async).
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', #{ga_id});
+
 
     block content

@@ -8,15 +8,18 @@ app = express()
 router = express.Router()
 readirRecursive = require('fs-readdir-recursive')
 
+base_locals =
+  ga_id: config.google_analytics_id
+
 router.get "/", (req, res, next) ->
   if req.isAuthenticated()
-    res.render "explore"
+    res.render "explore", base_locals
   else
-    res.render "auth"
+    res.render "auth", base_locals
   return
 
 router.get "/failure", (req, res, next) ->
-  res.render "auth"
+  res.render "auth", base_locals
   return
 
 router.get "/logout", (req, res, next) ->

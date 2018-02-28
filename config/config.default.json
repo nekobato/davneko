@@ -3,5 +3,6 @@
   "basepath": "/your/music/directory",
   "users": [
     { "id": 1, "username": "username", "password": "password" }
-  ]
+  ],
+  "google_analytics_id": ""
 }
