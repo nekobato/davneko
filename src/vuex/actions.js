@@ -63,11 +63,10 @@ export const fetchDir = ({ dispatch }, file) => {
   api.fetchDir(file.path)
   .then( (files) => {
     dispatch(types.RECEIVE_DIR, files)
-    console.log(file)
     dispatch(types.ADD_DEPTH, file, 0)
   })
   .catch( (err) => {
-    if (!err.response) return console.log(err)
+    if (!err.response) return console.warn(err)
     // lost auth
     if (err.response.status === 403) {
       forceRestart()
