@@ -61,7 +61,7 @@ export default {
       return this.filelist
     },
     file2IconName(file) {
-      if (/\.(ogg|wav|mp3|aac|m4a)$/.test(file.name)) {
+      if (/\.(ogg|wav|mp3|aac|m4a)$/i.test(file.name)) {
         return "file_audio"
       }
       if (file.type === "directory") {
