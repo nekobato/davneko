@@ -7,6 +7,7 @@ export const ADD_DEPTH = 'ADD_DEPTH'
 export const UPDATE_DEPTH = 'UPDATE_DEPTH'
 
 export const ADD_QUEUE = 'ADD_QUEUE'
+export const ADD_QUEUES = 'ADD_QUEUES'
 export const REMOVE_QUEUE = 'REMOVE_QUEUE'
 export const REMOVE_QUEUES = 'REMOVE_QUEUES'
 export const UPDATE_QUEUES = 'UPDATE_QUEUES'

@@ -1,28 +1,28 @@
-<template lang="jade">
+<template lang="pug">
 div.blue-grey.lighten-2.breadcrumbs
   div.progress(v-show="status.isFetching")
     div.indeterminate
   span.blue-grey-text.text-lighten-3.dirname(v-show="!status.isFetching") {{ headFileName }}
   div.breadcrumbs-content
-    i.material-icons.depth(v-show="!status.isFetching", v-for='file in files', track-by="$index", @click='selectDepth($index)') navigate_next
+    i.material-icons.depth(v-show="!status.isFetching", v-for='(file, index) in files', :key="index", @click='selectDepth($index)') navigate_next
 </template>
 <script>
-import { selectDepth } from '../vuex/actions'
-
 export default {
-  vuex: {
-    getters: {
-      files: ({ depth }) => depth.files,
-      status: ({ uiStatus }) => uiStatus.filer
-    },
-    actions: {
-      selectDepth
-    }
-  },
   computed: {
     headFileName() {
       if (!this.files.length) return ""
       return this.files[this.files.length-1].name
+    },
+    files () {
+      return this.$store.state.depth.files
+    },
+    status () {
+      return this.$store.state.uiStatus.filer
+    }
+  },
+  methods: {
+    selectDepth () {
+      this.$store.dispatch('selectDepth')
     }
   }
 }

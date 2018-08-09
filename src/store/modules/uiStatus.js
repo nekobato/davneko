@@ -10,7 +10,6 @@ const state = {
 }
 
 const mutations = {
-
   [START_FETCH_DIR] (state) {
     state.filer.isFetching = true
   },

@@ -11,7 +11,6 @@ const state = {
 }
 
 const mutations = {
-
   [ADD_QUEUE] (state, file) {
     if (isAudioFile(file)) {
       state.queues.push(file)

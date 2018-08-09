@@ -1,8 +1,20 @@
 import axios from 'axios'
 
+const api = axios.create({
+  baseURL: process.env === 'production' ? '/' : 'http://localhost:3000/'
+})
+
+export function fetchStatus () {
+  return api.get('/api/status')
+}
+
+export function postAuth (formData) {
+  return api.post('/auth', formData)
+}
+
 export const fetchDir = (path) => {
   return new Promise((resolve, reject) => {
-    axios.get('/api/path', {
+    api.get('/api/path', {
       params: { path: path },
       responseType: 'json'
     })
@@ -10,7 +22,6 @@ export const fetchDir = (path) => {
       resolve(res.data)
     })
     .catch((err) => {
-      console.log(err)
       reject(err)
     })
   })
@@ -18,7 +29,7 @@ export const fetchDir = (path) => {
 
 export const fetchDirRecursive = (file) => {
   return new Promise((resolve, reject) => {
-    axios.get('/api/pathr', {
+    api.get('/api/pathr', {
       params: { path: file.path },
       responseType: 'json'
     })

@@ -1,8 +1,8 @@
-<template lang="jade">
+<template lang="pug">
 div.white.playlist
   div.blue-grey.actions
     i.material-icons.action(@click='clearPlayList') clear_all
-  ul.collection.white.blue-grey-text.darken-4.left-align.queues(v-el:playlist)
+  ul.collection.white.blue-grey-text.darken-4.left-align.queues(ref='playlist')
     li.collection-item(
       v-for='queue in queues', track-by="$index",
       @click='selectAudio($index)',
@@ -15,21 +15,24 @@ div.white.playlist
 </template>
 <script>
 import Sortable from 'sortablejs'
-import * as types from '../vuex/mutation-types'
-import { removeQueue, removeQueues } from '../vuex/actions'
+import * as types from '../store/mutation-types'
 
 export default {
-  vuex: {
-    getters: {
-      queues: ({ playlist }) => playlist.queues,
-      control: ({ player }) => player.control
+  computed: {
+    queues () {
+      return this.$store.state.playlist.queues
     },
-    actions: {
-      removeQueue,
-      removeQueues
+    control () {
+      return this.$store.state.player.control
     }
   },
   methods: {
+    removeQueue () {
+      this.$store.dispatch('removeQueue')
+    },
+    removeQueues () {
+      this.$store.dispatch('removeQueues')
+    },
     selectAudio: function (index) {
       this.$store.dispatch(types.PLAY_QUEUE, this.queues[index], index)
     },
@@ -41,8 +44,8 @@ export default {
       this.$store.dispatch(types.REMOVE_QUEUES)
     }
   },
-  ready () {
-    Sortable.create(this.$els.playlist, {
+  mounted () {
+    Sortable.create(this.$refs.playlist, {
       onEnd: (e) => {
         this.$store.dispatch(types.UPDATE_QUEUES, e)
       }

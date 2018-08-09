@@ -24,7 +24,4 @@ passport.deserializeUser (id, done) ->
   else
     new Error('User ' + id + ' does not exist')
 
-module.exports = passport.authenticate 'local', {
-  successRedirect: '/'
-  failureRedirect: '/failure'
-}
+module.exports = passport

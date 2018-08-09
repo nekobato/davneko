@@ -1,5 +1,5 @@
-<template lang="jade">
-div.filer(:class='isShow')
+<template lang="pug">
+div.filer
   div.card.blue-grey.darken-2.white-text.actions
     div.card-action.actions-content
       div.input-field
@@ -10,7 +10,7 @@ div.filer(:class='isShow')
       div.btn.right.action-btn.col.s2(@click='addDir2Queue')
         i.material-icons playlist_add
   breadcrumbs
-  ul.collection.filelist(v-el:filelist-box)
+  ul.collection.filelist(ref='filelist-box')
     li.collection-item.grey-text.text-darken-1.file-item(
       v-for='file in filelist | filelistFilter',
       track-by="$index"
@@ -20,21 +20,8 @@ div.filer(:class='isShow')
 <script>
 import _ from 'lodash'
 import Breadcrumbs from './BreadCrumbs.vue'
-import { fetchDir, addDir2Queue, selectFile, ressurectDepth } from '../vuex/actions'
 
 export default {
-  vuex: {
-    getters: {
-      filelist: ({ filelist }) => filelist.all,
-      depthDirs: ({ depth }) => depth.files
-    },
-    actions: {
-      fetchDir,
-      addDir2Queue,
-      selectFile,
-      ressurectDepth
-    }
-  },
   components: {
     Breadcrumbs
   },
@@ -43,14 +30,22 @@ export default {
       searchText: ''
     }
   },
+  computed: {
+    filelist () {
+      return this.$store.state.filelist.all
+    },
+    depthDirs () {
+      return this.$store.state.depth.files
+    }
+  },
   watch: {
     ['depthDirs'] (dirs, oldDirs) {
       if (dirs[dirs.length-1] && dirs[dirs.length-1].scrollTop) {
-        this.$els.filelistBox.scrollTop = dirs[dirs.length-1].scrollTop
+        this.$refs.filelistBox.scrollTop = dirs[dirs.length-1].scrollTop
       }
     }
   },
-  filters: {
+  methods: {
     filelistFilter (filelist) {
       if (this.$data.searchText) {
         return _.filter(filelist, (file) => {
@@ -60,27 +55,28 @@ export default {
       }
       return this.filelist
     },
-    file2IconName(file) {
-      if (/\.(ogg|wav|mp3|aac|m4a)$/.test(file.name)) {
-        return "file_audio"
-      }
-      if (file.type === "directory") {
-        return "folder"
-      }
-    }
-  },
-  methods: {
-    // only handling model
+    fetchDir () {
+      this.$store.dispatch('fetchDir')
+    },
+    addDir2Queue () {
+      this.$store.dispatch('addDir2Queue')
+    },
+    selectFile () {
+      this.$store.dispatch('selectFile')
+    },
+    ressurectDepth () {
+      this.$store.dispatch('ressurectDepth')
+    },
     clearSearch () {
       this.$data.searchText = ''
     },
     onClickFile (file) {
-      this.selectFile(file, this.$els.filelistBox.scrollTop)
+      this.selectFile(file, this.$refs.filelistBox.scrollTop)
     }
   },
-  created() {
+  mounted() {
     // start or resurrect
-    this.ressurectDepth()
+    this.$store.dispatch('ressurectDepth')
   }
 }
 </script>

@@ -1,8 +1,8 @@
-<template lang="jade">
+<template lang="pug">
 div.card.blue-grey.darken-2.white-text.player
   div.card-content.player-content
     audio.audio#audio_player(
-      v-el:audio,
+      ref='audio',
       :loop='isLoopOne',
       :src='encodedAudioURL',
       @play='onPlay'
@@ -12,7 +12,7 @@ div.card.blue-grey.darken-2.white-text.player
       autoplay)
     div.audio-title-container
       span.card-title.audio-title {{ file.name || 'No Audio' }}
-    div.seekbar.black(v-el:seekbar, @click='onClickSeekbar($event)')
+    div.seekbar.black(ref='seekbar', @click='onClickSeekbar($event)')
       div.seekbar-inner.red.darken-2(:style='{ width: seekingParcent }')
   div.card-action.controller
     div.play-btn-group
@@ -41,37 +41,39 @@ div.card.blue-grey.darken-2.white-text.player
 </template>
 <script>
 import _ from 'lodash'
-import * as types from '../vuex/mutation-types'
-import { changeLoop } from '../vuex/actions'
+import * as types from '../store/mutation-types'
 
 export default {
-  vuex: {
-    getters: {
-      file: ({ player }) => player.file,
-      control: ({ player }) => player.control,
-      playlist: ({ playlist }) => playlist
-    },
-    actions: {
-      changeLoop
-    }
-  },
   watch: {
     'control.volume': function (volume) {
-      this.$els.audio.volume = volume
+      this.$refs.audio.volume = volume
     },
     'control.muted': function (muted) {
-      this.$els.audio.muted = muted
+      this.$refs.audio.muted = muted
     }
   },
   computed: {
-    encodedAudioURL: function() {
+    file () {
+      return this.$store.state.player.file
+    },
+    control () {
+      return this.$store.state.player.control
+    },
+    playlist () {
+      return this.$store.state.playlist
+    },
+    encodedAudioURL: function () {
       if (_.isEmpty(this.file)) return false
       return `/api/path?path=${encodeURIComponent(this.file.path)}`
     },
     seekingParcent: {
       cache: false,
       get: function () {
-        return (this.control.currentTime / this.$els.audio.duration * 100) + '%'
+        if (this.$refs.audio) {
+          return (this.control.currentTime / this.$refs.audio.duration * 100) + '%'
+        } else {
+          return ''
+        }
       }
     },
     isLoopOne: function () {
@@ -90,11 +92,14 @@ export default {
     },
   },
   methods: {
+    changeLoop () {
+      this.$store.dispatch('changeLoop')
+    },
     play: function () {
-      this.$els.audio.play()
+      this.$refs.audio.play()
     },
     pause: function () {
-      this.$els.audio.pause()
+      this.$refs.audio.pause()
     },
     playPrev: function () {
       const index = this.control.playIndex
@@ -124,11 +129,10 @@ export default {
       this.$store.dispatch(types.AUDIO_PAUSED)
     },
     onTimeUpdate: function () {
-      this.$store.dispatch(types.AUDIO_TIME_UPDATED, this.$els.audio.currentTime)
+      this.$store.dispatch(types.AUDIO_TIME_UPDATED, this.$refs.audio.currentTime)
     },
     onEnded: function () {
       this.$store.dispatch(types.AUDIO_ENDED)
-      console.log(this.control.playIndex, this.playlist.queues.length)
       if (this.control.loop === 'no' && (this.control.playIndex === this.playlist.queues.length - 1)) {
         return
       } else if (this.control.loop !== 'one') {
@@ -145,8 +149,8 @@ export default {
       this.$store.dispatch(types.AUDIO_VOLUME_DOWN)
     },
     onClickSeekbar: function (e) {
-      const parcentage = e.offsetX / this.$els.seekbar.offsetWidth
-      this.$els.audio.currentTime = this.$els.audio.duration * parcentage
+      const parcentage = e.offsetX / this.$refs.seekbar.offsetWidth
+      this.$refs.audio.currentTime = this.$refs.audio.duration * parcentage
     }
   }
 }

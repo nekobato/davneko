@@ -8,30 +8,18 @@ app = express()
 router = express.Router()
 readirRecursive = require('fs-readdir-recursive')
 
-router.get "/", (req, res, next) ->
+router.get "/api/logout", (req, res, next) ->
   if req.isAuthenticated()
-    res.render "explore"
-  else
-    res.render "auth"
-  return
-
-router.get "/failure", (req, res, next) ->
-  res.render "auth"
-  return
-
-router.get "/logout", (req, res, next) ->
-  if req.isAuthenticated()
-    console.log "### logout"
     req.logout()
-    res.redirect '/'
-  else
-    res.redirect '/'
+  res.send { login: false }
 
+router.get "/api/status", (req, res, next) ->
+  if req.isAuthenticated()
+    res.send { login: true }
+  else
+    res.send { login: false }
 
 router.get "/api/path", (req, res, next) ->
-
-  console.log 'path:', req.query.path
-
   return res.status(403).send('not authenticated') if not req.isAuthenticated()
 
   reqpath = path.normalize(req.query.path || '/')
