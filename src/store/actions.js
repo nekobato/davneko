@@ -8,6 +8,10 @@ const defaultDir = {
   type: 'directory'
 }
 
+function forceRestart () {
+  window.location.reload()
+}
+
 export const ressurectDepth = ({ commit }) => {
   let depth = JSON.parse(window.localStorage.getItem('depth'))
   if (_.isEmpty(depth)) {
@@ -22,16 +26,16 @@ export const selectFile = ({ commit }, file, scrollTop) => {
   if (file.type === 'directory') {
     commit(types.START_FETCH_DIR)
     api.fetchDir(file.path)
-    .then( (files) => {
-      commit(types.RECEIVE_DIR, files)
-      commit(types.ADD_DEPTH, file, scrollTop)
-    })
-    .catch( (err) => {
-      // lost auth
-      if (err.response.status === 403) {
-        // forceRestart()
-      }
-    })
+      .then((files) => {
+        commit(types.RECEIVE_DIR, files)
+        commit(types.ADD_DEPTH, file, scrollTop)
+      })
+      .catch((err) => {
+        // lost auth
+        if (err.response.status === 403) {
+          // forceRestart()
+        }
+      })
   } else {
     commit(types.ADD_QUEUE, file)
   }
@@ -41,26 +45,26 @@ export const selectDepth = ({ commit, state }, index) => {
   const depth = state.depth.files
   commit(types.START_FETCH_DIR)
   api.fetchDir(depth[index].path)
-  .then( (files) => {
-    commit(types.RECEIVE_DIR, files)
-    commit(types.UPDATE_DEPTH, index)
-  })
-  .catch( (err) => {
-    // lost auth
-    if (err.response.status === 403) {
-      forceRestart()
-    }
-  })
+    .then((files) => {
+      commit(types.RECEIVE_DIR, files)
+      commit(types.UPDATE_DEPTH, index)
+    })
+    .catch((err) => {
+      // lost auth
+      if (err.response.status === 403) {
+        forceRestart()
+      }
+    })
 }
 
 export const fetchDir = ({ commit }, file) => {
   commit(types.START_FETCH_DIR)
   api.fetchDir(file.path)
-    .then( (files) => {
+    .then((files) => {
       commit(types.RECEIVE_DIR, files)
       commit(types.ADD_DEPTH, file)
     })
-    .catch( (err) => {
+    .catch((err) => {
       // Network Error
       if (!err.response) {
         return
@@ -72,7 +76,7 @@ export const fetchDir = ({ commit }, file) => {
       // lost dir
       if (err.response.status === 500) {
         localStorage.setItem('depth', JSON.stringify([]))
-        ressurectDepth({ commit })
+        // ressurectDepth({ commit })
       }
     })
 }
@@ -84,15 +88,15 @@ export const addQueue = ({ commit }, file) => {
 // Add Dir by Recursive
 export const addDir2Queue = ({ commit, state }) => {
   api.fetchDirRecursive(state.depth.files[state.depth.files.length - 1])
-  .then( (files) => {
-    commit(types.ADD_QUEUES, files)
-  })
-  .catch( (err) => {
-    // lost auth
-    if (err.response.status === 403) {
-      forceRestart()
-    }
-  })
+    .then((files) => {
+      commit(types.ADD_QUEUES, files)
+    })
+    .catch((err) => {
+      // lost auth
+      if (err.response.status === 403) {
+        forceRestart()
+      }
+    })
 }
 
 export const removeQueue = ({ commit }, index) => {

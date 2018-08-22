@@ -8,20 +8,23 @@ app = express()
 router = express.Router()
 readirRecursive = require('fs-readdir-recursive')
 
-router.get "/api/logout", (req, res, next) ->
-  if req.isAuthenticated()
-    req.logout()
-  res.send { login: false }
+DEV = app.get('env') is 'development'
 
-router.get "/api/status", (req, res, next) ->
-  if req.isAuthenticated()
-    res.send { login: true }
+router.get "/status", (req, res, next) ->
+  isLogin = req.isAuthenticated()
+  res.send({ login: isLogin })
+
+router.use (req, res, next) ->
+  if DEV or req.isAuthenticated()
+    next()
   else
-    res.send { login: false }
+    return res.status(403).send({ error: 'not authenticated' })
 
-router.get "/api/path", (req, res, next) ->
-  return res.status(403).send('not authenticated') if not req.isAuthenticated()
+router.get "/logout", (req, res, next) ->
+  req.logout()
+  res.send({ login: false })
 
+router.get "/path", (req, res, next) ->
   reqpath = path.normalize(req.query.path || '/')
   return res.status(500).send('bad query') if /^\.\./.test reqpath
 
@@ -53,10 +56,7 @@ router.get "/api/path", (req, res, next) ->
       res.status(err.status).end() if err
 
 
-router.get "/api/pathr", (req, res, next) ->
-
-  res.status(403).end() if not req.isAuthenticated()
-
+router.get "/pathr", (req, res, next) ->
   reqpath = path.normalize(req.query.path || '/')
   res.status(500).end('Bad query') if /^\.\./.test reqpath
 

@@ -10,10 +10,9 @@ div.filer
       div.btn.right.action-btn.col.s2(@click='addDir2Queue')
         i.material-icons playlist_add
   breadcrumbs
-  ul.collection.filelist(ref='filelist-box')
+  ul.collection.filelist(ref='filelist')
     li.collection-item.grey-text.text-darken-1.file-item(
-      v-for='file in filelist | filelistFilter',
-      track-by="$index"
+      v-for='file in filelistFilter(filelist)'
       @click='onClickFile(file)')
       span.truncate {{file.name}}
 </template>
@@ -41,7 +40,7 @@ export default {
   watch: {
     ['depthDirs'] (dirs, oldDirs) {
       if (dirs[dirs.length-1] && dirs[dirs.length-1].scrollTop) {
-        this.$refs.filelistBox.scrollTop = dirs[dirs.length-1].scrollTop
+        this.$refs['filelist'].scrollTop = dirs[dirs.length-1].scrollTop
       }
     }
   },
@@ -71,7 +70,7 @@ export default {
       this.$data.searchText = ''
     },
     onClickFile (file) {
-      this.selectFile(file, this.$refs.filelistBox.scrollTop)
+      this.selectFile(file, this.$refs['filelist'].scrollTop)
     }
   },
   mounted() {

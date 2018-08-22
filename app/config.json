@@ -1,0 +1,8 @@
+{
+  "secret": "nekobato",
+  "basepath": "/Users/nekobato/Music",
+  "users": [
+    { "id": 1, "username": "n", "password": "nnn" },
+    { "id": 2, "username": "", "password": "" }
+  ]
+}

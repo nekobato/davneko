@@ -10,6 +10,10 @@ export function fetchStatus () {
 
 export function postAuth (formData) {
   return api.post('/auth', formData)
+    .then((res) => {
+      console.log(res)
+      api.defaults.headers.common['Cookie'] = res.headers['set-cookie']
+    })
 }
 
 export const fetchDir = (path) => {
@@ -18,12 +22,12 @@ export const fetchDir = (path) => {
       params: { path: path },
       responseType: 'json'
     })
-    .then((res) => {
-      resolve(res.data)
-    })
-    .catch((err) => {
-      reject(err)
-    })
+      .then((res) => {
+        resolve(res.data)
+      })
+      .catch((err) => {
+        reject(err)
+      })
   })
 }
 
@@ -33,11 +37,11 @@ export const fetchDirRecursive = (file) => {
       params: { path: file.path },
       responseType: 'json'
     })
-    .then((res) => {
-      resolve(res.data)
-    })
-    .catch((err) => {
-      reject(err)
-    })
+      .then((res) => {
+        resolve(res.data)
+      })
+      .catch((err) => {
+        reject(err)
+      })
   })
 }
