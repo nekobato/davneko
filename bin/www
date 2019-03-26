@@ -1,14 +1,10 @@
 #!/usr/bin/env node
 
-require('coffee-script/register');
-var debug = require('debug')('express-template');
-var app = require('../config/app');
-//var io = require('../config/io');
+const debug = require('debug')('express-template');
+const app = require('../config/app');
 
 app.set('port', process.env.PORT || 3000);
 
-var server = app.listen(app.get('port'), function() {
+pp.listen(app.get('port'), () => {
   debug('Express server listening on port ' + server.address().port);
 });
-
-//io.listen(server);

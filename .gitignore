@@ -11,3 +11,5 @@ config/config.json
 *.rdb
 
 public/
+dist/
+!dist/favicon.ico
