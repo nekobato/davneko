@@ -1,141 +1,176 @@
-<template lang="jade">
-div.filer(:class='isShow')
-  div.card.blue-grey.darken-2.white-text.actions
-    div.card-action.actions-content
-      div.input-field
-        input#search_input.search-input(type='text', v-model='searchText')
-        label.search-label(for='search_input', v-show='!searchText')
-          i.material-icons search
-        i.material-icons.search-clear(v-show='searchText', @click='clearSearch') close
-      div.btn.right.action-btn.col.s2(@click='addDir2Queue')
-        i.material-icons playlist_add
-  breadcrumbs
-  ul.collection.filelist(v-el:filelist-box)
-    li.collection-item.grey-text.text-darken-1.file-item(
-      v-for='file in filelist | filelistFilter',
-      track-by="$index"
-      @click='onClickFile(file)')
-      span.truncate {{file.name}}
+<template>
+  <div class="filer">
+    <div class="card blue-grey darken-2 white-text actions">
+      <div class="card-action actions-content">
+        <div class="input-field">
+          <input class="search-input" id="search_input" type="text" v-model="searchText">
+          <label class="search-label" for="search_input" v-show="!searchText">
+            <i class="material-icons">search</i>
+          </label>
+          <i class="material-icons search-clear" v-show="searchText" @click="clearSearch">close</i>
+        </div>
+        <div class="btn right action-btn col s2" @click="addDir2Queue">
+          <i class="material-icons">playlist_add</i>
+        </div>
+      </div>
+    </div>
+    <Breadcrumbs/>
+    <ul class="collection filelist" ref="filelist-box">
+      <li
+        class="collection-item grey-text text-darken-1 file-item"
+        v-for="(file, index) in filelistFilter"
+        :key="index"
+        @click="onClickFile(file)"
+      >
+        <span class="truncate">{{file.name}}</span>
+      </li>
+    </ul>
+  </div>
 </template>
 <script>
-import _ from 'lodash'
-import Breadcrumbs from './BreadCrumbs.vue'
-import { fetchDir, addDir2Queue, selectFile, ressurectDepth } from '../vuex/actions'
+import _ from "lodash";
+import Breadcrumbs from "./BreadCrumbs.vue";
+import { mapActions } from "vuex";
 
 export default {
-  vuex: {
-    getters: {
-      filelist: ({ filelist }) => filelist.all,
-      depthDirs: ({ depth }) => depth.files
-    },
-    actions: {
-      fetchDir,
-      addDir2Queue,
-      selectFile,
-      ressurectDepth
-    }
-  },
   components: {
     Breadcrumbs
   },
-  data () {
+  data() {
     return {
-      searchText: ''
-    }
+      searchText: ""
+    };
   },
   watch: {
-    ['depthDirs'] (dirs, oldDirs) {
-      if (dirs[dirs.length-1] && dirs[dirs.length-1].scrollTop) {
-        this.$els.filelistBox.scrollTop = dirs[dirs.length-1].scrollTop
+    ["depthDirs"](dirs, _) {
+      if (dirs[dirs.length - 1] && dirs[dirs.length - 1].scrollTop) {
+        this.$refs.filelistBox.scrollTop = dirs[dirs.length - 1].scrollTop;
       }
     }
   },
   filters: {
-    filelistFilter (filelist) {
+    filelistFilter(filelist) {
       if (this.$data.searchText) {
-        return _.filter(filelist, (file) => {
-          const re = new RegExp(this.$data.searchText, 'g')
-          return re.test(file.name)
-        })
+        return _.filter(filelist, file => {
+          const re = new RegExp(this.$data.searchText, "g");
+          return re.test(file.name);
+        });
       }
-      return this.filelist
+      return this.filelist;
+    }
+  },
+  computed: {
+    filelist() {
+      this.$store.state.filelist.all;
     },
-    file2IconName(file) {
-      if (/\.(ogg|wav|mp3|aac|m4a)$/i.test(file.name)) {
-        return "file_audio"
+    depthDirs() {
+      this.$store.state.depth.files;
+    },
+    filelistFilter() {
+      if (this.$data.searchText) {
+        return _.filter(this.filelist, file => {
+          const re = new RegExp(this.$data.searchText, "g");
+          return re.test(file.name);
+        });
       }
-      if (file.type === "directory") {
-        return "folder"
-      }
+      return this.filelist;
     }
   },
   methods: {
+    ...mapActions(["fetchDir", "addDir2Queue", "selectFile", "ressurectDepth"]),
     // only handling model
-    clearSearch () {
-      this.$data.searchText = ''
+    clearSearch() {
+      this.$data.searchText = "";
     },
-    onClickFile (file) {
-      this.selectFile(file, this.$els.filelistBox.scrollTop)
+    onClickFile(file) {
+      this.selectFile(file, this.$refs.filelistBox.scrollTop);
     }
   },
-  created() {
+  mounted() {
     // start or resurrect
-    this.ressurectDepth()
+    this.ressurectDepth();
   }
-}
+};
 </script>
 <style lang="stylus" scoped>
-$width-pc = 992px
+$keyframes filer-arrival {
+  0% {
+    left: 30%;
+  }
 
-$keyframes filer-arrival
-  0%
-    left: 30%
-  100%
-    left: 0
+  100% {
+    left: 0;
+  }
+}
 
-.filer
-  position: absolute
-  left: -440px
-  right: 0
-  display: flex
-  flex-direction: column
-  margin: auto
-  width: 440px
-  height: 100%
-  z-index: 1
-  transition: left 0.4s ease 0s
-  @media (max-width: $width-pc)
-    left: 0
-.actions
-  margin-bottom: 0
-.actions-content
-  padding: 10px 20px
-.collection
-  li.not-selectable
-    &:hover
-      background: white
-.action-btn
-  margin: 0 5px 0 0
-  &:last-child
-    margin: 0
-.input-field
-  display: inline-block
-  margin: 0
-  width: 160px
-.search-input
-  margin: 0
-  height: 36px
-.search-label
-  top: 0.5rem
-  left: auto
-  right: 0.25rem
-.search-clear
-  position: absolute
-  top: 0.5rem
-  right: 0.25rem
-  cursor: pointer
-.filelist
-  margin-top: 0
-  overflow-x: hidden
-  overflow-y: scroll
+.filer {
+  position: absolute;
+  left: -440px;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  width: 440px;
+  height: 100%;
+  z-index: 1;
+  transition: left 0.4s ease 0s;
+
+  @media (max-width: 992px) {
+    left: 0;
+  }
+}
+
+.actions {
+  margin-bottom: 0;
+}
+
+.actions-content {
+  padding: 10px 20px;
+}
+
+.collection {
+  li.not-selectable {
+    &:hover {
+      background: white;
+    }
+  }
+}
+
+.action-btn {
+  margin: 0 5px 0 0;
+
+  &:last-child {
+    margin: 0;
+  }
+}
+
+.input-field {
+  display: inline-block;
+  margin: 0;
+  width: 160px;
+}
+
+.search-input {
+  margin: 0;
+  height: 36px;
+}
+
+.search-label {
+  top: 0.5rem;
+  left: auto;
+  right: 0.25rem;
+}
+
+.search-clear {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.25rem;
+  cursor: pointer;
+}
+
+.filelist {
+  margin-top: 0;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
 </style>
