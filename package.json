@@ -18,7 +18,6 @@
     "express-session": "^1.15.6",
     "fs-readdir-recursive": "^1.1.0",
     "jade": "1.11.0",
-    "kerberos": "0.0.19",
     "lodash": "^3.10.1",
     "material-design-icons": "2.2.3",
     "materialize-css": "0.97.6",
