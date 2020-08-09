@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _ from "lodash";
 import {
   PLAY_QUEUE,
   ADD_QUEUE,
@@ -9,13 +9,13 @@ import {
   AUDIO_TIME_UPDATED,
   AUDIO_ENDED,
   CHANGE_LOOP,
-} from '../mutation-types';
+} from "../mutation-types";
 
 const state = {
   file: {},
   control: {
     isPlaying: false,
-    loop: 'no',
+    loop: "no",
     currentTime: null,
     duration: null,
     playIndex: null,
@@ -73,12 +73,12 @@ const mutations = {
     state.control.isPlaying = false;
   },
   [CHANGE_LOOP](state) {
-    if (state.control.loop === 'no') {
-      state.control.loop = 'one';
-    } else if (state.control.loop === 'one') {
-      state.control.loop = 'all';
+    if (state.control.loop === "no") {
+      state.control.loop = "one";
+    } else if (state.control.loop === "one") {
+      state.control.loop = "all";
     } else {
-      state.control.loop = 'no';
+      state.control.loop = "no";
     }
   },
 };

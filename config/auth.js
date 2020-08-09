@@ -1,8 +1,8 @@
-const debug = require('debug')('routes');
-const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
-const config = require('./config');
-const _ = require('lodash');
+const debug = require("debug")("routes");
+const passport = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
+const config = require("./config");
+const _ = require("lodash");
 
 passport.use(
   new LocalStrategy(function(username, password, done) {
@@ -11,13 +11,13 @@ passport.use(
     if (user) {
       return done(null, user);
     } else {
-      return done(null, false, { message: 'Invalid password or username' });
+      return done(null, false, { message: "Invalid password or username" });
     }
   })
 );
 
 passport.serializeUser(function(user, done) {
-  debug('serializeUser', user);
+  debug("serializeUser", user);
   return done(null, user.id);
 });
 
@@ -31,7 +31,7 @@ passport.deserializeUser(function(id, done) {
   }
 });
 
-module.exports = passport.authenticate('local', {
-  successRedirect: '/',
-  failureRedirect: '/failure'
+module.exports = passport.authenticate("local", {
+  successRedirect: "/",
+  failureRedirect: "/failure",
 });

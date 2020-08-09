@@ -1,4 +1,4 @@
-import { RECEIVE_DIR } from '../mutation-types';
+import { RECEIVE_DIR } from "../mutation-types";
 
 const state = {
   all: [],

@@ -1,11 +1,11 @@
-import * as api from '../api';
-import * as types from './mutation-types';
-import _ from 'lodash';
+import * as api from "../api";
+import * as types from "./mutation-types";
+import _ from "lodash";
 
 const defaultDir = {
-  path: '/',
-  name: 'me',
-  type: 'directory',
+  path: "/",
+  name: "me",
+  type: "directory",
   scrollTop: 0,
 };
 
@@ -14,7 +14,7 @@ function forceRestart() {
 }
 
 export const ressurectDepth = ({ commit }) => {
-  let depth = JSON.parse(window.localStorage.getItem('depth'));
+  let depth = JSON.parse(window.localStorage.getItem("depth"));
   if (_.isEmpty(depth)) {
     fetchDir({ commit }, defaultDir);
   } else {
@@ -24,7 +24,7 @@ export const ressurectDepth = ({ commit }) => {
 };
 
 export const selectFile = ({ commit }, file, scrollTop) => {
-  if (file.type === 'directory') {
+  if (file.type === "directory") {
     commit(types.START_FETCH_DIR);
     api
       .fetchDir(file.path)
@@ -76,7 +76,7 @@ export const fetchDir = ({ commit }, file) => {
       }
       // lost dir
       if (err.response.status === 500) {
-        localStorage.setItem('depth', JSON.stringify([]));
+        localStorage.setItem("depth", JSON.stringify([]));
         ressurectDepth({ commit });
       }
     });

@@ -1,9 +1,9 @@
-import { START_FETCH_DIR, RECEIVE_DIR } from '../mutation-types';
+import { START_FETCH_DIR, RECEIVE_DIR } from "../mutation-types";
 
 const state = {
   filer: {
-    isFetching: false
-  }
+    isFetching: false,
+  },
 };
 
 const mutations = {
@@ -13,10 +13,10 @@ const mutations = {
 
   [RECEIVE_DIR](state) {
     state.filer.isFetching = false;
-  }
+  },
 };
 
 export default {
   state,
-  mutations
+  mutations,
 };

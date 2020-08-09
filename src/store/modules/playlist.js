@@ -3,11 +3,11 @@ import {
   ADD_QUEUES,
   REMOVE_QUEUE,
   REMOVE_QUEUES,
-  UPDATE_QUEUES
-} from '../mutation-types';
+  UPDATE_QUEUES,
+} from "../mutation-types";
 
 const state = {
-  queues: []
+  queues: [],
 };
 
 const mutations = {
@@ -34,12 +34,12 @@ const mutations = {
     const newIndex = e.newIndex < e.oldIndex ? e.newIndex : e.newIndex + 1;
     state.queues.splice(newIndex, 0, state.queues[e.oldIndex]);
     state.queues.splice(oldIndex, 1);
-  }
+  },
 };
 
 export default {
   state,
-  mutations
+  mutations,
 };
 
 // validate file

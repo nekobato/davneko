@@ -1,44 +1,44 @@
-const express = require('express');
-const path = require('path');
-const fs = require('fs');
-const config = require('./config');
+const express = require("express");
+const path = require("path");
+const fs = require("fs");
+const config = require("./config");
 const router = express.Router();
-const readirRecursive = require('fs-readdir-recursive');
+const readirRecursive = require("fs-readdir-recursive");
 
 const base_locals = { ga_id: config.google_analytics_id };
 
-router.get('/', function(req, res, next) {
+router.get("/", function(req, res, next) {
   if (req.isAuthenticated()) {
-    res.render('explore', base_locals);
+    res.render("explore", base_locals);
   } else {
-    res.render('auth', base_locals);
+    res.render("auth", base_locals);
   }
 });
 
-router.get('/failure', function(req, res, next) {
-  res.render('auth', base_locals);
+router.get("/failure", function(req, res, next) {
+  res.render("auth", base_locals);
 });
 
-router.get('/logout', function(req, res, next) {
+router.get("/logout", function(req, res, next) {
   if (req.isAuthenticated()) {
-    console.log('### logout');
+    console.log("### logout");
     req.logout();
-    return res.redirect('/');
+    return res.redirect("/");
   } else {
-    return res.redirect('/');
+    return res.redirect("/");
   }
 });
 
-router.get('/api/path', function(req, res, next) {
-  console.log('path:', req.query.path);
+router.get("/api/path", function(req, res, next) {
+  console.log("path:", req.query.path);
 
   // if (!req.isAuthenticated()) {
   //   return res.status(403).send('not authenticated');
   // }
 
-  const reqpath = path.normalize(req.query.path || '/');
+  const reqpath = path.normalize(req.query.path || "/");
   if (/^\.\./.test(reqpath)) {
-    return res.status(500).send('bad query');
+    return res.status(500).send("bad query");
   }
 
   const targetpath = path.join(config.basepath, reqpath);
@@ -56,11 +56,11 @@ router.get('/api/path', function(req, res, next) {
         finder.push({
           name: p,
           path: path.join(reqpath, p),
-          type: stats.isDirectory() ? 'directory' : 'file',
+          type: stats.isDirectory() ? "directory" : "file",
         });
       }
     }
-    res.type('json').send(finder);
+    res.type("json").send(finder);
   }
 
   if (req.query.download) {
@@ -69,16 +69,16 @@ router.get('/api/path', function(req, res, next) {
     return res.sendFile(
       targetpath,
       {
-        dotfiles: 'deny',
+        dotfiles: "deny",
         headers: {
-          'x-timestamp': Date.now(),
-          'x-sent': true,
-          'Cache-Control': [
-            'private',
-            'no-store',
-            'no-cache',
-            'must-revalidate',
-          ].join(','),
+          "x-timestamp": Date.now(),
+          "x-sent": true,
+          "Cache-Control": [
+            "private",
+            "no-store",
+            "no-cache",
+            "must-revalidate",
+          ].join(","),
         },
       },
       function(err) {
@@ -90,14 +90,14 @@ router.get('/api/path', function(req, res, next) {
   }
 });
 
-router.get('/api/pathr', function(req, res, next) {
+router.get("/api/pathr", function(req, res, next) {
   if (!req.isAuthenticated()) {
     res.status(403).end();
   }
 
-  const reqpath = path.normalize(req.query.path || '/');
+  const reqpath = path.normalize(req.query.path || "/");
   if (/^\.\./.test(reqpath)) {
-    res.status(500).end('Bad query');
+    res.status(500).end("Bad query");
   }
 
   const targetpath = path.join(config.basepath, reqpath);
@@ -111,7 +111,7 @@ router.get('/api/pathr', function(req, res, next) {
     if (recursiveFiles.length > 300) {
       res
         .status(200)
-        .type('json')
+        .type("json")
         .end({});
     }
 
@@ -122,13 +122,13 @@ router.get('/api/pathr', function(req, res, next) {
         files.push({
           name: path.basename(p),
           path: path.join(reqpath, p),
-          type: stats.isDirectory() ? 'directory' : 'file',
+          type: stats.isDirectory() ? "directory" : "file",
         });
       }
     }
-    return res.type('json').send(files);
+    return res.type("json").send(files);
   } else {
-    return res.status(500).end('Path must be a directory.');
+    return res.status(500).end("Path must be a directory.");
   }
 });
 
