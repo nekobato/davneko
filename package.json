@@ -42,6 +42,7 @@
     "postcss-simple-vars": "^5.0.2",
     "sortablejs": "^1.10.2",
     "vue": "^2.6.11",
+    "vue-svg-loader": "^0.16.0",
     "vue-template-compiler": "^2.6.11",
     "vuex": "^3.5.1"
   }
