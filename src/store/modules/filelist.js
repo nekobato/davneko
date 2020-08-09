@@ -1,16 +1,16 @@
 import { RECEIVE_DIR } from '../mutation-types';
 
 const state = {
-  all: []
+  all: [],
 };
 
 const mutations = {
   [RECEIVE_DIR](state, files) {
     state.all = files;
-  }
+  },
 };
 
 export default {
   state,
-  mutations
+  mutations,
 };

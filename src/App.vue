@@ -4,29 +4,32 @@
     <div class="z-depth-2 audiobox" ref="audiobox">
       <player></player>
       <playlist></playlist>
-      <button class="btn teal lighten-1 filer-toggle" @click="toggleFiler"></button>
+      <button
+        class="btn teal lighten-1 filer-toggle"
+        @click="toggleFiler"
+      ></button>
     </div>
   </div>
 </template>
 <script>
-import store from "./store";
-import Filer from "./components/Filer.vue";
-import Player from "./components/Player.vue";
-import Playlist from "./components/Playlist.vue";
+import store from './store';
+import Filer from './components/Filer.vue';
+import Player from './components/Player.vue';
+import Playlist from './components/Playlist.vue';
 
 export default {
-  name: "app",
+  name: 'app',
   components: {
     Filer,
     Player,
-    Playlist
+    Playlist,
   },
   store,
   methods: {
     toggleFiler: function() {
-      this.$refs.audiobox.classList.toggle("filer-view");
-    }
-  }
+      this.$refs.audiobox.classList.toggle('filer-view');
+    },
+  },
 };
 </script>
 <style lang="stylus" scoped>

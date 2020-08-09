@@ -8,7 +8,7 @@ import {
   AUDIO_PAUSED,
   AUDIO_TIME_UPDATED,
   AUDIO_ENDED,
-  CHANGE_LOOP
+  CHANGE_LOOP,
 } from '../mutation-types';
 
 const state = {
@@ -18,18 +18,18 @@ const state = {
     loop: 'no',
     currentTime: null,
     duration: null,
-    playIndex: null
+    playIndex: null,
   },
   reaction: {
-    addfile: false
-  }
+    addfile: false,
+  },
 };
 
 const mutations = {
-  [PLAY_QUEUE](state, file, index) {
+  [PLAY_QUEUE](state, file) {
     state.file = file;
     state.control.isPlaying = true;
-    state.control.playIndex = index;
+    state.control.playIndex = file.index;
   },
   [AUDIO_TIME_UPDATED](state, time) {
     state.control.currentTime = time;
@@ -80,10 +80,10 @@ const mutations = {
     } else {
       state.control.loop = 'no';
     }
-  }
+  },
 };
 
 export default {
   state,
-  mutations
+  mutations,
 };

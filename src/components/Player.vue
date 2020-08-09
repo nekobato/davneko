@@ -17,37 +17,59 @@
         <span class="card-title audio-title">{{ fileName }}</span>
       </div>
       <div class="seekbar black" ref="seekbar" @click="onClickSeekbar($event)">
-        <div class="seekbar-inner red darken-2" :style="{ width: seekingParcent }"/>
+        <div
+          class="seekbar-inner red darken-2"
+          :style="{ width: seekingParcent }"
+        />
       </div>
     </div>
     <div class="card-action controller">
       <div class="play-btn-group">
         <div class="btn-flat">
-          <i class="material-icons white-text" @click="playPrev" v-if="isAudioExists">skip_previous</i>
-          <i class="material-icons grey-text" refse>skip_previous</i>
+          <i
+            class="material-icons white-text"
+            @click="playPrev"
+            v-if="control.playIndex > 0"
+            >skip_previous</i
+          >
+          <i class="material-icons grey-text" v-else>skip_previous</i>
         </div>
         <div class="btn-floating waves-effect waves-light red">
-          <i class="material-icons" v-show="control.isPlaying" @click="pause">pause</i>
+          <i class="material-icons" v-show="control.isPlaying" @click="pause"
+            >pause</i
+          >
           <i
             class="material-icons"
             v-show="!control.isPlaying"
             @click="play"
             v-if="isAudioExists"
-          >play_arrow</i>
-          <i class="material-icons" refse>play_arrow</i>
+            >play_arrow</i
+          >
+          <i class="material-icons" v-else>play_arrow</i>
         </div>
         <div class="btn-flat">
-          <i class="material-icons white-text" @click="playNext" v-if="isAudioExists">skip_next</i>
-          <i class="material-icons grey-text" refse>skip_next</i>
+          <i
+            class="material-icons white-text"
+            @click="playNext"
+            v-if="control.playIndex < playlist.queues.length - 1"
+            >skip_next</i
+          >
+          <i class="material-icons grey-text" v-else>skip_next</i>
         </div>
       </div>
       <div class="sub-actions">
         <div class="btn-flat white-text">
-          <i class="material-icons" @click="toggleVolumeChangeMode">volume_up</i>
+          <i class="material-icons" @click="toggleVolumeChangeMode"
+            >volume_up</i
+          >
         </div>
         <div class="btn-flat white-text" @click="changeLoop">
-          <i class="material-icons" v-show="control.loop === 'no'">arrow_forward</i>
-          <i class="material-icons" v-show="control.loop === 'one'">repeat_one</i>
+          <i class="material-icons" v-show="control.loop === 'no'"
+            >arrow_forward</i
+          >
+          <i class="material-icons" v-show="control.loop === 'one'"
+            >repeat_one</i
+          >
           <i class="material-icons" v-show="control.loop === 'all'">repeat</i>
         </div>
       </div>
@@ -61,21 +83,21 @@
         max="100"
         v-model="volume"
         @change="onVolumeChanged"
-      >
+      />
       <i class="material-icons white-text">volume_up</i>
     </div>
   </div>
 </template>
 <script>
-import _ from "lodash";
-import * as types from "../store/mutation-types";
-import { mapActions } from "vuex";
+import _ from 'lodash';
+import * as types from '../store/mutation-types';
+import { mapActions } from 'vuex';
 
 export default {
   data() {
     return {
       volumeChangeMode: false,
-      volume: 100
+      volume: 100,
     };
   },
   computed: {
@@ -90,21 +112,23 @@ export default {
     },
     encodedAudioURL: function() {
       if (_.isEmpty(this.file)) return false;
-      return `/api/path?path=${encodeURIComponent(this.file.path)}`;
+      return `http://localhost:3000/api/path?path=${encodeURIComponent(
+        this.file.path
+      )}`;
     },
     seekingParcent: {
       cache: false,
       get: function() {
         if (!this.$refs.audio) {
-          return "0%";
+          return '0%';
         }
         return (
-          (this.control.currentTime / this.$refs.audio.duration) * 100 + "%"
+          (this.control.currentTime / this.$refs.audio.duration) * 100 + '%'
         );
-      }
+      },
     },
     isLoopOne: function() {
-      if (this.control.loop === "one") {
+      if (this.control.loop === 'one') {
         return true;
       } else {
         return false;
@@ -118,11 +142,11 @@ export default {
       }
     },
     fileName() {
-      return this.file.name || "No Audio";
-    }
+      return this.file.name || 'No Audio';
+    },
   },
   methods: {
-    ...mapActions(["changeLoop"]),
+    ...mapActions(['changeLoop']),
     play: function() {
       this.$refs.audio.play();
     },
@@ -135,17 +159,15 @@ export default {
       if (this.playlist.queues.length <= 1) {
         // nothing to do
       } else if (this.playlist.queues[index - 1]) {
-        this.$store.dispatch(
-          types.PLAY_QUEUE,
-          this.playlist.queues[index - 1],
-          index - 1
-        );
+        this.$store.commit(types.PLAY_QUEUE, {
+          index: index - 1,
+          ...this.playlist.queues[index - 1],
+        });
       } else {
-        this.$store.dispatch(
-          types.PLAY_QUEUE,
-          this.playlist.queues[maxIndex],
-          maxIndex
-        );
+        this.$store.commit(types.PLAY_QUEUE, {
+          index: maxIndex,
+          ...this.playlist.queues[maxIndex],
+        });
       }
     },
     playNext: function() {
@@ -153,40 +175,42 @@ export default {
       if (this.playlist.queues.length <= 1) {
         // nothing to do
       } else if (this.playlist.queues[index + 1]) {
-        this.$store.dispatch(
-          types.PLAY_QUEUE,
-          this.playlist.queues[index + 1],
-          index + 1
-        );
+        this.$store.commit(types.PLAY_QUEUE, {
+          index,
+          ...this.playlist.queues[index + 1],
+        });
       } else {
-        this.$store.dispatch(types.PLAY_QUEUE, this.playlist.queues[0], 0);
+        this.$store.commit(types.PLAY_QUEUE, {
+          index: 0,
+          ...this.playlist.queues[0],
+        });
       }
     },
     onPlay: function() {
-      this.$store.dispatch(types.AUDIO_PLAYED);
+      this.$store.commit(types.AUDIO_PLAYED);
     },
     onPause: function() {
-      this.$store.dispatch(types.AUDIO_PAUSED);
+      this.$store.commit(types.AUDIO_PAUSED);
     },
     onTimeUpdate: function() {
-      this.$store.dispatch(
+      this.$store.commit(
         types.AUDIO_TIME_UPDATED,
         this.$refs.audio.currentTime
       );
     },
     onEnded: function() {
-      this.$store.dispatch(types.AUDIO_ENDED);
+      this.$store.commit(types.AUDIO_ENDED);
       if (
-        this.control.loop === "no" &&
+        this.control.loop === 'no' &&
         this.control.playIndex === this.playlist.queues.length - 1
       ) {
         return;
-      } else if (this.control.loop !== "one") {
+      } else if (this.control.loop !== 'one') {
         this.playNext();
       }
     },
     toggleMute: function() {
-      this.$store.dispatch(types.AUDIO_TOGGLE_MUTE);
+      this.$store.commit(types.AUDIO_TOGGLE_MUTE);
     },
     onVolumeChanged: function() {
       this.$refs.audio.volume = this.$data.volume / 100;
@@ -197,8 +221,8 @@ export default {
     },
     toggleVolumeChangeMode: function() {
       this.$data.volumeChangeMode = !this.$data.volumeChangeMode;
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="stylus" scoped>

@@ -3,31 +3,40 @@
     <div class="blue-grey actions">
       <i class="material-icons action" @click="clearPlayList">clear_all</i>
     </div>
-    <ul class="collection white blue-grey-text darken-4 left-align queues" ref="playlist">
+    <ul
+      class="collection white blue-grey-text darken-4 left-align queues"
+      ref="playlist"
+    >
       <li
         class="collection-item"
         v-for="(queue, index) in queues"
         :key="index"
-        @click="selectAudio($index)"
+        @click="selectAudio(index)"
         @dblclick="replayAudio"
-        :class="{ active: control.playIndex === $index }"
+        :class="{ active: control.playIndex === index }"
       >
         <i
           class="material-icons playlist-deleter"
-          @click.prevent.stop="removeQueue($index)"
-          :class="{ 'white-text': control.playIndex === $index, 'grey-text': control.playIndex !== $index }"
-        >close</i>
+          @click.prevent.stop="removeQueue(index)"
+          :class="{
+            'white-text': control.playIndex === index,
+            'grey-text': control.playIndex !== index,
+          }"
+          >close</i
+        >
         <span class="truncate">{{ queue.name }}</span>
-        <span class="duration" v-if="queue.duration">{{ readableDuration(queue.duration) }}</span>
+        <span class="duration" v-if="queue.duration">{{
+          readableDuration(queue.duration)
+        }}</span>
       </li>
     </ul>
   </div>
 </template>
 <script>
-import Sortable from "sortablejs";
-import * as types from "../store/mutation-types";
-import { removeQueue, removeQueues } from "../store/actions";
-import { mapActions } from "vuex";
+import Sortable from 'sortablejs';
+import * as types from '../store/mutation-types';
+import { removeQueue, removeQueues } from '../store/actions';
+import { mapActions } from 'vuex';
 
 export default {
   computed: {
@@ -36,36 +45,36 @@ export default {
     },
     control() {
       return this.$store.state.player.control;
-    }
+    },
   },
   methods: {
-    ...mapActions(["removeQueue", "removeQueues"]),
+    ...mapActions(['removeQueue', 'removeQueues']),
     selectAudio: function(index) {
-      this.$store.dispatch(types.PLAY_QUEUE, this.queues[index], index);
+      this.$store.commit(types.PLAY_QUEUE, { index, ...this.queues[index] });
     },
     replayAudio: function() {
       // player componentにイベント伝搬するのどうやるの
-      document.querySelector("#audio_player").currentTime = 0;
-      document.querySelector("#audio_player").load();
+      document.querySelector('#audio_player').currentTime = 0;
+      document.querySelector('#audio_player').load();
     },
     clearPlayList: function() {
-      this.$store.dispatch(types.REMOVE_QUEUES);
+      this.$store.commit(types.REMOVE_QUEUES);
     },
     readableDuration: function(duration) {
       return (
         Math.floor(duration / 60) +
-        ":" +
-        ("00" + Math.floor(duration % 60)).slice(-2)
+        ':' +
+        ('00' + Math.floor(duration % 60)).slice(-2)
       );
-    }
+    },
   },
   ready() {
     Sortable.create(this.$refs.playlist, {
       onEnd: e => {
-        this.$store.dispatch(types.UPDATE_QUEUES, e);
-      }
+        this.$store.commit(types.UPDATE_QUEUES, e);
+      },
     });
-  }
+  },
 };
 </script>
 <style lang="stylus" scoped>

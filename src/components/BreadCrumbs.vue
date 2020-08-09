@@ -6,20 +6,22 @@
     <span
       class="blue-grey-text text-lighten-3 dirname"
       v-show="!status.isFetching"
-    >{{ headFileName }}</span>
+      >{{ headFileName }}</span
+    >
     <div class="breadcrumbs-content">
       <i
         class="material-icons depth"
         v-show="!status.isFetching"
         v-for="(file, index) in files"
         :key="index"
-        @click="selectDepth($index)"
-      >navigate_next</i>
+        @click="selectDepth(index)"
+        >navigate_next</i
+      >
     </div>
   </div>
 </template>
 <script>
-import { mapActions } from "vuex";
+import { mapActions } from 'vuex';
 
 export default {
   computed: {
@@ -30,13 +32,13 @@ export default {
       return this.$store.state.uiStatus.filer;
     },
     headFileName() {
-      if (!this.files.length) return "";
+      if (!this.files.length) return '';
       return this.files[this.files.length - 1].name;
-    }
+    },
   },
   methods: {
-    ...mapActions(["selectDepth"])
-  }
+    ...mapActions(['selectDepth']),
+  },
 };
 </script>
 <style lang="stylus" scoped>

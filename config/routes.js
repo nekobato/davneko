@@ -32,9 +32,9 @@ router.get('/logout', function(req, res, next) {
 router.get('/api/path', function(req, res, next) {
   console.log('path:', req.query.path);
 
-  if (!req.isAuthenticated()) {
-    return res.status(403).send('not authenticated');
-  }
+  // if (!req.isAuthenticated()) {
+  //   return res.status(403).send('not authenticated');
+  // }
 
   const reqpath = path.normalize(req.query.path || '/');
   if (/^\.\./.test(reqpath)) {
@@ -46,6 +46,8 @@ router.get('/api/path', function(req, res, next) {
     return res.status(500).send(`not exists: ${targetpath}`);
   }
 
+  console.log(targetpath);
+
   if (fs.statSync(targetpath).isDirectory()) {
     const finder = [];
     for (let p of Array.from(fs.readdirSync(targetpath))) {
@@ -54,7 +56,7 @@ router.get('/api/path', function(req, res, next) {
         finder.push({
           name: p,
           path: path.join(reqpath, p),
-          type: stats.isDirectory() ? 'directory' : 'file'
+          type: stats.isDirectory() ? 'directory' : 'file',
         });
       }
     }
@@ -75,9 +77,9 @@ router.get('/api/path', function(req, res, next) {
             'private',
             'no-store',
             'no-cache',
-            'must-revalidate'
-          ].join(',')
-        }
+            'must-revalidate',
+          ].join(','),
+        },
       },
       function(err) {
         if (err) {
@@ -120,7 +122,7 @@ router.get('/api/pathr', function(req, res, next) {
         files.push({
           name: path.basename(p),
           path: path.join(reqpath, p),
-          type: stats.isDirectory() ? 'directory' : 'file'
+          type: stats.isDirectory() ? 'directory' : 'file',
         });
       }
     }
