@@ -33,53 +33,53 @@
   </div>
 </template>
 <script>
-import Sortable from 'sortablejs';
-import * as types from '../store/mutation-types';
-import { removeQueue, removeQueues } from '../store/actions';
-import { mapActions } from 'vuex';
+import Sortable from "sortablejs"
+import * as types from "../store/mutation-types"
+import { removeQueue, removeQueues } from "../store/actions"
+import { mapActions } from "vuex"
 
 export default {
   computed: {
     queues() {
-      return this.$store.state.playlist.queues;
+      return this.$store.state.playlist.queues
     },
     control() {
-      return this.$store.state.player.control;
+      return this.$store.state.player.control
     },
   },
   methods: {
-    ...mapActions(['removeQueue', 'removeQueues']),
+    ...mapActions(["removeQueue", "removeQueues"]),
     selectAudio: function(index) {
-      this.$store.commit(types.PLAY_QUEUE, { index, ...this.queues[index] });
+      this.$store.commit(types.PLAY_QUEUE, { index, ...this.queues[index] })
     },
     replayAudio: function() {
       // player componentにイベント伝搬するのどうやるの
-      document.querySelector('#audio_player').currentTime = 0;
-      document.querySelector('#audio_player').load();
+      document.querySelector("#audio_player").currentTime = 0
+      document.querySelector("#audio_player").load()
     },
     clearPlayList: function() {
-      this.$store.commit(types.REMOVE_QUEUES);
+      this.$store.commit(types.REMOVE_QUEUES)
     },
     readableDuration: function(duration) {
       return (
         Math.floor(duration / 60) +
-        ':' +
-        ('00' + Math.floor(duration % 60)).slice(-2)
-      );
+        ":" +
+        ("00" + Math.floor(duration % 60)).slice(-2)
+      )
     },
   },
   ready() {
     Sortable.create(this.$refs.playlist, {
       onEnd: e => {
-        this.$store.commit(types.UPDATE_QUEUES, e);
+        this.$store.commit(types.UPDATE_QUEUES, e)
       },
-    });
+    })
   },
-};
+}
 </script>
-<style lang="stylus" scoped>
-$width-pc = 992px;
-$side-nav-width = 50%;
+<style lang="postcss" scoped>
+$width-pc: 992px;
+$side-nav-width: 50%;
 
 .playlist {
   display: flex;
@@ -120,7 +120,8 @@ $side-nav-width = 50%;
     cursor: pointer;
 
     &:hover {
-      .playlist-deleter, .playlist-replacer {
+      .playlist-deleter,
+      .playlist-replacer {
         display: inline-block;
       }
     }

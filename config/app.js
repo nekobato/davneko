@@ -31,9 +31,6 @@ app.use(passport.session())
 // app set
 app.set("views", path.join(__dirname, "../views"))
 app.set("view engine", "html")
-if (app.get("env") === "development") {
-  app.set("view options", { pretty: true })
-}
 
 // app use
 // app.use require("serve-favicon")('./public/favicon.ico')

@@ -12,13 +12,13 @@
   </div>
 </template>
 <script>
-import store from './store';
-import Filer from './components/Filer.vue';
-import Player from './components/Player.vue';
-import Playlist from './components/Playlist.vue';
+import store from "./store"
+import Filer from "./components/Filer.vue"
+import Player from "./components/Player.vue"
+import Playlist from "./components/Playlist.vue"
 
 export default {
-  name: 'app',
+  name: "app",
   components: {
     Filer,
     Player,
@@ -27,14 +27,14 @@ export default {
   store,
   methods: {
     toggleFiler: function() {
-      this.$refs.audiobox.classList.toggle('filer-view');
+      this.$refs.audiobox.classList.toggle("filer-view")
     },
   },
-};
+}
 </script>
-<style lang="stylus" scoped>
-$width-pc = 992px;
-$side-nav-width = 50%;
+<style lang="postcss" scoped>
+$width-pc: 992px;
+$side-nav-width: 50%;
 
 .davneko {
   position: relative;
