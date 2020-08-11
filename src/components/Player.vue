@@ -257,7 +257,6 @@ export default {
 }
 
 .audio-title-container {
-  overflow-x: hidden;
   height: 36px;
 
   .audio-title {
