@@ -21,25 +21,25 @@
   </div>
 </template>
 <script>
-import { mapActions } from "vuex"
+import { mapActions } from "vuex";
 
 export default {
   computed: {
     files() {
-      return this.$store.state.depth.files
+      return this.$store.state.depth.files;
     },
     status() {
-      return this.$store.state.uiStatus.filer
+      return this.$store.state.uiStatus.filer;
     },
     headFileName() {
-      if (!this.files.length) return ""
-      return this.files[this.files.length - 1].name
+      if (!this.files.length) return "";
+      return this.files[this.files.length - 1].name;
     },
   },
   methods: {
     ...mapActions(["selectDepth"]),
   },
-}
+};
 </script>
 <style lang="postcss" scoped>
 .breadcrumbs {

@@ -38,9 +38,9 @@
   </div>
 </template>
 <script>
-import _ from "lodash"
-import Breadcrumbs from "./BreadCrumbs.vue"
-import { mapActions } from "vuex"
+import _ from "lodash";
+import Breadcrumbs from "./BreadCrumbs.vue";
+import { mapActions } from "vuex";
 
 export default {
   components: {
@@ -49,12 +49,12 @@ export default {
   data() {
     return {
       searchText: "",
-    }
+    };
   },
   watch: {
     ["depthDirs"](dirs) {
       if (dirs[dirs.length - 1] && dirs[dirs.length - 1].scrollTop) {
-        this.$refs["filelist-box"].scrollTop = dirs[dirs.length - 1].scrollTop
+        this.$refs["filelist-box"].scrollTop = dirs[dirs.length - 1].scrollTop;
       }
     },
   },
@@ -62,45 +62,45 @@ export default {
     filelistFilter(filelist) {
       if (this.$data.searchText) {
         return _.filter(filelist, file => {
-          const re = new RegExp(this.$data.searchText, "g")
-          return re.test(file.name)
-        })
+          const re = new RegExp(this.$data.searchText, "g");
+          return re.test(file.name);
+        });
       }
-      return this.filelist
+      return this.filelist;
     },
   },
   computed: {
     filelist() {
-      return this.$store.state.filelist.all
+      return this.$store.state.filelist.all;
     },
     depthDirs() {
-      return this.$store.state.depth.files
+      return this.$store.state.depth.files;
     },
     filelistFilter() {
       if (this.$data.searchText) {
         return _.filter(this.filelist, file => {
-          const re = new RegExp(this.$data.searchText, "g")
-          return re.test(file.name)
-        })
+          const re = new RegExp(this.$data.searchText, "g");
+          return re.test(file.name);
+        });
       }
-      return this.filelist
+      return this.filelist;
     },
   },
   methods: {
     ...mapActions(["fetchDir", "addDir2Queue", "selectFile", "ressurectDepth"]),
     // only handling model
     clearSearch() {
-      this.$data.searchText = ""
+      this.$data.searchText = "";
     },
     onClickFile(file) {
-      this.selectFile(file, this.$refs["filelist-box"].scrollTop)
+      this.selectFile(file, this.$refs["filelist-box"].scrollTop);
     },
   },
   mounted() {
     // start or resurrect
-    this.ressurectDepth()
+    this.ressurectDepth();
   },
-}
+};
 </script>
 <style lang="postcss" scoped>
 @keyframes filer-arrival {

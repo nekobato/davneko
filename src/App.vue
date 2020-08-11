@@ -12,10 +12,10 @@
   </div>
 </template>
 <script>
-import store from "./store"
-import Filer from "./components/Filer.vue"
-import Player from "./components/Player.vue"
-import Playlist from "./components/Playlist.vue"
+import store from "./store";
+import Filer from "./components/Filer.vue";
+import Player from "./components/Player.vue";
+import Playlist from "./components/Playlist.vue";
 
 export default {
   name: "app",
@@ -26,11 +26,11 @@ export default {
   },
   store,
   methods: {
-    toggleFiler: function() {
-      this.$refs.audiobox.classList.toggle("filer-view")
+    toggleFiler() {
+      this.$refs.audiobox.classList.toggle("filer-view");
     },
   },
-}
+};
 </script>
 <style lang="postcss" scoped>
 $width-pc: 992px;
@@ -40,7 +40,7 @@ $side-nav-width: 50%;
   position: relative;
   display: flex;
   margin: auto;
-  height: 100%;
+  height: 100vh;
   overflow: hidden;
 
   @media (max-width: $width-pc) {

@@ -89,138 +89,141 @@
   </div>
 </template>
 <script>
-import _ from "lodash"
-import * as types from "../store/mutation-types"
-import { mapActions } from "vuex"
+import _ from "lodash";
+import * as types from "../store/mutation-types";
+import { mapActions } from "vuex";
 
 export default {
   data() {
     return {
       volumeChangeMode: false,
       volume: 100,
-    }
+    };
   },
   computed: {
     file() {
-      return this.$store.state.player.file
+      return this.$store.state.player.file;
     },
     control() {
-      return this.$store.state.player.control
+      return this.$store.state.player.control;
     },
     playlist() {
-      return this.$store.state.playlist
+      return this.$store.state.playlist;
     },
-    encodedAudioURL: function() {
-      if (_.isEmpty(this.file)) return false
+    encodedAudioURL() {
+      if (_.isEmpty(this.file)) return false;
       return `http://localhost:3000/api/path?path=${encodeURIComponent(
         this.file.path
-      )}`
+      )}`;
     },
     seekingParcent: {
       cache: false,
-      get: function() {
+      get() {
         if (!this.$refs.audio) {
-          return "0%"
+          return "0%";
         }
         return (
           (this.control.currentTime / this.$refs.audio.duration) * 100 + "%"
-        )
+        );
       },
     },
-    isLoopOne: function() {
+    isLoopOne() {
       if (this.control.loop === "one") {
-        return true
+        return true;
       } else {
-        return false
+        return false;
       }
     },
-    isAudioExists: function() {
+    isAudioExists() {
       if (_.isEmpty(this.file)) {
-        return false
+        return false;
       } else {
-        return true
+        return true;
       }
     },
     fileName() {
-      return this.file.name || "No Audio"
+      return this.file.name || "No Audio";
     },
   },
   methods: {
     ...mapActions(["changeLoop"]),
-    play: function() {
-      this.$refs.audio.play()
+    play() {
+      this.$refs.audio.play();
     },
-    pause: function() {
-      this.$refs.audio.pause()
+    pause() {
+      this.$refs.audio.pause();
     },
-    playPrev: function() {
-      const index = this.control.playIndex
-      const maxIndex = this.playlist.queues.length - 1
+    playPrev() {
+      const index = this.control.playIndex;
+      const maxIndex = this.playlist.queues.length - 1;
       if (this.playlist.queues.length <= 1) {
         // nothing to do
       } else if (this.playlist.queues[index - 1]) {
         this.$store.commit(types.PLAY_QUEUE, {
           index: index - 1,
           ...this.playlist.queues[index - 1],
-        })
+        });
       } else {
         this.$store.commit(types.PLAY_QUEUE, {
           index: maxIndex,
           ...this.playlist.queues[maxIndex],
-        })
+        });
       }
     },
-    playNext: function() {
-      const index = this.control.playIndex
+    playNext() {
+      const index = this.control.playIndex;
       if (this.playlist.queues.length <= 1) {
         // nothing to do
       } else if (this.playlist.queues[index + 1]) {
         this.$store.commit(types.PLAY_QUEUE, {
           index,
           ...this.playlist.queues[index + 1],
-        })
+        });
       } else {
         this.$store.commit(types.PLAY_QUEUE, {
           index: 0,
           ...this.playlist.queues[0],
-        })
+        });
       }
     },
-    onPlay: function() {
-      this.$store.commit(types.AUDIO_PLAYED)
+    onPlay() {
+      this.$store.commit(types.AUDIO_PLAYED);
     },
-    onPause: function() {
-      this.$store.commit(types.AUDIO_PAUSED)
+    onPause() {
+      this.$store.commit(types.AUDIO_PAUSED);
     },
-    onTimeUpdate: function() {
-      this.$store.commit(types.AUDIO_TIME_UPDATED, this.$refs.audio.currentTime)
+    onTimeUpdate() {
+      this.$store.commit(
+        types.AUDIO_TIME_UPDATED,
+        this.$refs.audio.currentTime
+      );
     },
-    onEnded: function() {
-      this.$store.commit(types.AUDIO_ENDED)
+    onEnded() {
+      this.$store.commit(types.AUDIO_ENDED);
       if (
         this.control.loop === "no" &&
         this.control.playIndex === this.playlist.queues.length - 1
       ) {
-        return
+        return;
       } else if (this.control.loop !== "one") {
-        this.playNext()
+        this.playNext();
       }
     },
-    toggleMute: function() {
-      this.$store.commit(types.AUDIO_TOGGLE_MUTE)
+    toggleMute() {
+      this.$store.commit(types.AUDIO_TOGGLE_MUTE);
     },
-    onVolumeChanged: function() {
-      this.$refs.audio.volume = this.$data.volume / 100
+    onVolumeChanged() {
+      this.$refs.audio.volume = this.$data.volume / 100;
     },
     onClickSeekbar: function(e) {
-      const parcentage = e.offsetX / this.$refs.seekbar.offsetWidth
-      this.$refs.audio.currentTime = this.$refs.audio.duration * parcentage
+      const parcentage = e.offsetX / this.$refs.seekbar.offsetWidth;
+      this.$refs.audio.currentTime = this.$refs.audio.duration * parcentage;
     },
-    toggleVolumeChangeMode: function() {
-      this.$data.volumeChangeMode = !this.$data.volumeChangeMode
+    toggleVolumeChangeMode() {
+      this.$data.volumeChangeMode = !this.$data.volumeChangeMode;
     },
   },
-}
+};
 </script>
 <style lang="postcss" scoped>
 @keyframes anime-boundbox {
