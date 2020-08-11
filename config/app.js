@@ -2,23 +2,27 @@ const bodyParser = require("body-parser");
 const express = require("express");
 const passport = require("passport");
 const session = require("express-session");
-const MongoStore = require("connect-mongo")(session);
+const redis = require("redis");
+const RedisStore = require("connect-redis")(session);
 const path = require("path");
 const cors = require("cors");
 const app = express();
 
 const config = require("./config");
 
+const redisClient = redis.createClient({
+  host: "127.0.0.1",
+  db: 1,
+});
+
 app.use(
   session({
     secret: config.secret,
-    resave: true,
+    resave: false,
     saveUninitialized: true,
-    store: new MongoStore({
-      url: "mongodb://root@localhost/davneko_session",
-    }),
+    store: new RedisStore({ client: redisClient }),
     cookie: {
-      httpOnly: false,
+      path: "/",
     },
   })
 );
