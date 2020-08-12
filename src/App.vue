@@ -1,91 +1,43 @@
 <template>
-  <div class="z-depth-1 davneko">
-    <filer></filer>
-    <div class="z-depth-2 audiobox" ref="audiobox">
-      <player></player>
-      <playlist></playlist>
-      <button
-        class="btn teal lighten-1 filer-toggle"
-        @click="toggleFiler"
-      ></button>
-    </div>
+  <div id="app" class="app">
+    <router-view class="page-view" />
   </div>
 </template>
-<script>
-import store from "./store";
-import Filer from "./components/Filer.vue";
-import Player from "./components/Player.vue";
-import Playlist from "./components/Playlist.vue";
+<script lang="ts">
+import Vue from "vue";
 
 export default {
-  name: "app",
-  components: {
-    Filer,
-    Player,
-    Playlist,
-  },
-  store,
-  methods: {
-    toggleFiler() {
-      this.$refs.audiobox.classList.toggle("filer-view");
-    },
-  },
+  name: "App",
 };
 </script>
-<style lang="postcss" scoped>
-$width-pc: 992px;
-$side-nav-width: 50%;
-
-.davneko {
-  position: relative;
-  display: flex;
-  margin: auto;
-  height: 100vh;
-  overflow: hidden;
-
-  @media (max-width: $width-pc) {
-    width: 460px;
-  }
+<style>
+html,
+body {
+  height: 100%;
 }
-
-.audiobox {
-  position: absolute;
-  left: 460px;
-  right: 0;
+#app {
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+}
+</style>
+<style lang="postcss" scoped>
+.app {
+  --header-height: 40px;
   display: flex;
   flex-direction: column;
-  margin: auto;
-  width: 460px;
+  position: relative;
   height: 100%;
-  z-index: 2;
-  transition: left 0.4s ease 0s;
-
-  @media (max-width: $width-pc) {
-    left: 0;
-
-    &.filer-view {
-      left: 460px;
-    }
+  .page-view {
+    position: relative;
+    width: 100%;
+    overflow: scroll;
   }
 }
-
-.filer-toggle {
-  position: absolute;
-  top: 80px;
-  left: -40px;
-  z-index: 2;
-  margin: auto;
-  padding: 0;
-  width: 80px;
-  height: 40px;
-  border-radius: 5px;
-
-  .material-icons {
-    font-size: 2rem;
-  }
-
-  @media (min-width: $width-pc) {
-    display: none;
-  }
+.header {
+  flex-shrink: 0;
+  height: var(--header-height);
 }
 </style>
