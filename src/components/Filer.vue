@@ -38,7 +38,6 @@
   </div>
 </template>
 <script>
-import _ from "lodash";
 import Breadcrumbs from "./BreadCrumbs.vue";
 import { mapActions } from "vuex";
 
@@ -61,7 +60,7 @@ export default {
   filters: {
     filelistFilter(filelist) {
       if (this.$data.searchText) {
-        return _.filter(filelist, file => {
+        return filelist.filter(file => {
           const re = new RegExp(this.$data.searchText, "g");
           return re.test(file.name);
         });
@@ -78,7 +77,7 @@ export default {
     },
     filelistFilter() {
       if (this.$data.searchText) {
-        return _.filter(this.filelist, file => {
+        return this.filelist.filter(file => {
           const re = new RegExp(this.$data.searchText, "g");
           return re.test(file.name);
         });

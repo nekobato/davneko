@@ -2,12 +2,13 @@ const debug = require("debug")("routes");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const config = require("./config");
-const _ = require("lodash");
 
 passport.use(
   new LocalStrategy(function(username, password, done) {
     debug(`LocalStrategy ${username} ${password}`);
-    const user = _.find(config.users, { username, password });
+    const user = config.users.find(user => {
+      user === { username, password };
+    });
     if (user) {
       return done(null, user);
     } else {
@@ -23,7 +24,9 @@ passport.serializeUser(function(user, done) {
 
 passport.deserializeUser(function(id, done) {
   debug(`deserializeUser: ${id}`);
-  const user = _.find(config.users, { id });
+  const user = config.users.find(user => {
+    user.id === id;
+  });
   if (user) {
     return done(null, user);
   } else {
@@ -33,5 +36,5 @@ passport.deserializeUser(function(id, done) {
 
 module.exports = passport.authenticate("local", {
   successRedirect: "/",
-  failureRedirect: "/failure",
+  failureRedirect: "/",
 });

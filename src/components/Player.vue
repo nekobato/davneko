@@ -89,7 +89,6 @@
   </div>
 </template>
 <script>
-import _ from "lodash";
 import * as types from "../store/mutation-types";
 import { mapActions } from "vuex";
 
@@ -111,7 +110,7 @@ export default {
       return this.$store.state.playlist;
     },
     encodedAudioURL() {
-      if (_.isEmpty(this.file)) return false;
+      if (!this.file) return false;
       return `http://localhost:3000/api/path?path=${encodeURIComponent(
         this.file.path
       )}`;
@@ -135,11 +134,7 @@ export default {
       }
     },
     isAudioExists() {
-      if (_.isEmpty(this.file)) {
-        return false;
-      } else {
-        return true;
-      }
+      return !!this.file;
     },
     fileName() {
       return this.file.name || "No Audio";
