@@ -7,16 +7,13 @@ const readirRecursive = require("fs-readdir-recursive");
 
 const base_locals = { ga_id: config.google_analytics_id };
 
-router.get("/", function(req, res, next) {
-  res.render("explore", base_locals);
-});
-
-router.get("/api/auth/failure", function(req, res, next) {
-  res.render("auth", base_locals);
-});
-
-router.post("/api/auth", function(req, res, next) {
-  res.render("auth", base_locals);
+router.get("/api/auth/status", function(req, res) {
+  res.json({
+    status: "OK",
+    result: {
+      login: req.isAuthenticated(),
+    },
+  });
 });
 
 router.get("/api/auth/logout", function(req, res, next) {

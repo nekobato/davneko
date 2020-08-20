@@ -42,9 +42,8 @@ app.use(require("morgan")("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(require("cookie-parser")());
+app.post("/api/auth/login", require("./auth"));
 app.use("/", require("./routes"));
-app.use(express.static(path.join(__dirname, "../dist")));
-app.post("/auth", require("./auth"));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -62,6 +61,7 @@ if (app.get("env") === "development") {
     res.status(err.status || 500).json({
       message: err.message,
       error: err,
+      url: req.url,
     });
   });
 }

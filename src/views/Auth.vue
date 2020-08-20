@@ -4,7 +4,7 @@
       <div class="col s10 offset-s1 m8 offset-m2 l6 offset-l3">
         <div class="card">
           <h1 class="card-content green-text text-darken-1">davneko</h1>
-          <form class="card-action" method="post" action="/auth">
+          <form class="card-action" method="post" action="/api/auth/login">
             <div class="input-field">
               <input
                 class="validate"

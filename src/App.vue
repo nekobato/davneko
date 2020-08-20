@@ -5,9 +5,15 @@
 </template>
 <script lang="ts">
 import Vue from "vue";
+import { getLoginStatus } from "./api";
 
 export default {
   name: "App",
+  created() {
+    getLoginStatus().then(res => {
+      console.log(res);
+    });
+  },
 };
 </script>
 <style>

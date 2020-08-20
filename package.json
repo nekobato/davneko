@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "bin/www",
-    "dev": "NODE_ENV=development bin/www",
+    "dev": "NODE_ENV=development node-dev bin/www",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
@@ -38,6 +38,7 @@
     "eslint-plugin-vue": "^6.2.2",
     "material-design-icons": "3.0.1",
     "materialize-css": "^1.0.0",
+    "node-dev": "^5.1.0",
     "postcss-custom-media": "^7.0.8",
     "postcss-nested": "^4.2.3",
     "postcss-simple-vars": "^5.0.2",

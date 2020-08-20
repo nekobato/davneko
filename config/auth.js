@@ -7,7 +7,8 @@ passport.use(
   new LocalStrategy(function(username, password, done) {
     debug(`LocalStrategy ${username} ${password}`);
     const user = config.users.find(user => {
-      user === { username, password };
+      console.log(user, username, password);
+      return user.username === username && user.password === password;
     });
     if (user) {
       return done(null, user);

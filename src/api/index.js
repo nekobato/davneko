@@ -2,6 +2,19 @@ import axios from "axios";
 
 axios.defaults.baseURL = "http://localhost:3000";
 
+export const getLoginStatus = () => {
+  return new Promise((resolve, reject) => {
+    axios
+      .get("/api/auth/status")
+      .then(res => {
+        resolve(res.data.result);
+      })
+      .catch(err => {
+        reject(err);
+      });
+  });
+};
+
 export const fetchDir = path => {
   return new Promise((resolve, reject) => {
     axios
