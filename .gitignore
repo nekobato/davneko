@@ -1,15 +1,4 @@
-# OS
-.DS_Store
-Thumbs.db
-*.log
-
-# nodejs
-node_modules
-npm-debug.log
-
-config/config.json
-*.rdb
-
+app/
 public/
-dist/
-!dist/favicon.ico
+old/
+*.sqlite`

@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "sourceRoot": "src",
+    "outDir": "../app",
+    "target": "esnext",
+    "module": "CommonJS",
+    "skipLibCheck": true,
+    "strict": true,
+    "importHelpers": true,
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "sourceMap": true,
+    "typeRoots": ["src/types"],
+    "lib": ["esnext"]
+  },
+  "exclude": ["node_modules"],
+  "include": ["src/**/*.ts"]
+}
