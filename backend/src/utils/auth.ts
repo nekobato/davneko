@@ -1,56 +1,32 @@
-import jwt from "jsonwebtoken";
-import expressJwt from "express-jwt";
-import express from "express";
+import passport from "passport";
+import { ExtractJwt, Strategy } from "passport-jwt";
+import { sequelize } from "../db";
 
-export const isAuthenticated = (
-  req: express.Request,
-  res: express.Response,
-  next: express.NextFunction
-) => {
-  console.log(req.path);
-  if (req.isAuthenticated()) {
-    return next();
-  } else {
-    res.status(403).json({
-      status: "NG",
-      error: {
-        message: "not authenticated",
-      },
-    });
-  }
-};
-
-export const authenticateJwt = expressJwt({
-  secret: "my-secret",
-  requestProperty: "auth",
-  getToken: (req) => {
-    if (req.headers["x-auth-token"]) {
-      return req.headers["x-auth-token"];
-    }
-    return null;
-  },
-});
-
-export const createToken = (id: string) => {
-  return jwt.sign(
+passport.use(
+  new Strategy(
     {
-      id,
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      issuer: process.env.ISSUER,
+      audience: process.env.AUDIENCE,
+      secretOrKey: process.env.SECRET,
     },
-    "my-secret",
-    {
-      expiresIn: 60 * 120,
+    (jwt_payload, done) => {
+      sequelize
+        .query("SELECT * from user WHERE id = :id", {
+          replacements: {
+            id: jwt_payload.id,
+          },
+        })
+        .then(([results, metadata]: [any, any]) => {
+          if (results.length !== 0) {
+            done(null, results[0]);
+          } else {
+            done(null, false);
+          }
+        })
+        .catch((err: Error) => {
+          return done(err, false);
+        });
     }
-  );
-};
-
-// export const verify = (token: string) => {
-//   return new Promise((resolve, reject) => {
-//     jwt.verify(token, "my-secret", (err, decoded) => {
-//       if (err) {
-//         console.log(err);
-//         reject(err);
-//       }
-//       resolve(decoded);
-//     });
-//   });
-// };
+  )
+);

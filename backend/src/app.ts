@@ -4,7 +4,6 @@ import bodyParser from "body-parser";
 // import lusca from "lusca";
 import flash from "express-flash";
 import indexRoutes from "./routes";
-import recordRoutes from "./routes/record";
 import cors from "cors";
 import passport from "passport";
 import expressSession from "express-session";
@@ -50,6 +49,5 @@ app.use(passport.session());
 
 app.use(cors());
 app.use("/api", indexRoutes);
-app.use("/api/record", recordRoutes);
 
 export { app };
