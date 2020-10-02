@@ -22,10 +22,10 @@ export const signin = (req: express.Request, res: express.Response) => {
       },
     })
     .then(([results, metadata]: [any, any]) => {
-      if (results.length !== 0) {
+      if (results.length === 0) {
         return res
           .status(401)
-          .json({ errors: { message: "Incorrect email." } });
+          .json({ errors: { message: "Incorrect username." } });
       }
 
       const user = results[0];
@@ -36,6 +36,8 @@ export const signin = (req: express.Request, res: express.Response) => {
           .json({ errors: { message: "Incorrect password." } });
       }
 
+      console.log(process.env.ISSUER);
+
       const opts = {
         issuer: process.env.ISSUER,
         audience: process.env.AUDIENCE,
@@ -44,4 +46,8 @@ export const signin = (req: express.Request, res: express.Response) => {
       const secret = process.env.SECRET || "";
       res.status(200).json({ token: jwt.sign({ id: user.id }, secret, opts) });
     });
+};
+
+export const status = (req: express.Request, res: express.Response) => {
+  res.status(200).json({ status: "OK" });
 };

@@ -9,6 +9,9 @@ import passport from "passport";
 import expressSession from "express-session";
 import redis from "redis";
 import redisConnect from "connect-redis";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const RedisStore = redisConnect(expressSession);
 

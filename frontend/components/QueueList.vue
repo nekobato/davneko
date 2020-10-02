@@ -1,7 +1,7 @@
 <template>
   <ul>
     <li v-for="(item, index) in list" :key="index">
-      <span class="title">Item Title</span>
+      <span class="title">{{ item.name }}</span>
       <span class="duration">12:34</span>
     </li>
   </ul>

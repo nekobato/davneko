@@ -17,14 +17,34 @@
 </template>
 
 <script lang="ts">
-export default {
-  data: () => ({
-    breadcrumbList: [0, 1, 2],
-    fileList: [0, 1, 2],
-    file: {},
-    queueList: [0, 1, 2],
-  }),
-};
+import Vue from "vue";
+
+export default Vue.extend({
+  data() {
+    return {
+      breadcrumbList: [0, 1, 2],
+      fileList: [],
+      file: {},
+    };
+  },
+  computed: {
+    queueList() {
+      return this.$store.state.queueList;
+    },
+  },
+  mounted() {
+    this.$axios
+      .get("/audio/list", {
+        params: { path: "/" },
+      })
+      .then((res) => {
+        this.$data.fileList = res.data.files;
+      })
+      .catch((error: Error) => {
+        console.error(error);
+      });
+  },
+});
 </script>
 
 <style lang="postcss" scoped>
@@ -40,7 +60,7 @@ export default {
 .preview-container {
   display: grid;
   width: 360px;
-  min-height: 640px;
+  height: 640px;
   border: 1px solid #ddd;
   border-radius: 16px;
   overflow: hidden;

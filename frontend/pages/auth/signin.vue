@@ -2,17 +2,12 @@
   <Layout :noheader="true" :nonav="true">
     <div class="signin">
       <div class="logo-container">
-        <img class="logo-image" src="~/static/billbill_logo.png" />
+        <h1>qTower</h1>
       </div>
       <div class="form-container">
         <form class="signin-form" @submit.prevent="signin">
           <div class="field-container">
-            <input
-              class="nn-text-field"
-              type="email"
-              v-model="email"
-              placeholder="メールアドレス"
-            />
+            <input class="nn-text-field" type="text" v-model="username" placeholder="Username" />
             <IconPerson class="nn-icon" />
           </div>
           <div class="field-container">
@@ -20,13 +15,13 @@
               class="nn-text-field"
               type="password"
               v-model="password"
-              placeholder="パスワード"
+              placeholder="Password"
             />
             <IconKey class="nn-icon" />
           </div>
           <div class="field-container">
-            <button class="nn-button type-primary" type="submit">
-              <span v-show="!isLoading">サインイン</span>
+            <button class="nn-button type-primary" type="submit" :disabled="isLoading">
+              <span v-show="!isLoading">Sign In</span>
               <IconLoading class="nn-icon" v-show="isLoading" />
             </button>
           </div>
@@ -50,7 +45,7 @@ export default Vue.extend({
   components: { IconPerson, IconKey, IconLoading },
   data() {
     return {
-      email: "",
+      username: "",
       password: "",
       isLoading: false,
       error: {
@@ -63,25 +58,17 @@ export default Vue.extend({
       this.isLoading = true;
       this.error = { message: "" };
       this.$axios
-        .post("/v1/auth/sign_in", {
-          email: this.email,
+        .post("/auth/signin", {
+          email: this.username,
           password: this.password,
         })
         .then((res) => {
-          const authData = {
-            "access-token": res.headers["access-token"],
-            client: res.headers["client"],
-            expiry: res.headers["expiry"],
-            uid: res.headers["uid"],
-          };
-          this.$axios.defaults.headers = authData;
-          this.$store.commit(rootTypes.SET_AUTH, authData);
-          window.localStorage.setItem("auth", JSON.stringify(this.$store.state.auth.data));
-          this.$router.push("/invoices/processing");
+          this.$store.commit(rootTypes.SET_AUTH, res.data.token);
+          this.$router.push("/");
         })
         .catch((error) => {
-          if (error.response?.data?.errors) {
-            this.error.message = error.response.data.errors[0];
+          if (error.response?.data?.error) {
+            this.error.message = error.response.data.error;
           }
         })
         .finally(() => {

@@ -2,26 +2,22 @@ import express from "express";
 import { ulid } from "ulid";
 import { v4 } from "uuid";
 import bcrypt from "bcrypt";
+import dayjs from "dayjs";
 import { sequelize } from "../db";
 
 export const create = (req: express.Request, res: express.Response) => {
+  const salt = bcrypt.genSaltSync(10);
   sequelize
     .query(
-      `
-    INSERT INTO
-      users
-      (id, username, password, salt, created, updated)
-    VALUES
-      (:id, :username, :password, :salt, :created, :updated)
-  `,
+      "INSERT INTO user (id, username, password, salt, created_at, updated_at) VALUES (:id, :username, :password, :salt, :createdAt, :updatedAt)",
       {
         replacements: {
           id: ulid().toLowerCase(),
           username: req.body.username,
-          password: bcrypt.hashSync(req.body.password, 10),
-          salt: v4(),
-          created: new Date(),
-          updated: new Date(),
+          password: bcrypt.hashSync(req.body.password, salt),
+          salt,
+          createdAt: dayjs(new Date()).format("YYYY-MM-DD HH:mm:ss"),
+          updatedAt: dayjs(new Date()).format("YYYY-MM-DD HH:mm:ss"),
         },
       }
     )
@@ -38,7 +34,7 @@ export const create = (req: express.Request, res: express.Response) => {
 
 export const getUsers = (req: express.Request, res: express.Response) => {
   sequelize
-    .query(`SELECT * FROM users`)
+    .query(`SELECT * FROM user`)
     .then((results: any) => {
       res.status(200).json({ status: "OK", users: results });
     })

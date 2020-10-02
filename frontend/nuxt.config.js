@@ -1,7 +1,7 @@
 export default {
   env: {
     baseUrl: process.env.BASE_URL || "http://localhost:3000",
-    baseApiUrl: process.env.BASE_API_URL || "http://localhost:3000/api",
+    baseApiUrl: process.env.BASE_API_URL || "http://localhost:3001/api",
   },
   /*
    ** Nuxt rendering mode
@@ -92,9 +92,6 @@ export default {
   proxy: {
     "/api": {
       target: "http://localhost:3001",
-      pathRewrite: {
-        "^/api": "/",
-      },
     },
   },
 };

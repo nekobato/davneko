@@ -3,7 +3,7 @@ import { MutationTree } from "vuex";
 export type RootState = {
   auth: {
     status: boolean;
-    data: {};
+    token: string;
   };
   user?: {
     id: number;
@@ -17,6 +17,15 @@ export type RootState = {
     company_id: number;
     created_at: Date;
     updated_at: Date;
+  };
+  fileList: any[];
+  queueList: any[];
+  player: {
+    isPlaying: boolean;
+    audio?: {
+      name?: string;
+      duration?: number;
+    };
   };
   modal: {
     content: string;
@@ -37,6 +46,8 @@ const typeList = [
   "CLOSE_DIALOG",
   "SET_AUTH",
   "SET_USER",
+  "ADD_QUEUE",
+  "REMOVE_QUEUE",
 ] as const;
 
 export const rootTypes: {
@@ -49,9 +60,15 @@ export const rootTypes: {
 export const state: () => RootState = () => ({
   auth: {
     status: false,
-    data: {},
+    token: "",
   },
   user: undefined,
+  queueList: [],
+  fileList: [],
+  player: {
+    isPlaying: false,
+    audio: {},
+  },
   modal: {
     content: "",
     hidden: true,
@@ -86,10 +103,22 @@ export const mutations: MutationTree<RootState> = {
   },
   [rootTypes.SET_AUTH](store, payload) {
     store.auth.status = true;
-    store.auth.data = payload;
+    store.auth.token = payload;
+    window.localStorage.setItem("auth", payload);
   },
   [rootTypes.SET_USER](store, payload) {
     store.user = payload;
+  },
+  [rootTypes.SET_USER](store, payload) {
+    store.user = payload;
+  },
+  [rootTypes.ADD_QUEUE](store, payload) {
+    store.queueList.push(payload);
+    if (!store.player.audio) {
+    }
+  },
+  [rootTypes.REMOVE_QUEUE](store, index) {
+    store.queueList.splice(index, 1);
   },
 };
 

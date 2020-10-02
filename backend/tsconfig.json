@@ -12,7 +12,6 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "sourceMap": true,
-    "types": ["webpack-env"],
     "typeRoots": ["src/types"],
     "lib": ["esnext", "dom"]
   },

@@ -1,6 +1,10 @@
+import express from "express";
 import passport from "passport";
 import { ExtractJwt, Strategy } from "passport-jwt";
 import { sequelize } from "../db";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 passport.use(
   new Strategy(
@@ -30,3 +34,23 @@ passport.use(
     }
   )
 );
+
+export const isAuthorized = (
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction
+) => {
+  passport.authenticate("jwt", { session: false }, (err, user, info) => {
+    if (err) {
+      return next(err);
+    }
+    if (!user) {
+      return res
+        .status(401)
+        .json({ errors: { message: info || "user unknown" } })
+        .end();
+    }
+    req.user = user;
+    next();
+  })(req, res, next);
+};
