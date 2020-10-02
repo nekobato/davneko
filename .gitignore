@@ -1,0 +1,4 @@
+app/
+public/
+old/
+*.sqlite3
