@@ -1,5 +1,15 @@
 <template>
   <div class="player">
+    <audio
+      :src="src"
+      @canplay="onCanPlay"
+      @play="onPlay"
+      @pause="onPause"
+      @ended="onEnded"
+      @timeupdate="onTimeUpdate"
+      @loadedmetadata="onLoadedMetaData"
+      @volumechange="onVolumeChange"
+    />
     <div class="progress-bar">
       <div class="progress-bar-inner"></div>
     </div>
@@ -33,11 +43,19 @@ export default Vue.extend({
     IconPause,
     IconNext,
   },
-  props: ["file"],
+  props: ["player"],
   data: () => ({
     isPlaying: false,
   }),
-  methods: {},
+  methods: {
+    onCanplay() {},
+    onPlay() {},
+    onPause() {},
+    onEnded() {},
+    onTimeUpdate() {},
+    onLoadedMetaData() {},
+    onVolumeChange() {},
+  },
 });
 </script>
 

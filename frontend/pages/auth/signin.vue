@@ -2,7 +2,7 @@
   <Layout :noheader="true" :nonav="true">
     <div class="signin">
       <div class="logo-container">
-        <img class="logo-image" src="~/static/billbill_logo.png" />
+        <img class="logo-image" src="" />
       </div>
       <div class="form-container">
         <form class="signin-form" @submit.prevent="signin">

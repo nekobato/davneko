@@ -1,7 +1,7 @@
 <template>
   <ul>
-    <li v-for="(item, index) in list" :key="index">
-      <span class="title">Item Title</span>
+    <li v-for="(item, index) in list" :key="index" @click="play(item)">
+      <span class="title">{{ item.name }}</span>
       <span class="duration">12:34</span>
     </li>
   </ul>
@@ -17,7 +17,11 @@ export default Vue.extend({
   data() {
     return {};
   },
-  methods: {},
+  methods: {
+    play(item: any) {
+      this.$store.commit(rootTypes.SET_PLAYITEM, item);
+    },
+  },
 });
 </script>
 
@@ -33,6 +37,7 @@ li {
   align-items: center;
   height: 40px;
   border-top: 1px solid #ddd;
+  cursor: pointer;
   &:first-child {
     border-top: none;
   }

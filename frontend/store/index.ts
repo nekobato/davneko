@@ -7,14 +7,8 @@ export type RootState = {
   };
   user?: {
     id: number;
-    provider: string;
-    uid: string;
-    allow_password_change: boolean;
     name: string;
-    nickname: string;
-    image: string;
     email: string;
-    company_id: number;
     created_at: Date;
     updated_at: Date;
   };
@@ -28,6 +22,15 @@ export type RootState = {
     hidden: boolean;
     payload: any;
   };
+  queueList: any[];
+  audioList: any[];
+  breadcrumb: any[];
+  player: {
+    item: any;
+    isPlaying: boolean;
+    duration?: number;
+    currentTime?: number;
+  };
 };
 
 const typeList = [
@@ -37,6 +40,10 @@ const typeList = [
   "CLOSE_DIALOG",
   "SET_AUTH",
   "SET_USER",
+  "ADD_QUEUE",
+  "REMOVE_QUEUE",
+  "ADD_DEPTH",
+  "SET_PLAYITEM",
 ] as const;
 
 export const rootTypes: {
@@ -61,6 +68,20 @@ export const state: () => RootState = () => ({
     content: "",
     hidden: true,
     payload: {},
+  },
+  queueList: [],
+  audioList: [],
+  breadcrumb: [
+    {
+      name: "Root",
+      path: "/",
+    },
+  ],
+  player: {
+    item: {},
+    isPlaying: false,
+    duration: undefined,
+    currentTime: undefined,
   },
 });
 
@@ -90,6 +111,19 @@ export const mutations: MutationTree<RootState> = {
   },
   [rootTypes.SET_USER](store, payload) {
     store.user = payload;
+  },
+  [rootTypes.ADD_QUEUE](store, queue: object | object[]) {
+    if (typeof queue === "object") {
+      store.queueList.push(queue);
+    } else {
+      store.queueList = Object.assign(store.queueList, queue);
+    }
+  },
+  [rootTypes.ADD_DEPTH](store, item) {
+    store.breadcrumb.push(item);
+  },
+  [rootTypes.SET_PLAYITEM](store, item) {
+    store.player.item = item;
   },
 };
 

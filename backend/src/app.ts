@@ -2,9 +2,7 @@ import express from "express";
 import compression from "compression";
 import bodyParser from "body-parser";
 // import lusca from "lusca";
-import flash from "express-flash";
 import indexRoutes from "./routes";
-import recordRoutes from "./routes/record";
 import cors from "cors";
 import passport from "passport";
 import expressSession from "express-session";
@@ -24,7 +22,6 @@ app.set("port", process.env.PORT || 3000);
 app.use(compression());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(flash());
 app.use(
   expressSession({
     secret: "Nekobat0ken",
@@ -49,7 +46,14 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(cors());
-app.use("/api", indexRoutes);
-app.use("/api/record", recordRoutes);
+app.use(indexRoutes);
+
+app.use((err: Error, req: express.Request, res: express.Response) => {
+  res.status(500).json({
+    status: "NG",
+    error: err,
+    route: req.route,
+  });
+});
 
 export { app };

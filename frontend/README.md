@@ -1,4 +1,4 @@
-# billbill-frontend
+# QTower-frontend
 
 ## Build Setup
 

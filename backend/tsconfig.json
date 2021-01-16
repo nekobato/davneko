@@ -12,6 +12,7 @@
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "sourceMap": true,
+    "esModuleInterop": true,
     "typeRoots": ["src/types"],
     "lib": ["esnext"]
   },

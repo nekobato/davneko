@@ -1,12 +1,19 @@
 <template>
   <nav role="Breadcrumb">
     <ol class="breadcrumb-list">
-      <li v-for="(item, index) in depthList" :key="index">
-        <nuxt-link class="page-icon" to=""><IconFolder class="nn-icon size-small" /></nuxt-link>
-        <IconArrowRight class="nn-icon size-xsmall icon-arrow-right" />
-      </li>
-      <li aria-current="page">
-        <span class="page-title">Page Title</span>
+      <li
+        v-for="(item, index) in list"
+        :key="index"
+        :aria-current="index === list.length - 1 ? 'page' : null"
+      >
+        <span class="page-title" v-if="index === list.length - 1">{{ item.name }}</span>
+        <nuxt-link class="page-icon" to="" v-else>
+          <IconFolder class="nn-icon size-small" />
+        </nuxt-link>
+        <IconArrowRight
+          class="nn-icon size-xsmall icon-arrow-right"
+          v-if="index !== list.length - 1"
+        />
       </li>
     </ol>
   </nav>
