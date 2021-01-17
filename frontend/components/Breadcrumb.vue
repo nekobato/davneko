@@ -7,7 +7,7 @@
         :aria-current="index === list.length - 1 ? 'page' : null"
       >
         <span class="page-title" v-if="index === list.length - 1">{{ item.name }}</span>
-        <nuxt-link class="page-icon" to="" v-else>
+        <nuxt-link class="page-icon" :to="{ path: '/', query: { dir: item.path } }" v-else>
           <IconFolder class="nn-icon size-small" />
         </nuxt-link>
         <IconArrowRight

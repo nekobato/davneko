@@ -9,17 +9,19 @@
       @timeupdate="onTimeUpdate"
       @loadedmetadata="onLoadedMetaData"
       @volumechange="onVolumeChange"
+      ref="audio"
+      autoplay
     />
-    <div class="progress-bar">
-      <div class="progress-bar-inner"></div>
+    <div class="progress-bar" @click="seek" ref="seekbar">
+      <div class="progress-bar-inner" :style="progressStyle"></div>
     </div>
     <div class="controller">
       <button class="previous">
         <IconPrevious class="icon" />
       </button>
       <button class="play-pause">
-        <IconPause class="icon" v-if="isPlaying" />
-        <IconPlay class="icon" v-else />
+        <IconPause class="icon" v-if="isPlaying" @click="pause" />
+        <IconPlay class="icon" v-else @click="play" />
       </button>
       <button class="next">
         <IconNext class="icon" />
@@ -46,14 +48,65 @@ export default Vue.extend({
   props: ["player"],
   data: () => ({
     isPlaying: false,
+    currentTime: 0,
+    duration: 0,
   }),
+  watch: {
+    "player.currentTime"(val) {
+      console.log(val);
+      (this.$refs.audio as HTMLAudioElement).currentTime = val;
+    },
+  },
+  computed: {
+    src() {
+      return this.player.item.path ? "/api/audio/file?path=" + this.player.item.path : "";
+    },
+    progressStyle() {
+      return { width: ((this.$data.currentTime / this.$data.duration) * 100).toString() + "%" };
+    },
+  },
   methods: {
-    onCanplay() {},
-    onPlay() {},
-    onPause() {},
-    onEnded() {},
-    onTimeUpdate() {},
-    onLoadedMetaData() {},
+    play() {
+      (this.$refs.audio as HTMLAudioElement).play();
+      this.$store.commit(rootTypes.AUDIO_PLAY);
+    },
+    pause() {
+      (this.$refs.audio as HTMLAudioElement).pause();
+      this.$store.commit(rootTypes.AUDIO_PAUSE);
+    },
+    next() {
+      this.$store.commit(rootTypes.AUDIO_NEXT);
+      this.$store.commit(rootTypes.AUDIO_TIMEUPDATE, 0);
+    },
+    prev() {
+      this.$store.commit(rootTypes.AUDIO_PREV);
+      this.$store.commit(rootTypes.AUDIO_TIMEUPDATE, 0);
+    },
+    changeVolume() {},
+    seek(e: MouseEvent) {
+      this.$store.commit(
+        rootTypes.AUDIO_SEEK,
+        this.$data.duration * (e.offsetX / (this.$refs.seekbar as HTMLDivElement).offsetWidth)
+      );
+    },
+    onCanPlay() {},
+    onPlay() {
+      this.$data.isPlaying = true;
+    },
+    onPause() {
+      this.$data.isPlaying = false;
+    },
+    onEnded() {
+      this.$store.commit(rootTypes.AUDIO_END);
+    },
+    onTimeUpdate(e: any) {
+      this.$data.currentTime = e.target.currentTime;
+      // this.$store.commit(rootTypes.AUDIO_TIMEUPDATE, e.target.currentTime);
+    },
+    onLoadedMetaData(e: any) {
+      this.$data.duration = e.target.duration;
+      this.$store.commit(rootTypes.AUDIO_LOADED, { duration: e.target.duration });
+    },
     onVolumeChange() {},
   },
 });
@@ -77,9 +130,10 @@ export default Vue.extend({
   overflow: hidden;
 }
 .progress-bar-inner {
-  width: 50%;
+  width: 0;
   height: 100%;
   background: #ddd;
+  transition: width 0.16s ease;
 }
 .controller {
   display: flex;

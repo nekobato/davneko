@@ -7,7 +7,7 @@
       </div>
       <div class="player-container">
         <QueueList :list="queueList" />
-        <Player :file="file" />
+        <Player :player="player" />
       </div>
       <div class="preview-container">
         <Preview :file="file" />
@@ -18,6 +18,8 @@
 
 <script lang="ts">
 import Vue from "vue";
+import { mapGetters } from "vuex";
+import { rootTypes } from "~/store";
 export default Vue.extend({
   data: () => ({
     fileList: [0, 1, 2],
@@ -30,11 +32,26 @@ export default Vue.extend({
     queueList() {
       return this.$store.state.queueList;
     },
+    player() {
+      return this.$store.state.player;
+    },
   },
   watch: {
-    breadcrumbList(newList) {
+    $route(to, from) {
+      if (to.query.dir !== from.query.dir) {
+        this.fetchAudioList(to.query.dir);
+      }
+    },
+  },
+  methods: {
+    fetchAudioList(dir: string) {
+      this.$store.commit(rootTypes.SET_DEPTH, dir);
       this.$axios
-        .get("/audio/list", { params: { path: newList[newList.length - 1].path } })
+        .get("/audio/list", {
+          params: {
+            path: dir,
+          },
+        })
         .then((res) => {
           this.$data.fileList = res.data.list;
         })
@@ -42,12 +59,7 @@ export default Vue.extend({
     },
   },
   mounted() {
-    this.$axios
-      .get("/audio/list")
-      .then((res) => {
-        this.$data.fileList = res.data.list;
-      })
-      .catch(console.error);
+    this.fetchAudioList((this.$route.query.dir as string) || "");
   },
 });
 </script>

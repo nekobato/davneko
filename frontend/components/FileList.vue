@@ -1,10 +1,14 @@
 <template>
   <ul>
     <li v-for="(item, index) in list" :key="index">
-      <div class="item-content" v-if="item.type === 'directory'" @click="addDepth(item)">
+      <nuxt-link
+        class="item-content"
+        v-if="item.type === 'directory'"
+        :to="{ path: '/', query: { dir: `/${item.path}` } }"
+      >
         <IconFolder class="nn-icon size-small dir-icon" />
         <span class="title">{{ item.name }}</span>
-      </div>
+      </nuxt-link>
       <div class="item-content" v-else @click="addQueue(item)">
         <span class="title">{{ item.name }}</span>
         <span class="duration">12:34</span>
@@ -54,6 +58,7 @@ li {
   align-items: center;
   width: 100%;
   height: 100%;
+  cursor: pointer;
 }
 .nn-icon {
   flex-shrink: 0;
