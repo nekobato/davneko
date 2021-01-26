@@ -33,6 +33,7 @@ export default Vue.extend({
 <style lang="postcss" scoped>
 .layout {
   display: flex;
+  align-items: center;
   flex-direction: column;
   height: 100%;
   .contents-container {
@@ -42,6 +43,9 @@ export default Vue.extend({
     overflow: hidden;
   }
   .contents {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
     width: 100%;
     height: 100%;
     overflow-y: scroll;

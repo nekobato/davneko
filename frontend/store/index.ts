@@ -33,6 +33,12 @@ export type RootState = {
     duration?: number;
     currentTime?: number;
   };
+  metadata: {
+    title: string;
+    artist: string;
+    album: string;
+    thumbnail: any;
+  };
 };
 
 const typeList = [
@@ -47,6 +53,7 @@ const typeList = [
   "ADD_DEPTH",
   "SET_DEPTH",
   "SET_PLAYITEM",
+  "SET_METADATA",
   "AUDIO_PLAY",
   "AUDIO_PAUSE",
   "AUDIO_END",
@@ -95,6 +102,12 @@ export const state: () => RootState = () => ({
     isPlaying: false,
     duration: undefined,
     currentTime: undefined,
+  },
+  metadata: {
+    title: "",
+    artist: "",
+    album: "",
+    thumbnail: {},
   },
 });
 
@@ -198,6 +211,9 @@ export const mutations: MutationTree<RootState> = {
     store.player.duration = payload.duration;
   },
   [rootTypes.AUDIO_VOLUMECHANGE](store, payload) {},
+  [rootTypes.SET_METADATA](store, payload) {
+    store.metadata = payload;
+  },
 };
 
 export type mutationTypes = keyof typeof mutations;

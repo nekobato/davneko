@@ -60,7 +60,7 @@ export default Vue.extend({
     height: 100%;
   }
   .page-title {
-    font-size: 16px;
+    font-size: 14px;
   }
   .page-icon {
     text-decoration: none;

@@ -37,6 +37,7 @@ import IconPrevious from "~/assets/icons/skip_previous.svg";
 import IconPlay from "~/assets/icons/play.svg";
 import IconPause from "~/assets/icons/pause.svg";
 import IconNext from "~/assets/icons/skip_next.svg";
+import * as musicMetadata from "music-metadata-browser";
 
 export default Vue.extend({
   components: {
@@ -53,7 +54,6 @@ export default Vue.extend({
   }),
   watch: {
     "player.currentTime"(val) {
-      console.log(val);
       (this.$refs.audio as HTMLAudioElement).currentTime = val;
     },
   },
@@ -106,8 +106,20 @@ export default Vue.extend({
     onLoadedMetaData(e: any) {
       this.$data.duration = e.target.duration;
       this.$store.commit(rootTypes.AUDIO_LOADED, { duration: e.target.duration });
+      (this as any).analyzeAudio();
     },
     onVolumeChange() {},
+    analyzeAudio() {
+      musicMetadata.fetchFromUrl((this as any).src).then((data) => {
+        console.log(data);
+        this.$store.commit(rootTypes.SET_METADATA, {
+          title: data.common.title,
+          artist: data.common.artist,
+          album: data.common.album,
+          thumbnail: data.common.picture ? data.common.picture[0] : null,
+        });
+      });
+    },
   },
 });
 </script>
@@ -115,18 +127,18 @@ export default Vue.extend({
 <style lang="postcss" scoped>
 .player {
   display: grid;
-  grid-template-rows: 40px 1fr;
+  grid-template-rows: 36px 1fr;
   padding: 8px;
-  height: 120px;
+  height: 96px;
   border: 1px solid #ddd;
   border-radius: 16px;
 }
 .progress-bar {
   position: relative;
   width: 100%;
-  height: 40px;
+  height: 32px;
   border: 1px solid #ddd;
-  border-radius: 20px;
+  border-radius: 8px;
   overflow: hidden;
 }
 .progress-bar-inner {
@@ -140,6 +152,7 @@ export default Vue.extend({
   place-content: center;
   & > button {
     display: inline-flex;
+    margin: 0 8px;
     padding: 0;
     border: none;
     background: transparent;

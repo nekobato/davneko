@@ -5,12 +5,14 @@
         <FileList :list="fileList" />
         <Breadcrumb :list="breadcrumbList" />
       </div>
-      <div class="player-container">
+      <div class="queue-container">
         <QueueList :list="queueList" />
+      </div>
+      <div class="player-container">
         <Player :player="player" />
       </div>
       <div class="preview-container">
-        <Preview :file="file" />
+        <Preview :preview="metadata" />
       </div>
     </div>
   </Layout>
@@ -34,6 +36,9 @@ export default Vue.extend({
     },
     player() {
       return this.$store.state.player;
+    },
+    metadata() {
+      return this.$store.state.metadata;
     },
   },
   watch: {
@@ -66,31 +71,40 @@ export default Vue.extend({
 
 <style lang="postcss" scoped>
 .container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
+  display: grid;
+  grid-template-columns: 360px 360px 360px;
+  grid-template-rows: 1fr 96px;
+  gap: 8px;
+  width: 1120px;
+  height: 640px;
+  margin: auto;
 }
 .file-list-container,
 .player-container,
-.preview-container {
+.preview-container,
+.queue-container {
   display: grid;
-  width: 360px;
-  height: 640px;
   border: 1px solid #ddd;
   border-radius: 16px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   overflow: hidden;
 }
 .file-list-container {
+  grid-row: 1 / 3;
+  grid-column: 1;
   grid-template-rows: 1fr 48px;
+  margin-right: 24px;
 }
-.player-container {
-  margin-left: 16px;
-  grid-template-rows: 1fr 120px;
+.queue-container {
+  grid-row: 1 / 2;
+  grid-column: 2;
 }
 .preview-container {
-  margin-left: 16px;
+  grid-row: 1 / 2;
+  grid-column: 3;
+}
+.player-container {
+  grid-row: 2 / 3;
+  grid-column: 2 / 4;
 }
 </style>

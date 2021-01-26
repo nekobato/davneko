@@ -1,10 +1,10 @@
 <template>
   <div class="preview">
-    <img class="artwork" src="" />
+    <img class="artwork" :src="thumbnail" />
     <div class="description">
-      <span class="title">Audio Title</span>
-      <span class="author">Audio Author</span>
-      <span class="album">Audio Album</span>
+      <span class="title">{{ preview.title }}</span>
+      <span class="author">{{ preview.artist }}</span>
+      <span class="album">{{ preview.album }}</span>
     </div>
   </div>
 </template>
@@ -15,11 +15,19 @@ import { rootTypes } from "~/store";
 
 export default Vue.extend({
   components: {},
-  props: ["file"],
+  props: ["preview"],
   data: () => ({
     isPlaying: false,
   }),
-  methods: {},
+  computed: {
+    thumbnail() {
+      return (this.preview as any).thumbnail?.data
+        ? URL.createObjectURL(
+            new Blob([this.preview.thumbnail.data.buffer], { type: this.preview.thumbnail.format })
+          )
+        : null;
+    },
+  },
 });
 </script>
 
@@ -28,26 +36,20 @@ export default Vue.extend({
   position: relative;
   margin: auto;
   width: 320px;
-  height: 320px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  overflow: hidden;
+  height: 480px;
 }
 .artwork {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  width: 320px;
+  height: 320px;
+  border-radius: 8px;
 }
 .description {
   position: relative;
   display: flex;
   flex-direction: column;
   place-content: flex-start flex-end;
-  padding: 8px;
+  padding: 8px 0;
   width: 100%;
-  height: 100%;
 }
 .title {
   font-size: 18px;

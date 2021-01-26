@@ -1,0 +1,21 @@
+{
+  "name": "davneko",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "cd frontend && npm run generate && cd ../backend && npm run build",
+    "start": "./app/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nekobato/davneko.git"
+  },
+  "author": "nekobato <nekobato@gmail.com> (https://nekobato.net/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nekobato/davneko/issues"
+  },
+  "homepage": "https://github.com/nekobato/davneko#readme"
+}
