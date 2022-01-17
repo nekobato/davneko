@@ -20,7 +20,7 @@ export default Vue.extend({
 });
 </script>
 <style lang="postcss" scoped>
-@import "~/styles/variables.pcss";
+@import "@/assets/styles/variables.pcss";
 
 .back-button {
   flex-shrink: 0;

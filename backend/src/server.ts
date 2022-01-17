@@ -1,3 +1,7 @@
+require("dotenv").config({ debug: true });
+
+console.log(process.env.AUDIO_BASE_DIR);
+
 // import errorHandler from "errorhandler";
 
 import { app } from "./app";

@@ -1,4 +1,4 @@
-import { db } from "../../db";
+import { db } from "../../models/db";
 import { createId } from "../../utils/id";
 
 export const getUserIdFromTokens = ({

@@ -2,7 +2,7 @@ import passport from "passport";
 import { Strategy as bearerStrategy } from "passport-http-bearer";
 import { Strategy as twitterStrategy } from "passport-twitter";
 import env from "../../env";
-import { db } from "../../db";
+import { sequelize } from "../../models/db";
 import { createAuth, getUserIdByTwitterId } from "./twitter";
 import { getUserById, createUser } from "../user";
 

@@ -1,27 +1,32 @@
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from "./db";
 
-export class User extends Model {
+export type DirectoryRow = {
+  id: number;
+  path: string;
+  created: Date;
+  updated: Date;
+};
+
+export class Directory extends Model {
   public id!: number;
   public path!: string;
   public created!: Date;
   public updated!: Date;
 }
 
-User.init(
+Directory.init(
   {
     id: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
       primaryKey: true,
     },
-    username: DataTypes.STRING,
-    password: DataTypes.STRING,
-    token: DataTypes.STRING,
-    token_expired: DataTypes.TIME,
+    path: { type: DataTypes.STRING(200), allowNull: false },
   },
   {
     sequelize,
-    tableName: "user",
+    tableName: "directory",
     freezeTableName: true,
     createdAt: "created",
     updatedAt: "updated",

@@ -1,4 +1,4 @@
-import { db } from "../../db";
+import { sequelize } from "../../models/db";
 import { createId } from "../../utils/id";
 
 export const getUserIdFromAuth = ({
@@ -8,7 +8,7 @@ export const getUserIdFromAuth = ({
   email: string;
   password: string;
 }) => {
-  return db
+  return sequelize
     .query(
       `
       SELECT
