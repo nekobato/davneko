@@ -18,11 +18,18 @@ export const search = async (req: express.Request, res: express.Response, next: 
 };
 
 export const directory = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-  const directory = req.query['dir'];
+  const directoryId = req.params.id;
+
+  if (!directoryId) {
+    res.status(400).send('Bad Request');
+    return;
+  }
+
+  const audios = await getAudioByDirecotryId(Number(directoryId));
 
   try {
     res.json({
-      audio: await getAudioByDirecotryId(directory),
+      audios,
     });
   } catch (error) {
     throw error;

@@ -1,40 +1,39 @@
 export type DirectoryTree = {
-  id: number
-  path: string
-  name: string
-  type: 'directory'
-  children?: DirectoryTree[]
-}
+  id: number;
+  name: string;
+  path: string;
+  parentId: string | null;
+  type: 'directory';
+};
 
 export type AudioFile = {
-  id: number
-  path: string
-  name: string
-  type: 'file'
+  id: string;
+  path?: string;
+  type: 'file';
   meta: {
-    imageUrl?: string
-    artist?: string
-    title?: string
-  }
-}
-
-export type File = AudioFile | DirectoryTree
+    imageUrl?: string;
+    artist?: string;
+    title?: string;
+  };
+};
 
 export type DirectoryApi = {
-  id: number
-  path: string
-  created: string
-  updated: string
-}
+  id: number;
+  name: string;
+  path: string;
+  perentId: string | null;
+  createdAt: string;
+  updatedAt: string;
+};
 
 export type AudioApi = {
-  id: number
-  path: string
-  album: string
-  author: string
-  title: string
-  directory: number
-  duration: number
-  created: string
-  updated: string
-}
+  id: number;
+  path: string;
+  album: string;
+  author: string;
+  title: string;
+  directory: number;
+  duration: number;
+  createdAt: string;
+  updatedAt: string;
+};

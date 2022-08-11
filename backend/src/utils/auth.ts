@@ -1,34 +1,30 @@
-import jwt from "jsonwebtoken";
-import expressJwt from "express-jwt";
-import express from "express";
+import jwt from 'jsonwebtoken';
+import expressJwt from 'express-jwt';
+import express from 'express';
 
-export const isAuthenticated = (
-  req: express.Request,
-  res: express.Response,
-  next: express.NextFunction
-) => {
-  console.log(req.path);
+export const isAuthenticated = (req: express.Request, res: express.Response, next: express.NextFunction) => {
   if (req.isAuthenticated()) {
     return next();
   } else {
     res.status(403).json({
-      status: "NG",
+      status: 'NG',
       error: {
-        message: "not authenticated",
+        message: 'not authenticated',
       },
     });
   }
 };
 
 export const authenticateJwt = expressJwt({
-  secret: "my-secret",
-  requestProperty: "auth",
+  secret: 'my-secret',
+  requestProperty: 'auth',
   getToken: (req) => {
-    if (req.headers["x-auth-token"]) {
-      return req.headers["x-auth-token"];
+    if (req.headers['x-auth-token']) {
+      return req.headers['x-auth-token'];
     }
     return null;
   },
+  algorithms: ['HS256'],
 });
 
 export const createToken = (id: string) => {
@@ -36,7 +32,7 @@ export const createToken = (id: string) => {
     {
       id,
     },
-    "my-secret",
+    'my-secret',
     {
       expiresIn: 60 * 120,
     }

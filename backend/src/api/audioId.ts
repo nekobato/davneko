@@ -1,37 +1,39 @@
-import express from "express";
-import path from "path";
-import { QueryTypes } from "sequelize";
-import { sequelize } from "../models";
+import express from 'express';
+import path from 'path';
+import { prisma } from '../models/db';
 
-const audioBaseDir = process.env.AUDIO_BASE_DIR || ".";
+const audioBaseDir = process.env.AUDIO_BASE_DIR || '.';
 
-export const index = async (
-  req: express.Request,
-  res: express.Response,
-  next: express.NextFunction
-) => {
+export const index = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
   try {
-    const records = await sequelize.query(
-      "SELECT * from audio WHERE id = :id",
-      {
-        replacements: { id: req.params["id"] },
-        type: QueryTypes.SELECT
-      }
-    );
-    const audioPath = path.join(audioBaseDir, (records[0] as any)?.path);
+    const id = req.params.id;
+
+    if (!id) {
+      res.status(400).send('Bad Request');
+      return;
+    }
+
+    const audio = await prisma.audio.findFirst({
+      where: {
+        id,
+      },
+    });
+
+    if (!audio) {
+      res.status(404).send('Not Found');
+      return;
+    }
+
+    console.log(audio);
+
     res.sendFile(
-      audioPath,
+      path.join(audioBaseDir, audio.path),
       {
-        dotfiles: "deny",
+        dotfiles: 'deny',
         headers: {
-          "x-timestamp": Date.now(),
-          "x-sent": true,
-          "Cache-Control": [
-            "private",
-            "no-store",
-            "no-cache",
-            "must-revalidate",
-          ].join(","),
+          'x-timestamp': Date.now(),
+          'x-sent': true,
+          'Cache-Control': ['private', 'no-store', 'no-cache', 'must-revalidate'].join(','),
         },
       },
       next
@@ -41,20 +43,24 @@ export const index = async (
   }
 };
 
-export const detail = async (
-  req: express.Request,
-  res: express.Response,
-  next: express.NextFunction
-) => {
+export const detail = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
   try {
-    const records = await sequelize.query(
-      "SELECT * from audio WHERE id = :id",
-      {
-        replacements: { id: req.params["id"] },
-        type: QueryTypes.SELECT
-      }
-    );
-    res.json(records[0]);
+    if (!req.params.id) {
+      res.status(400).send('Bad Request');
+      return;
+    }
+    const audio = await prisma.audio.findFirst({
+      where: {
+        id: req.params.id,
+      },
+    });
+
+    if (!audio) {
+      res.status(404).send('Not Found');
+      return;
+    }
+
+    res.json({ audio });
   } catch (error) {
     throw error;
   }
