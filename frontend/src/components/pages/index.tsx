@@ -1,13 +1,13 @@
-import styled from '@emotion/styled'
-import { CompoSection } from '../products/CompoSection'
-import { FileBreadcrumb } from '../products/FileBreadcrumb'
-import { FileItem } from '../products/FileItem'
-import { AudioApi, AudioFile, DirectoryTree, File } from '@/types/api'
-import { useEffect, useState } from 'react'
-import { AudioItem } from '../products/AudioItem'
-import { getDirectoryAll, getDirectoryAudio } from '@/api'
-import dirList2Tree from '@/utils/directory'
-import path from 'path'
+import styled from '@emotion/styled';
+import { CompoSection } from '../products/CompoSection';
+import { FileBreadcrumb } from '../products/FileBreadcrumb';
+import { FileItem } from '../products/FileItem';
+import { AudioApi, AudioFile, DirectoryTree, File } from '@/types/api';
+import { useEffect, useState } from 'react';
+import { AudioItem } from '../products/AudioItem';
+import { getDirectoryAll, getDirectoryAudio } from '@/api';
+import dirList2Tree from '@/utils/directory';
+import path from 'path';
 
 const Template = styled.div`
   width: 100vw;
@@ -16,7 +16,6 @@ const Template = styled.div`
   gap: 16px;
   justify-content: center;
   align-items: center;
-
 
   .file-item-list {
     padding: 16px 8px;
@@ -35,39 +34,47 @@ const Template = styled.div`
     flex-flow: column;
     gap: 4px;
   }
-`
+`;
 
 export const Index: React.FC = () => {
-  const [dirPath, setDirPath] = useState<string>('/')
-  const [files, setFiles] = useState<File[]>([])
-  const [queues, setQueues] = useState<File[]>([])
-  const [dirTree, setDirTree] = useState<DirectoryTree[]>([])
-  const [dirs, setDirs] = useState<DirectoryTree[]>([])
+  const [dirPath, setDirPath] = useState<string>('/');
+  const [files, setFiles] = useState<File[]>([]);
+  const [queues, setQueues] = useState<File[]>([]);
+  const [dirTree, setDirTree] = useState<DirectoryTree[]>([]);
+  const [dirs, setDirs] = useState<DirectoryTree[]>([]);
 
   useEffect(() => {
     getDirectoryAll().then((res) => {
-      const dirTree = dirList2Tree(res.directories)
-      setDirTree(dirTree)
-      setFiles(
-        dirTree
-      )
-    })
-  }, [])
+      const dirTree = dirList2Tree(res.directories);
+      setDirTree(dirTree);
+      setFiles(dirTree);
+    });
+  }, []);
 
-  useEffect(() => {}, [dirPath])
+  useEffect(() => {}, [dirPath]);
 
   const addQueue = (newQueue: File) => {
-    setQueues([...queues, newQueue])
-  }
+    setQueues([...queues, newQueue]);
+  };
 
   const moveDirectory = (dir: DirectoryTree) => {
-    getDirectoryAudio(dir.id).then((res) => {
-      const audioList: File[] = res.audio.map((audio: AudioApi) => {
-        return { id: audio.id, path: audio.path, name: path.basename(audio.path), meta: { artist: audio.author, title: audio.title, duration: audio.duration } };
+    if (dir.id) {
+      getDirectoryAudio(dir.id).then((res) => {
+        const audioList: File[] = res.audio.map((audio: AudioApi) => {
+          return {
+            id: audio.id,
+            path: audio.path,
+            name: path.basename(audio.path),
+            meta: { artist: audio.author, title: audio.title, duration: audio.duration },
+            type: 'file',
+          };
+        });
+        setFiles([...dir.children!, ...audioList]);
       });
-      setFiles([...dir.children!, ...audioList])
-    })
-  }
+    } else {
+      setFiles([...dir.children!]);
+    }
+  };
 
   return (
     <Template>
@@ -75,13 +82,7 @@ export const Index: React.FC = () => {
         <FileBreadcrumb dirs={dirs} moveDirectory={moveDirectory} />
         <div className="file-item-list">
           {files?.map((file) => (
-            <FileItem
-              className="mtl-4"
-              key={file.path}
-              audio={file}
-              addQueue={addQueue}
-              moveDirectory={moveDirectory}
-            />
+            <FileItem className="mtl-4" key={file.path} audio={file} addQueue={addQueue} moveDirectory={moveDirectory} />
           ))}
         </div>
       </CompoSection>
@@ -94,5 +95,5 @@ export const Index: React.FC = () => {
       </CompoSection>
       <CompoSection className="audio" />
     </Template>
-  )
-}
+  );
+};

@@ -1,5 +1,5 @@
-import { DirectoryTree } from '@/types/api'
-import styled from '@emotion/styled'
+import { DirectoryTree } from '@/types/api';
+import styled from '@emotion/styled';
 
 const Template = styled.ul`
   display: flex;
@@ -30,16 +30,16 @@ const Template = styled.ul`
       cursor: pointer;
     }
   }
-`
+`;
 
 type Props = {
-  dirs: DirectoryTree[]
-  moveDirectory: (dir: DirectoryTree) => void
-}
+  dirs: DirectoryTree[];
+  moveDirectory: (dir: DirectoryTree) => void;
+};
 
 export const FileBreadcrumb: React.FC<Props> = ({ dirs, moveDirectory }) => (
   <Template>
-    {dirs.map((dir) => (
+    {dirs.map(dir => (
       <li key={dir.path}>
         <button className="name" onClick={() => moveDirectory(dir)}>
           {dir.name}
@@ -47,4 +47,4 @@ export const FileBreadcrumb: React.FC<Props> = ({ dirs, moveDirectory }) => (
       </li>
     ))}
   </Template>
-)
+);
