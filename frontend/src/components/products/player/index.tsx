@@ -7,6 +7,7 @@ import { Gauge } from './Gauge';
 import { MdSkipPrevious, MdSkipNext, MdPlayArrow, MdPause } from 'react-icons/md';
 
 const Template = styled.div`
+margin-top: 24px;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -67,6 +68,7 @@ const $ControllerButton = styled.button`
 
 type Props = {
   audio: AudioFile;
+  audioRef: React.RefObject<HTMLAudioElement>;
   state: AudioState;
   handleSkipPrevious: () => void;
   handleSkipNext: () => void;
@@ -74,8 +76,7 @@ type Props = {
   canSkipNext: boolean;
 };
 
-export const Player: React.FC<Props> = ({ audio, state, handleSkipNext, handleSkipPrevious, canSkipPrevious, canSkipNext }) => {
-  const audioRef = useRef<HTMLAudioElement>(null);
+export const Player: React.FC<Props> = ({ audio, audioRef, state, handleSkipNext, handleSkipPrevious, canSkipPrevious, canSkipNext }) => {
   const { audioState, setAudioState } = useContext(AudioContext);
 
   const onAudioTimeUpdate = (e: SyntheticEvent<HTMLAudioElement, Event>) => {
@@ -136,6 +137,7 @@ export const Player: React.FC<Props> = ({ audio, state, handleSkipNext, handleSk
         autoPlay={audioState.autoplay}
         ref={audioRef}
         key={audio?.id}
+        crossOrigin="anonymous"
       >
         <source src={audio?.id ? `${baseApiUrl}/audio/${audio.id}` : ''} />
       </audio>

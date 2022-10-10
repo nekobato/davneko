@@ -3,7 +3,7 @@ import { CompoSection } from '../products/CompoSection';
 import { FileBreadcrumb } from '../products/FileBreadcrumb';
 import { FileItem } from '../products/filer/FileItem';
 import { AudioApi, AudioFile, DirectoryApi, DirectoryTree } from '@/types/api';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { AudioItem } from '../products/AudioItem';
 import { getDirectories, getDirectoryAudio, getRootDirectories } from '@/api';
 import path from 'path';
@@ -12,6 +12,9 @@ import { PlaylistContext } from '@/utils/PlaylistContext';
 import { AudioContext } from '@/utils/AudioContext';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { DirectoryItem } from '../products/filer/DirectoryItem';
+import { LineVisualizer } from '../products/Visualizer/LineVisualizer';
+import { PlayerSection } from '../products/PlayerSection';
+import { AudioThumbnail } from '../products/AudioThumbnail';
 
 const Template = styled.div`
   width: 100vw;
@@ -20,6 +23,7 @@ const Template = styled.div`
   gap: 16px;
   justify-content: center;
   align-items: center;
+  padding: 24px 0;
 
   .file-item-list {
     padding: 16px 8px;
@@ -44,6 +48,7 @@ const Template = styled.div`
 `;
 
 export const Index: React.FC = () => {
+  const audioRef = useRef<HTMLAudioElement>(null);
   const playlistContext = useContext(PlaylistContext);
   const audioContext = useContext(AudioContext);
 
@@ -126,6 +131,36 @@ export const Index: React.FC = () => {
           ))}
         </div>
       </CompoSection>
+      <PlayerSection className="audio">
+        <AudioThumbnail thumbnailUrl={undefined} />
+        <Player
+        audioRef={audioRef}
+          audio={audioContext.audio}
+          state={audioContext.audioState}
+          handleSkipNext={() => {
+            if (playlistContext.playlist.length > 0 && playlistContext.currentIndex < playlistContext.playlist.length - 1) {
+              playlistContext.setCurrentIndex(playlistContext.currentIndex + 1);
+            } else if (audioContext.audioState.loop === 'all') {
+              playlistContext.setCurrentIndex(playlistContext.playlist.length - 1);
+            }
+          }}
+          handleSkipPrevious={() => {
+            if (playlistContext.currentIndex > 0) {
+              playlistContext.setCurrentIndex(playlistContext.currentIndex - 1);
+            } else if (audioContext.audioState.loop === 'all') {
+              playlistContext.setCurrentIndex(0);
+            }
+          }}
+          canSkipNext={
+            playlistContext.playlist.length > 1 &&
+            (playlistContext.currentIndex < playlistContext.playlist.length - 1 || audioContext.audioState.loop === 'all')
+          }
+          canSkipPrevious={
+            playlistContext.playlist.length > 1 && (playlistContext.currentIndex > 0 || audioContext.audioState.loop === 'all')
+          }
+        />
+        <LineVisualizer audioRef={audioRef} />
+      </PlayerSection>
       <CompoSection className="queue">
         {playlistContext.playlist.length > 0 && (
           <DragDropContext
@@ -182,33 +217,6 @@ export const Index: React.FC = () => {
             </Droppable>
           </DragDropContext>
         )}
-      </CompoSection>
-      <CompoSection className="audio">
-        <Player
-          audio={audioContext.audio}
-          state={audioContext.audioState}
-          handleSkipNext={() => {
-            if (playlistContext.playlist.length > 0 && playlistContext.currentIndex < playlistContext.playlist.length - 1) {
-              playlistContext.setCurrentIndex(playlistContext.currentIndex + 1);
-            } else if (audioContext.audioState.loop === 'all') {
-              playlistContext.setCurrentIndex(playlistContext.playlist.length - 1);
-            }
-          }}
-          handleSkipPrevious={() => {
-            if (playlistContext.currentIndex > 0) {
-              playlistContext.setCurrentIndex(playlistContext.currentIndex - 1);
-            } else if (audioContext.audioState.loop === 'all') {
-              playlistContext.setCurrentIndex(0);
-            }
-          }}
-          canSkipNext={
-            playlistContext.playlist.length > 1 &&
-            (playlistContext.currentIndex < playlistContext.playlist.length - 1 || audioContext.audioState.loop === 'all')
-          }
-          canSkipPrevious={
-            playlistContext.playlist.length > 1 && (playlistContext.currentIndex > 0 || audioContext.audioState.loop === 'all')
-          }
-        />
       </CompoSection>
     </Template>
   );

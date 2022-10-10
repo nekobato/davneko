@@ -1,21 +1,10 @@
 import styled from '@emotion/styled';
 import { AudioFile } from '@/types/api';
 import { MdAudiotrack } from 'react-icons/md';
-
-type Props = {
-  audio: AudioFile;
-  addPlaylist: (queue: AudioFile) => void;
-  className: string;
-};
-
-export const FileItem: React.FC<Props> = ({ audio, addPlaylist }) => (
-  <Template onClick={() => addPlaylist(audio)}>
-    {<MdAudiotrack className="nn-icon size-small" />}
-    <span className="name">{audio.meta.title}</span>
-  </Template>
-);
+import { duration2TimeString } from '@/utils/audio';
 
 const Template = styled.button`
+  position: relative;
   display: flex;
   width: 100%;
   padding: 4px 8px;
@@ -44,5 +33,24 @@ const Template = styled.button`
     max-height: 40px;
     overflow: hidden;
     text-align: left;
+    padding-right: 40px;
+  }
+  .duration {
+    position: absolute;
+    right: 8px;
   }
 `;
+
+type Props = {
+  audio: AudioFile;
+  addPlaylist: (queue: AudioFile) => void;
+  className: string;
+};
+
+export const FileItem: React.FC<Props> = ({ audio, addPlaylist }) => (
+  <Template onClick={() => addPlaylist(audio)}>
+    {<MdAudiotrack className="nn-icon size-small" />}
+    <span className="name">{audio.meta.title}</span>
+    <span className="duration">{duration2TimeString(audio.meta.duration)}</span>
+  </Template>
+);

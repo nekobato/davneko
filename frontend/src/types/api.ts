@@ -14,6 +14,7 @@ export type AudioFile = {
     imageUrl?: string;
     artist?: string;
     title?: string;
+    duration?: number;
   };
 };
 

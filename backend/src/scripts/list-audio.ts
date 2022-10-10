@@ -6,6 +6,7 @@ import path from 'path';
 import checksum from 'checksum';
 import dotenv from 'dotenv';
 import { PrismaClient } from '@prisma/client';
+import fs from 'fs-extra';
 
 dotenv.config({ debug: true });
 
@@ -76,8 +77,16 @@ const getDirectoryId = async (dirName: string): Promise<number | undefined> => {
         const metadata = await mm.parseFile(file.fullPath);
         const metadataChecksum = checksum(JSON.stringify(metadata));
 
+        const id = ulid().toLocaleLowerCase();
+        let thumbnail = false;
+
+        if (metadata.common.picture) {
+          await fs.writeFile(path.resolve('./pictures', id), metadata.common.picture[0].data);
+          thumbnail = true;
+        }
+
         const newAudioFileData = {
-          id: ulid().toLocaleLowerCase(),
+          id,
           path: file.path,
           checksum: metadataChecksum,
           title: metadata.common.title || file.basename,
@@ -85,6 +94,7 @@ const getDirectoryId = async (dirName: string): Promise<number | undefined> => {
           album: metadata.common.album || '',
           duration: metadata.format.duration || 0,
           directoryId: directoryId,
+          thumbnail,
         };
 
         await prisma.audio.create({ data: newAudioFileData });

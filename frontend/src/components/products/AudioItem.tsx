@@ -1,7 +1,8 @@
 import { AudioFile } from '@/types/api';
 import styled from '@emotion/styled';
-import { MdClose, MdDragHandle } from 'react-icons/md';
+import { MdClose } from 'react-icons/md';
 import clsx from 'clsx';
+import { duration2TimeString } from '@/utils/audio';
 
 const Template = styled.div`
   position: relative;
@@ -15,6 +16,7 @@ const Template = styled.div`
   font-size: 14px;
   line-height: 20px;
   cursor: pointer;
+  align-items: center;
   &.active {
     background: rgba(255, 255, 255, 0.8);
   }
@@ -23,6 +25,7 @@ const Template = styled.div`
   img {
     width: 40px;
     height: 40px;
+    overflow: hidden;
   }
   picture {
     display: inline-flex;
@@ -103,13 +106,11 @@ export const AudioItem: React.FC<Props> = ({ audio, handleClick, handleClickClos
       <div className="text-container">
         <span className="artist">{audio.meta.artist}</span>
         <span className="title">{audio.meta.title}</span>
+        <span className="duration">{duration2TimeString(audio.meta.duration)}</span>
       </div>
       <$Overlay className="overlay">
         <button className="close" onClick={handleClickClose}>
           <MdClose className="nn-icon" />
-        </button>
-        <button className="handle">
-          <MdDragHandle className="nn-icon" />
         </button>
       </$Overlay>
     </Template>
