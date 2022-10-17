@@ -12,9 +12,10 @@ import { PlaylistContext } from '@/utils/PlaylistContext';
 import { AudioContext } from '@/utils/AudioContext';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { DirectoryItem } from '../products/filer/DirectoryItem';
-import { LineVisualizer } from '../products/Visualizer/LineVisualizer';
+// import { LineVisualizer } from '../products/Visualizer/LineVisualizer';
 import { PlayerSection } from '../products/PlayerSection';
 import { AudioThumbnail } from '../products/AudioThumbnail';
+import { AddAll2PlaylistButton } from '../products/filer/AddAll2PlaylistButton';
 
 const Template = styled.div`
   width: 100vw;
@@ -25,8 +26,22 @@ const Template = styled.div`
   align-items: center;
   padding: 24px 0;
 
+  .filer {
+    position: relative;
+    transform: perspective(600px) rotate3d(0, -1, 0, -15deg);
+    .add-all {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+    }
+  }
+
+  .queue {
+    transform: perspective(600px) rotate3d(0, -1, 0, 15deg);
+  }
+
   .file-item-list {
-    padding: 16px 8px;
+    padding: 8px 8px;
     overflow-y: scroll;
     height: 100%;
     display: flex;
@@ -65,11 +80,11 @@ export const Index: React.FC = () => {
   ]);
 
   const getCurrentPath = () => {
-    return depth.map((dir) => dir.name).join('/');
+    return depth.map(dir => dir.name).join('/');
   };
 
   useEffect(() => {
-    getRootDirectories().then((res) => {
+    getRootDirectories().then(res => {
       setDirs(
         res.directories.map((directory: DirectoryApi) => {
           return { ...directory, path: '/', type: 'directory' };
@@ -80,16 +95,16 @@ export const Index: React.FC = () => {
 
   const moveDirectory = (dir: DirectoryTree) => {
     // find dir in depth
-    if (depth.find((d) => d.id === dir.id)) {
-      const newDepth = depth.slice(0, depth.findIndex((d) => d.id === dir.id) + 1);
+    if (depth.find(d => d.id === dir.id)) {
+      const newDepth = depth.slice(0, depth.findIndex(d => d.id === dir.id) + 1);
       setDepth(newDepth);
     } else {
-      setDepth((prev) => [...prev, dir]);
+      setDepth(prev => [...prev, dir]);
     }
 
     const dirPath = path.join(getCurrentPath(), dir.name);
 
-    getDirectories(dir.id).then((res) => {
+    getDirectories(dir.id).then(res => {
       setDirs(
         res.directories.map((directory: DirectoryApi) => {
           return { ...directory, path: path.join(dirPath, directory.name), type: 'directory' };
@@ -97,7 +112,7 @@ export const Index: React.FC = () => {
       );
     });
 
-    getDirectoryAudio(dir.id).then((res) => {
+    getDirectoryAudio(dir.id).then(res => {
       const audioList: AudioFile[] = res.audios.map((audio: AudioApi) => {
         return {
           id: audio.id,
@@ -113,13 +128,15 @@ export const Index: React.FC = () => {
 
   return (
     <Template>
+      {/* <LineVisualizer /> */}
       <CompoSection className="filer">
         <FileBreadcrumb dirs={depth} moveDirectory={moveDirectory} />
+        <AddAll2PlaylistButton className="add-all" audioList={files} />
         <div className="file-item-list">
-          {dirs.map((dir) => (
+          {dirs.map(dir => (
             <DirectoryItem className="mtl-4" key={dir.name} directory={dir} handleClick={moveDirectory} />
           ))}
-          {files?.map((file) => (
+          {files.map(file => (
             <FileItem
               className="mtl-4"
               key={file.path}
@@ -134,7 +151,7 @@ export const Index: React.FC = () => {
       <PlayerSection className="audio">
         <AudioThumbnail thumbnailUrl={undefined} />
         <Player
-        audioRef={audioRef}
+          audioRef={audioRef}
           audio={audioContext.audio}
           state={audioContext.audioState}
           handleSkipNext={() => {
@@ -159,12 +176,12 @@ export const Index: React.FC = () => {
             playlistContext.playlist.length > 1 && (playlistContext.currentIndex > 0 || audioContext.audioState.loop === 'all')
           }
         />
-        <LineVisualizer audioRef={audioRef} />
+        {/* <LineVisualizer audioRef={audioRef} /> */}
       </PlayerSection>
       <CompoSection className="queue">
         {playlistContext.playlist.length > 0 && (
           <DragDropContext
-            onDragEnd={(result) => {
+            onDragEnd={result => {
               if (!result.destination) {
                 return;
               }

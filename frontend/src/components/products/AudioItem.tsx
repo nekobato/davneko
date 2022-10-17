@@ -100,7 +100,13 @@ export const AudioItem: React.FC<Props> = ({ audio, handleClick, handleClickClos
     <Template onClick={handleClick} className={clsx({ active: isActive })}>
       <figure>
         <picture>
-          <img alt="サムネイル" src={audio.meta.imageUrl || ''} />
+          <img
+            alt="サムネイル"
+            src={
+              audio.meta.imageUrl ||
+              'https://ia800109.us.archive.org/5/items/mbid-ce7fd084-e7a7-4b15-b5d8-17663ba111d5/mbid-ce7fd084-e7a7-4b15-b5d8-17663ba111d5-19010646691_thumb500.jpg'
+            }
+          />
         </picture>
       </figure>
       <div className="text-container">

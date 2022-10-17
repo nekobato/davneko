@@ -47,8 +47,6 @@ const $ControllerButton = styled.button`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
   border-radius: 50%;
   border: 1px solid rgba(255, 255, 255, 0.2);
   background: rgba(255, 255, 255, 0.5);
@@ -57,9 +55,17 @@ const $ControllerButton = styled.button`
   &:hover {
     filter: opacity(80%) brightness(150%);
   }
+  &.previous, &.next {
+  width: 32px;
+  height: 32px;
+  }
+  &.play-pause {
+    width: 40px;
+    height: 40px;
+  }
   > .icon {
-    width: 24px;
-    height: 24px;
+    width: 100%;
+    height: 100%;
   }
   &:disabled {
     filter: opacity(50%);
@@ -154,9 +160,9 @@ export const Player: React.FC<Props> = ({ audio, audioRef, state, handleSkipNext
         </$ControllerButton>
         <$ControllerButton className="play-pause" onClick={playOrPause}>
           {audioState.isPlaying ? (
-            <MdPause width={24} height={24} className="icon" />
+            <MdPause width={40} height={40} className="icon" />
           ) : (
-            <MdPlayArrow width={24} height={24} className="icon" />
+            <MdPlayArrow width={40} height={40} className="icon" />
           )}
         </$ControllerButton>
         <$ControllerButton className="next" onClick={handleSkipNext} disabled={!canSkipNext}>

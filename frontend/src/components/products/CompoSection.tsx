@@ -3,11 +3,12 @@ import styled from '@emotion/styled';
 const Template = styled.div`
   border: 1px solid #ddd;
   border-radius: 8px;
-  min-height: 320px;
+  min-height: 400px;
   max-height: 480px;
-  height: 100%;
   overflow: hidden;
-  width: 320px;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
 `;
 
 type Props = {

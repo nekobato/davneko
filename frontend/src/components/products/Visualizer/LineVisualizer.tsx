@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { useContext, useEffect, useLayoutEffect, useRef } from 'react';
+import { useContext, useEffect, useRef } from 'react';
 import { AudioContext as DavnekoAudioContext } from '@/utils/AudioContext';
 
 type Props = {

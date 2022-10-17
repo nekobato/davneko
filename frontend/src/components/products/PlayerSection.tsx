@@ -3,7 +3,6 @@ import styled from '@emotion/styled';
 const Template = styled.div`
   min-width: 320px;
   min-height: 320px;
-  height: 100%;
   overflow: hidden;
   width: 360px;
 `;
