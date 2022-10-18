@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
+    "start": "node dist/server.js",
     "dev": "NODE_ENV=local PORT=3001 ts-node-dev src/server.ts",
     "build": "tsc",
     "prisma:generate": "prisma generate",
