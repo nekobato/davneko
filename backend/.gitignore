@@ -2,3 +2,4 @@ keys
 dist
 .env
 prisma/dev.db
+*.db
