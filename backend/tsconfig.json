@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "sourceRoot": "src",
-    "outDir": "../app",
+    "outDir": "dist",
     "target": "esnext",
     "module": "CommonJS",
     "skipLibCheck": true,
