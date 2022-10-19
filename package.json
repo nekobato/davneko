@@ -16,8 +16,5 @@
   "bugs": {
     "url": "https://github.com/nekobato/davneko/issues"
   },
-  "homepage": "https://github.com/nekobato/davneko#readme",
-  "devDependencies": {
-    "ohmyfetch": "^0.4.15"
-  }
+  "homepage": "https://github.com/nekobato/davneko#readme"
 }
