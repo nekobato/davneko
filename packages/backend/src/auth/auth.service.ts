@@ -5,11 +5,10 @@ import {
 } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
-import { generateUserId } from 'src/utils/generateId';
+import { generateUserId, hashPassword } from 'src/utils/crypt';
 import bcrypt from 'bcrypt';
 import { SigninRequestDto, SignupRequestDto } from './auth.dto';
 import { UserRepository } from 'src/user/user.repository';
-import { UserDto } from 'src/user/user.dto';
 
 @Injectable()
 export class AuthService {
@@ -20,7 +19,7 @@ export class AuthService {
   ) {}
 
   async validateUser(name: string, password: string): Promise<any> {
-    const user = await this.userService.getUserByName(name);
+    const user = await this.userRepository.getUserByName(name);
     if (!user) {
       throw new UnauthorizedException('Invalid username or password');
     }
@@ -30,6 +29,7 @@ export class AuthService {
       throw new UnauthorizedException('Invalid username or password');
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password: _, ...result } = user;
     return result;
   }
@@ -51,34 +51,35 @@ export class AuthService {
   }
 
   async signup(user: SignupRequestDto) {
-    const existingUser = await this.userService.getUserByName(user.username);
+    const existingUser = await this.userService.getUserByUsername(
+      user.username,
+    );
 
     if (existingUser) {
       throw new ConflictException(`${user.username} already exists`);
     }
 
-    const salt = bcrypt.genSaltSync(10);
-    const hashedPassword = bcrypt.hashSync(user.password, salt);
-
     const createdUser = await this.userRepository.createUser({
       id: generateUserId(),
       username: user.username,
-      password: hashedPassword,
+      password: hashPassword(user.password),
     });
-    const auth = this.signin({
-      username: createdUser[0].username,
-      password: createdUser[0].password,
-    });
-    return {
-      user: createdUser,
-      auth,
-    };
-  }
 
-  private async generateToken(user: UserDto) {
-    const payload = { username: user.username, sub: user.id };
+    const auth = this.signin({
+      username: createdUser.username,
+      password: createdUser.password,
+    });
+
+    if (!auth) {
+      throw new UnauthorizedException('Singin failed after signup.');
+    }
+
     return {
-      accessToken: this.jwtService.signAsync(payload),
+      user: {
+        id: createdUser.id,
+        username: createdUser.username,
+      },
+      auth,
     };
   }
 }

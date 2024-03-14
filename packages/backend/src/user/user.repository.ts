@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { BetterSQLite3Database } from 'drizzle-orm/better-sqlite3';
 import { schema } from 'src/db/schema';
-import { CreateUserDto, UserDto } from './user.dto';
+import { CreateUserDto, UpdateUserDto, UserDto } from './user.dto';
 import { eq } from 'drizzle-orm';
 
 @Injectable()
@@ -16,15 +16,6 @@ export class UserRepository {
     });
   }
 
-  async createUser(user: CreateUserDto) {
-    const createdUser = await this.db
-      .insert(schema.user)
-      .values(user)
-      .returning();
-
-    return createdUser;
-  }
-
   async getUserById(id: UserDto['id']) {
     return this.db.query.user.findFirst({
       where(fields, operators) {
@@ -37,18 +28,45 @@ export class UserRepository {
     return this.db.query.user.findMany();
   }
 
-  async updateUser(id: string, user: CreateUserDto) {
-    return this.db
-      .update(schema.user)
-      .set(user)
-      .where(eq(schema.user.id, id))
+  async createUser(user: CreateUserDto) {
+    const result = await this.db
+      .insert(schema.user)
+      .values(user)
+      .onConflictDoNothing()
       .returning();
+
+    if (!result) {
+      throw new Error('User not found');
+    }
+
+    return result[0];
+  }
+
+  async updateUser(user: UpdateUserDto) {
+    const result = this.db
+      .update(schema.user)
+      .set({
+        username: user.username,
+        password: user.password,
+      })
+      .where(eq(schema.user.id, user.id))
+      .returning();
+
+    if (!result) {
+      throw new Error('User not found');
+    }
+    return result[0];
   }
 
   async deleteUser(id: string) {
-    return this.db
+    const result = this.db
       .delete(schema.user)
       .where(eq(schema.user.id, id))
       .returning();
+
+    if (!result) {
+      throw new Error('User not found');
+    }
+    return result[0];
   }
 }

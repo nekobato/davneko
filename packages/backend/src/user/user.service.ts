@@ -1,19 +1,23 @@
 import { Injectable } from '@nestjs/common';
-import bcrypt from 'bcrypt';
-import { CreateUserDto } from './user.dto';
+import { UpdateUserDto } from './user.dto';
 import { UserRepository } from './user.repository';
+import { hashPassword } from 'src/utils/crypt';
 
 @Injectable()
 export class UserService {
   constructor(private userRepository: UserRepository) {}
 
-  updateUser(id: string, user: CreateUserDto) {
-    const salt = bcrypt.genSaltSync(10);
-    const hash = bcrypt.hashSync(user.password, salt);
-    return this.userRepository.updateUser(id, { ...user, password: hash });
+  getUserByUsername(username: string) {
+    return this.userRepository.getUserByName(username);
   }
 
-  getUserByName(name: string) {
-    return this.userRepository.getUserByName(name);
+  // createUser is at auth.service.ts
+
+  updateUser(user: UpdateUserDto) {
+    return this.userRepository.updateUser({
+      id: user.id,
+      username: user.username,
+      password: user.password ? hashPassword(user.password) : undefined,
+    });
   }
 }

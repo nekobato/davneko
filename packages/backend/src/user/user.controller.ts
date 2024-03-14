@@ -1,64 +1,50 @@
-import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { UserService } from '../user/user.service';
-import { generateUserId } from '../utils/generateId';
-
-export type CensoredUser = Omit<Prisma.UserSelect, 'password'>;
+import { AuthGuard } from '@nestjs/passport';
+import { UpdateUserDto } from './user.dto';
 
 @Controller('user')
 export class UserContorller {
   constructor(private readonly userService: UserService) {}
 
+  @Get('me')
+  @UseGuards(AuthGuard('jwt'))
+  async getMe() {
+    return {
+      id: 1,
+      username: 'name',
+      updatedAt: new Date(),
+      createdAt: new Date(),
+    };
+  }
+
   @Get(':username')
-  async getUser(@Param('username') username: string): Promise<any> {
-    const { password, ...user } = await this.userService.user({
-      username,
-    });
-    return user;
+  async getUser(@Param('username') username: string) {
+    return await this.userService.getUserByUsername(username);
   }
 
-  @Post()
-  async createUser(
-    @Body() userData: { username: string; email: string; password: string },
-  ): Promise<any> {
-    if (!userData.username) {
-      throw new Error('username is required');
-    }
-    if (!userData.email) {
-      throw new Error('email is required');
-    }
-    if (!userData.password) {
-      throw new Error('password is required');
-    }
-
-    const existingUser = await this.userService.user({
-      email: userData.email,
-    });
-
-    if (existingUser) {
-      throw new Error('email already exists');
-    }
-
-    const id = generateUserId();
-    return this.userService.create({ ...userData, id });
-  }
-
-  @Patch()
+  @Post('update')
+  @UseGuards(AuthGuard('jwt'))
   async updateUser(
     @Body()
-    userData: {
-      id: string;
-      username: string;
-      email: string;
-      password: string;
-    },
+    body: UpdateUserDto,
   ): Promise<any> {
-    const { id, ...data } = userData;
-
-    if (!id) {
-      throw new Error('User ID is required');
+    if (!body.id) {
+      throw new BadRequestException('User ID is required');
     }
 
-    return this.userService.updateUser({ where: { id: userData.id }, data });
+    return this.userService.updateUser({
+      id: body.id,
+      username: body.username,
+      password: body.password,
+    });
   }
 }

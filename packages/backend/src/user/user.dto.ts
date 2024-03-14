@@ -1,4 +1,4 @@
-import { IsNotEmpty } from 'class-validator';
+import { IsAlphanumeric, IsNotEmpty, IsOptional } from 'class-validator';
 
 export class UserDto {
   id: string;
@@ -20,6 +20,8 @@ export class CreateUserDto {
 export class UpdateUserDto {
   @IsNotEmpty()
   id: string;
+  @IsOptional()
   username: string;
+  @IsOptional()
   password: string;
 }
