@@ -11,11 +11,31 @@ export const user = sqliteTable('user', {
 export const audio = sqliteTable('audio', {
   id: text('id').notNull().primaryKey().unique(),
   title: text('name').notNull(),
-  artist: text('artist'),
-  album: text('album'),
+  albumId: text('album_id'),
   filePath: text('path').notNull(),
   directoryPath: text('directory_path').notNull(),
   hierarchyLevel: int('hierarchy_level').notNull(),
+  createdAt: text('created_at').notNull().default('CURRENT_TIMESTAMP'),
+  updatedAt: text('updated_at').notNull().default('CURRENT_TIMESTAMP'),
+});
+
+export const artist = sqliteTable('artist', {
+  id: text('id').notNull().primaryKey().unique(),
+  name: text('name').notNull(),
+  createdAt: text('created_at').notNull().default('CURRENT_TIMESTAMP'),
+  updatedAt: text('updated_at').notNull().default('CURRENT_TIMESTAMP'),
+});
+
+export const audioArtist = sqliteTable('audio_artist', {
+  id: int('id').notNull().primaryKey().unique(),
+  audioId: int('audio_id').notNull(),
+  artistId: int('artist_id').notNull(),
+});
+
+export const album = sqliteTable('album', {
+  id: text('id').notNull().primaryKey().unique(),
+  name: text('title').notNull(),
+  artistId: text('artist_id').notNull(),
   createdAt: text('created_at').notNull().default('CURRENT_TIMESTAMP'),
   updatedAt: text('updated_at').notNull().default('CURRENT_TIMESTAMP'),
 });
@@ -56,6 +76,9 @@ export const schema = {
   user,
   userSelectedAudio,
   audio,
+  artist,
+  audioArtist,
+  album,
   playlist,
   playlistAudio,
   queue,

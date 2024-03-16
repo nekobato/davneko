@@ -1,34 +1,39 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { QueueService } from './queue.service';
-import { CreateQueueDto } from './dto/create-queue.dto';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { UpdateQueueDto } from './dto/update-queue.dto';
+import { QueueService } from './queue.service';
 
 @Controller('queue')
 export class QueueController {
   constructor(private readonly queueService: QueueService) {}
 
-  @Post()
-  create(@Body() createQueueDto: CreateQueueDto) {
-    return this.queueService.create(createQueueDto);
-  }
-
+  // current & log
   @Get()
   findAll() {
     return this.queueService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.queueService.findOne(+id);
+  @Get('upcoming')
+  findCurrent() {
+    return this.queueService.findCurrent();
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateQueueDto: UpdateQueueDto) {
-    return this.queueService.update(+id, updateQueueDto);
+  @Get('played')
+  findLog() {
+    return this.queueService.findLog();
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.queueService.remove(+id);
+  @Get('generate_next')
+  findNext() {
+    return this.queueService.findNext();
+  }
+
+  @Post('add')
+  add(@Body() updateQueueDto: UpdateQueueDto) {
+    return this.queueService.add(updateQueueDto);
+  }
+
+  @Post('remove')
+  remove(@Body() updateQueueDto: UpdateQueueDto) {
+    return this.queueService.remove(updateQueueDto);
   }
 }
