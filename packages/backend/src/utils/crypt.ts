@@ -1,24 +1,34 @@
 import bcrypt from 'bcrypt';
-import { nanoid, customAlphabet } from 'nanoid';
+import { customAlphabet } from 'nanoid';
+
+const createCustomNanoid = (length: number) =>
+  customAlphabet(
+    '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',
+    length,
+  )();
 
 export const generateUserId = () => {
-  const customNanoid = customAlphabet(
-    '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',
-    16,
-  );
-  return customNanoid();
+  return createCustomNanoid(16);
 };
 
 export const generateId = () => {
-  return nanoid(16);
+  return createCustomNanoid(16);
 };
 
 export const generateToken = () => {
-  return nanoid(32);
+  return createCustomNanoid(32);
+};
+
+export const generateAudioId = () => {
+  return createCustomNanoid(16);
 };
 
 export const generateFileId = () => {
-  return nanoid(16);
+  return createCustomNanoid(16);
+};
+
+export const generateQueueId = () => {
+  return createCustomNanoid(16);
 };
 
 export const hashPassword = (password: string) => {

@@ -1,18 +1,7 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Patch,
-  Post,
-  Query,
-  Res,
-} from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Req, Res } from '@nestjs/common';
 import { Response } from 'express';
+import { FavAudioDto, UnfavAudioDto, UpdateAudioDto } from './audio.dto';
 import { AudioService } from './audio.service';
-import { UpdateAudioDto } from './dto/update-audio.dto';
-import ffmpeg from 'fluent-ffmpeg';
 
 @Controller('audio')
 export class AudioController {
@@ -25,66 +14,54 @@ export class AudioController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.audioService.findOne(+id);
+    return this.audioService.findOne(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAudioDto: UpdateAudioDto) {
-    return this.audioService.update(+id, updateAudioDto);
+  @Post(':id/update')
+  update(@Req() req, @Param('id') id: string, @Body() body: UpdateAudioDto) {
+    return this.audioService.update(id, req.user.id, body);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.audioService.remove(+id);
+  @Post(':id/delete')
+  remove(@Req() req, @Param('id') id: string) {
+    return this.audioService.remove(id, req.user.id);
   }
 
   @Post('fav')
-  fav(@Body() favAudioDto: FavAudioDto) {
-    return this.audioService.createFav(favAudioDto);
+  fav(@Req() req, @Body() body: FavAudioDto) {
+    return this.audioService.createFav(req.user.id, body.audioId);
   }
 
   @Post('unfav')
-  unfav(@Body() unfavAudioDto: UnfavAudioDto) {
-    return this.audioService.removeFav(unfavAudioDto);
+  unfav(@Req() req, @Body() body: UnfavAudioDto) {
+    return this.audioService.deleteFav(req.user.id, body.audioId);
   }
 
-  @Get(':id/stream')
-  streamAudio(
-    @Res() res: Response,
-    @Query('bitrate') bitrate: string = '128k',
-    @Param('id') id: string,
-  ) {
-    const filePath = await this.audioService.getFilePath(id);
-
+  @Get(':id/segments.m3u8')
+  async streamAudio(@Res() res: Response, @Param('id') id: string) {
+    // res is a m3u8 file
     res.writeHead(200, {
-      'Content-Type': 'audio/mp3',
-      'Content-Disposition': 'inline; filename="output.mp3"',
+      'Content-Type': 'application/vnd.apple.mpegurl',
     });
-
-    ffmpeg(filePath)
-      .audioBitrate(bitrate)
-      .format('mp3')
-      .on('end', function () {
-        console.log('Stream finished');
-      })
-      .on('error', function (err) {
-        console.error('Stream error:', err);
-        res.status(500).send('Error processing audio');
-      })
-      .pipe(res, { end: true });
+    res.send('[]');
   }
 
-  @Get(':id/segments/:segment')
+  @Get(':audioId/segment/:segment')
   async streamSegment(
+    @Req() req,
     @Res() res: Response,
-    @Param('id') id: string,
+    @Param('audioId') audioId: string,
     @Param('segment') segment: string,
   ) {
-    const segmentPath = await this.audioService.getSegmentPath(id, segment);
+    const segmentPath = await this.audioService.getSegmentFile(
+      req.user.id,
+      audioId,
+      +segment,
+    );
 
     res.writeHead(200, {
       'Content-Type': 'audio/mp3',
-      'Content-Disposition': 'inline; filename="output.mp3"',
+      'Content-Disposition': `inline; filename="${audioId}-${segment}.mp3"`,
     });
 
     res.sendFile(segmentPath);

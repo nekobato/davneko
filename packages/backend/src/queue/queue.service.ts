@@ -1,11 +1,30 @@
-import { Injectable } from '@nestjs/common';
-import { CreateQueueDto } from './dto/create-queue.dto';
-import { UpdateQueueDto } from './dto/update-queue.dto';
+import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
+import { QueueRepository } from './queue.repository';
+import { generateQueueId } from 'src/utils/crypt';
 
 @Injectable()
 export class QueueService {
-  create(createQueueDto: CreateQueueDto) {
-    return 'This action adds a new queue';
+  constructor(@Inject() private queueRepository: QueueRepository) {}
+
+  findUpcoming(userId: string) {
+    return this.queueRepository.findQueueByUserId(userId, 'upcoming');
+  }
+
+  findPlayed(userId: string) {
+    return this.queueRepository.findQueueByUserId(userId, 'played');
+  }
+
+  generateNext(userId: string) {
+    return [];
+  }
+
+  create(newQueue: { userId: string; audioId: string; order: number }) {
+    this.queueRepository.create({
+      id: generateQueueId(),
+      userId: newQueue.userId,
+      audioId: newQueue.audioId,
+      orderInQueue: newQueue.order,
+    });
   }
 
   findAll() {
@@ -16,11 +35,34 @@ export class QueueService {
     return `This action returns a #${id} queue`;
   }
 
-  update(id: number, updateQueueDto: UpdateQueueDto) {
-    return `This action updates a #${id} queue`;
+  update(updateQueueDto: {
+    userId: string;
+    id: string;
+    order: number;
+    newOrder: number;
+  }) {
+    if (updateQueueDto.order < updateQueueDto.newOrder) {
+      return this.queueRepository.reOrderQueueToLater(
+        updateQueueDto.userId,
+        updateQueueDto.id,
+        updateQueueDto.newOrder,
+      );
+    } else {
+      return this.queueRepository.reOrderQueueToEarlier(
+        updateQueueDto.userId,
+        updateQueueDto.id,
+        updateQueueDto.newOrder,
+      );
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} queue`;
+  async remove(userId: string, id: string) {
+    const queue = await this.queueRepository.findQueueById(id);
+
+    if (queue.userId !== userId) {
+      throw new UnauthorizedException('Unauthorized');
+    }
+
+    return this.queueRepository.deleteQueue(id);
   }
 }

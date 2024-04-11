@@ -1,20 +1,37 @@
-import { Injectable } from '@nestjs/common';
-import { CreateAudioDto } from './dto/create-audio.dto';
-import { UpdateAudioDto } from './dto/update-audio.dto';
+import { Inject, Injectable } from '@nestjs/common';
+import { AudioRepository } from './audio.repository';
 
 @Injectable()
 export class AudioService {
-  removeFav(unfavAudioDto: UnfavAudioDto) {
-    throw new Error('Method not implemented.');
+  constructor(@Inject() private audioRepository: AudioRepository) {}
+
+  getAudioDetail(id: string) {
+    return this.audioRepository.findAudioDetailById(id);
   }
-  createFav(favAudioDto: FavAudioDto) {
-    throw new Error('Method not implemented.');
+
+  createFav(userId: string, audioId: string) {
+    this.audioRepository.createFav(userId, audioId);
   }
+
+  deleteFav(userId: string, audioId: string) {
+    this.audioRepository.deleteFav(userId, audioId);
+  }
+
   getFilePath(id: string) {
     throw new Error('Method not implemented.');
   }
-  create(createAudioDto: CreateAudioDto) {
-    return 'This action adds a new audio';
+
+  createAudio(newAudio: {
+    title: string;
+    description: string;
+    audioUrl: string;
+    imageUrl: string;
+  }) {
+    return this.audioRepository.createAudio({
+      title: newAudio.title,
+      audioUrl: newAudio.audioUrl,
+      imageUrl: newAudio.imageUrl,
+    });
   }
 
   findAll() {
@@ -25,11 +42,23 @@ export class AudioService {
     return `This action returns a #${id} audio`;
   }
 
-  update(id: number, updateAudioDto: UpdateAudioDto) {
-    return `This action updates a #${id} audio`;
+  update(
+    audioId: string,
+    userId: string,
+    newAudio: {
+      title: string;
+      audioUrl: string;
+      imageUrl: string;
+    },
+  ) {
+    this.audioRepository.updateAudio(id, userId, newAudio);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} audio`;
+  async remove(audioId: string) {
+    await this.audioRepository.deleteAudio(audioId);
+  }
+
+  getSegmentFile(uesrId: string, audioId: string, segment: number) {
+    return '';
   }
 }

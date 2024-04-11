@@ -1,6 +1,7 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { UpdateQueueDto } from './dto/update-queue.dto';
+import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import { NewQueueDto, UpdateQueueDto } from './queue.dto';
 import { QueueService } from './queue.service';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('queue')
 export class QueueController {
@@ -13,27 +14,47 @@ export class QueueController {
   }
 
   @Get('upcoming')
-  findCurrent() {
-    return this.queueService.findCurrent();
+  @UseGuards(AuthGuard('jwt'))
+  upcoming(@Req() req) {
+    return this.queueService.findUpcoming(req.user.id);
   }
 
   @Get('played')
-  findLog() {
-    return this.queueService.findLog();
+  @UseGuards(AuthGuard('jwt'))
+  played(@Req() req) {
+    return this.queueService.findPlayed(req.user.id);
   }
 
   @Get('generate_next')
-  findNext() {
-    return this.queueService.findNext();
+  @UseGuards(AuthGuard('jwt'))
+  generateNext(@Req() req) {
+    return this.queueService.generateNext(req.user.id);
   }
 
   @Post('add')
-  add(@Body() updateQueueDto: UpdateQueueDto) {
-    return this.queueService.add(updateQueueDto);
+  @UseGuards(AuthGuard('jwt'))
+  add(@Req() req, @Body() body: NewQueueDto) {
+    return this.queueService.create({
+      userId: req.user.id,
+      audioId: body.audioId,
+      order: body.order,
+    });
   }
 
   @Post('remove')
-  remove(@Body() updateQueueDto: UpdateQueueDto) {
-    return this.queueService.remove(updateQueueDto);
+  @UseGuards(AuthGuard('jwt'))
+  remove(@Req() req, @Body() body: UpdateQueueDto) {
+    return this.queueService.remove(req.user.id, body.id);
+  }
+
+  @Post('update')
+  @UseGuards(AuthGuard('jwt'))
+  update(@Req() req, @Body() body: UpdateQueueDto) {
+    return this.queueService.update({
+      userId: req.user.id,
+      id: body.id,
+      order: body.order,
+      newOrder: body.newOrder,
+    });
   }
 }

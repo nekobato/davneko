@@ -8,7 +8,7 @@ import {
   Delete,
 } from '@nestjs/common';
 import { PlaylistService } from './playlist.service';
-import { CreatePlaylistDto } from './dto/create-playlist.dto';
+import { CreatePlaylistDto } from './playlist.dto';
 import { UpdatePlaylistDto } from './dto/update-playlist.dto';
 
 @Controller('playlist')

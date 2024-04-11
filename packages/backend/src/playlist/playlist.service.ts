@@ -1,10 +1,11 @@
-import { Injectable } from '@nestjs/common';
-import { CreatePlaylistDto } from './dto/create-playlist.dto';
-import { UpdatePlaylistDto } from './dto/update-playlist.dto';
+import { Inject, Injectable } from '@nestjs/common';
+import { PlaylistRepository } from './playlist.repository';
 
 @Injectable()
 export class PlaylistService {
-  create(createPlaylistDto: CreatePlaylistDto) {
+  constructor(@Inject() private queueRepository: PlaylistRepository) {}
+
+  create(userId: string) {
     return 'This action adds a new playlist';
   }
 
@@ -16,8 +17,15 @@ export class PlaylistService {
     return `This action returns a #${id} playlist`;
   }
 
-  update(id: number, updatePlaylistDto: UpdatePlaylistDto) {
-    return `This action updates a #${id} playlist`;
+  update(
+    id: number,
+    {
+      name,
+    }: {
+      name: string;
+    },
+  ) {
+    return this.queueRepository.updatePlaylist(id, { name });
   }
 
   remove(id: number) {
