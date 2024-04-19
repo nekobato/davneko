@@ -122,7 +122,7 @@ export const audioTag = sqliteTable('audio_tag', {
     .references(() => tag.id, { onDelete: 'cascade' }),
 });
 
-export const userSelectedAudio = sqliteTable('user_selected_audio', {
+export const userAudioHistory = sqliteTable('user_audio_history', {
   id: text('id').notNull().primaryKey().unique(),
   userId: text('user_id')
     .notNull()
@@ -130,7 +130,24 @@ export const userSelectedAudio = sqliteTable('user_selected_audio', {
   audioId: text('audio_id')
     .notNull()
     .references(() => audio.id),
-  selectedAt: text('selected_at')
+  from: text('from', {
+    enum: [
+      'file',
+      'audio',
+      'artist',
+      'album',
+      'tag',
+      'genre',
+      'search',
+      'directory',
+      'playlist',
+      'history',
+      'fav',
+      'recommendation',
+      'other',
+    ],
+  }).notNull(),
+  playedAt: text('played_at')
     .notNull()
     .default(sql`(CURRENT_TIMESTAMP)`),
 });
@@ -160,34 +177,14 @@ export const playlistAudio = sqliteTable('playlist_audio', {
   orderInPlaylist: int('order_in_playlist').notNull(),
 });
 
-export const queue = sqliteTable('queue', {
-  id: text('id').notNull().primaryKey().unique(),
-  status: text('status')
-    .notNull()
-    .$type<'upcoming' | 'played'>()
-    .default('upcoming'),
-  orderInQueue: int('order_in_queue').notNull(),
-  userId: text('user_id')
-    .notNull()
-    .references(() => user.id, { onDelete: 'cascade' }),
-  audioId: text('audio_id')
-    .notNull()
-    .references(() => audio.id, { onDelete: 'cascade' }),
-  queuedAt: text('queued_at')
-    .notNull()
-    .default(sql`(CURRENT_TIMESTAMP)`),
-  playedAt: text('played_at'),
-});
-
 export const schema = {
   user,
-  userSelectedAudio,
   audio,
+  userAudioHistory,
   artist,
   audioArtist,
   album,
   directory,
   playlist,
   playlistAudio,
-  queue,
 };

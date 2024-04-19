@@ -7,11 +7,24 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "sb": "storybook dev --port 6006 --ci"
   },
   "dependencies": {
-    "nuxt": "^3.10.3",
-    "vue": "^3.4.19",
+    "nuxt": "^3.11.2",
+    "vue": "^3.4.21",
     "vue-router": "^4.3.0"
+  },
+  "devDependencies": {
+    "@iconify/vue": "^4.1.1",
+    "@storybook/addon-essentials": "^8.0.8",
+    "@storybook/vue3": "^8.0.8",
+    "@storybook/vue3-vite": "^8.0.8",
+    "@takuma-ru/vue-swipe-modal": "^5.0.2",
+    "@types/react": "file:stub/types__react",
+    "@vitejs/plugin-vue": "^5.0.4",
+    "sass": "^1.75.0",
+    "storybook": "^8.0.8",
+    "vite": "^5.2.8"
   }
 }
