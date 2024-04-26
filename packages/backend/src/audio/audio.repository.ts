@@ -1,12 +1,16 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { BetterSQLite3Database } from 'drizzle-orm/better-sqlite3';
-import { schema } from 'src/db/schema';
+import * as schema from 'src/db/schema';
 import { and, eq } from 'drizzle-orm';
-import { generateAudioId } from 'src/utils/crypt';
+import { generateAudioId, generateId } from 'src/utils/crypt';
 
 @Injectable()
 export class AudioRepository {
   constructor(@Inject() private db: BetterSQLite3Database<typeof schema>) {}
+
+  async findAllAudio() {
+    return this.db.query.audio.findMany();
+  }
 
   async findAudioById(audioId: string) {
     return this.db.query.audio.findFirst({
@@ -91,6 +95,26 @@ export class AudioRepository {
     return this.db
       .delete(schema.audio)
       .where(eq(schema.audio.id, audioId))
+      .execute();
+  }
+
+  async createFav(userId: string, audioId: string) {
+    return this.db
+      .insert(schema.fav)
+      .values({
+        id: generateId(),
+        userId,
+        audioId,
+      })
+      .execute();
+  }
+
+  async deleteFav(userId: string, audioId: string) {
+    return this.db
+      .delete(schema.fav)
+      .where(
+        and(eq(schema.fav.userId, userId), eq(schema.fav.audioId, audioId)),
+      )
       .execute();
   }
 }

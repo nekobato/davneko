@@ -8,7 +8,9 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "sb": "storybook dev --port 6006 --ci"
+    "docs:dev": "vitepress dev collections",
+    "docs:build": "vitepress build collections",
+    "docs:preview": "vitepress preview collections"
   },
   "dependencies": {
     "nuxt": "^3.11.2",
@@ -25,6 +27,7 @@
     "@vitejs/plugin-vue": "^5.0.4",
     "sass": "^1.75.0",
     "storybook": "^8.0.8",
-    "vite": "^5.2.8"
+    "vite": "^5.2.8",
+    "vitepress": "^1.1.3"
   }
 }

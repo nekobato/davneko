@@ -68,11 +68,16 @@ const coverType = computed(() => {
 
 <style lang="scss" scoped>
 .track-item {
+  width: 100%;
   display: flex;
   align-items: center;
   padding: 8px;
-  background-color: rgba(0, 0, 0, 0.72);
+  background-color: var(--token-color-foreground);
   cursor: pointer;
+
+  &:hover {
+    background-color: var(--token-color-foreground-hover);
+  }
 
   .title-group {
     gap: 2px;
@@ -84,15 +89,17 @@ const coverType = computed(() => {
   }
 
   .title {
-    font-size: 12px;
-    font-weight: bold;
-    color: #ffffff;
+    font-size: var(--font-size-16);
+    line-height: 1;
+    font-weight: normal;
+    color: var(--token-color-text-primary);
   }
 
   .sub-title {
-    font-size: 10px;
-    color: #ababab;
-    font-weight: bold;
+    font-size: var(--font-size-12);
+    line-height: 1;
+    color: var(--token-color-text-secondary);
+    font-weight: normal;
   }
 }
 </style>

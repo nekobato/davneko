@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { BetterSQLite3Database } from 'drizzle-orm/better-sqlite3';
-import { schema } from 'src/db/schema';
+import * as schema from 'src/db/schema';
 import { eq, sql } from 'drizzle-orm';
 import { generateId } from 'src/utils/crypt';
 

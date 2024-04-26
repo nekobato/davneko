@@ -1,0 +1,69 @@
+@import url('https://fonts.googleapis.com/css2?family=BIZ+UDMincho&family=BIZ+UDPGothic&family=Zen+Kaku+Gothic+New:wght@400;700&display=swap');
+
+:root{
+  --layout-width-pc: 1080px;
+  --layout-width-tablet: 768px;
+  --layout-width-mobile: 480px;
+
+  --font-size-base: 20px;
+  --font-size-10: 0.5rem;
+  --font-size-12: 0.6rem;
+  --font-size-14: 0.7rem;
+  --font-size-16: 0.8rem;
+  --font-size-18: 0.9rem;
+  --font-size-20: 1rem;
+  --font-size-24: 1.2rem;
+  --font-size-32: 1.6rem;
+
+  /* Alphabet: iOS+Mac, Android+Windows */
+  --font-family-article: "Hiragino Sans", 'BIZ UDPGothic', sans-serif;
+  --font-famiky-ui: 'Zen Kaku Gothic New', sans-serif;
+
+  --color-forground: #252931;
+  --color-background: #252525;
+  --color-gutter: #1D2025;
+  --color-guide: #CCCCCC;
+  --color-accent: #528BFF;
+  --color-text: #ABB2BF;
+  --color-cyan: #56B6C2;
+  --color-blue: #61AFEF;
+  --color-purple: #C678DD;
+  --color-green: #98C379;
+  --color-rose: #E06C75;
+  --color-orange: #D19A66;
+  --color-red: #BE5046;
+  --color-gold: #E5C07B;
+
+  --color-text-body: #e5e5e5;
+  --color-text-title: #e5e5e5;
+  --color-text-subtitle: #e5e5e5;
+  --color-text-caption: #e5e5e5;
+  --color-text-link: #e5e5e5;
+  --color-text-link-hover: #e5e5e5;
+  --color-text-link-active: #e5e5e5;
+  --color-text-input: #e5e5e5;
+  --color-text-input-placeholder: #e5e5e5;
+
+  --color-white-t1: rgba(255, 255, 255, 0.08);
+  --color-white-t2: rgba(255, 255, 255, 0.32);
+  --color-white-t3: rgba(255, 255, 255, 0.48);
+  --color-white-t4: rgba(255, 255, 255, 0.64);
+  --color-white-t5: rgba(255, 255, 255, 0.8);
+
+  --color-black-t1: rgba(0, 0, 0, 0.08);
+  --color-black-t2: rgba(0, 0, 0, 0.32);
+  --color-black-t3: rgba(0, 0, 0, 0.48);
+  --color-black-t4: rgba(0, 0, 0, 0.64);
+  --color-black-t5: rgba(0, 0, 0, 0.8);
+
+  --token-color-background: #252525;
+  --token-color-foreground: rgba(0, 0, 0, 0.64);
+  --token-color-foreground-hover: rgba(48, 48, 48, 0.64);
+  --token-color-text-primary: #e5e5e5;
+  --token-color-text-secondary: #ababab;
+  --token-color-textlink: #e5e5e5;
+  --token-color-info: #909399;
+  --token-color-success: #67c23a;
+  --token-color-warning: #e6a23c;
+  --token-color-error: #f56c6c;
+}

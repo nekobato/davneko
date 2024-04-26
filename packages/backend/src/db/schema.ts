@@ -13,19 +13,6 @@ export const user = sqliteTable('user', {
     .default(sql`(CURRENT_TIMESTAMP)`),
 });
 
-export const userFavAudio = sqliteTable('user_fav_audio', {
-  id: text('id').notNull().primaryKey().unique(),
-  userId: text('user_id')
-    .notNull()
-    .references(() => user.id),
-  audioId: text('audio_id')
-    .notNull()
-    .references(() => audio.id),
-  favAt: text('fav_at')
-    .notNull()
-    .default(sql`(CURRENT_TIMESTAMP)`),
-});
-
 export const directory = sqliteTable('directory', {
   id: text('id').notNull().primaryKey().unique(),
   name: text('name').notNull(),
@@ -116,10 +103,23 @@ export const audioTag = sqliteTable('audio_tag', {
   id: text('id').notNull().primaryKey().unique(),
   audioId: text('audio_id')
     .notNull()
-    .references(() => audio.id),
+    .references(() => audio.id, { onDelete: 'cascade' }),
   tagId: text('genre_id')
     .notNull()
     .references(() => tag.id, { onDelete: 'cascade' }),
+});
+
+export const fav = sqliteTable('fav', {
+  id: text('id').notNull().primaryKey().unique(),
+  userId: text('user_id')
+    .notNull()
+    .references(() => user.id, { onDelete: 'cascade' }),
+  audioId: text('audio_id')
+    .notNull()
+    .references(() => audio.id, { onDelete: 'cascade' }),
+  favAt: text('fav_at')
+    .notNull()
+    .default(sql`(CURRENT_TIMESTAMP)`),
 });
 
 export const userAudioHistory = sqliteTable('user_audio_history', {
@@ -176,15 +176,3 @@ export const playlistAudio = sqliteTable('playlist_audio', {
     .references(() => audio.id, { onDelete: 'cascade' }),
   orderInPlaylist: int('order_in_playlist').notNull(),
 });
-
-export const schema = {
-  user,
-  audio,
-  userAudioHistory,
-  artist,
-  audioArtist,
-  album,
-  directory,
-  playlist,
-  playlistAudio,
-};

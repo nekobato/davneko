@@ -1,9 +1,18 @@
-import { Inject, Injectable } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { AudioRepository } from './audio.repository';
 
 @Injectable()
 export class AudioService {
   constructor(@Inject() private audioRepository: AudioRepository) {}
+
+  getAllAudios() {
+    return this.audioRepository.findAllAudio();
+  }
 
   getAudioDetail(id: string) {
     return this.audioRepository.findAudioDetailById(id);
@@ -34,14 +43,6 @@ export class AudioService {
     });
   }
 
-  findAll() {
-    return `This action returns all audio`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} audio`;
-  }
-
   update(
     audioId: string,
     userId: string,
@@ -55,6 +56,11 @@ export class AudioService {
   }
 
   async remove(audioId: string) {
+    const audio = await this.audioRepository.findAudioById(audioId);
+    if (!audio) {
+      throw new NotFoundException('Audio not found');
+    }
+
     await this.audioRepository.deleteAudio(audioId);
   }
 
