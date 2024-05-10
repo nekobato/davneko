@@ -1,0 +1,1 @@
+../../shared/types/entities.d.ts
