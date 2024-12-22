@@ -2,8 +2,9 @@ import { Hono } from "hono";
 import { encrypt } from "../../utils/encryption";
 import type { AppContext } from "../../context";
 import { db } from "../../database/db";
-import { userStatusEnum, userTable } from "../../database/schema";
+import { userTable } from "../../database/schema";
 import { nanoid } from "nanoid";
+import { dateStringNow } from "../../utils/date";
 
 const app = new Hono<AppContext>().post("/signup", async (c) => {
   const body = await c.req.json();
@@ -11,20 +12,19 @@ const app = new Hono<AppContext>().post("/signup", async (c) => {
   // パスワードのハッシュ化
   const hashedPassword = encrypt(body.password);
 
-  const newUser = {
+  const newUser: typeof userTable.$inferInsert = {
     id: nanoid(),
-    username: body.username,
     email: body.email,
     password: hashedPassword,
-    status: userStatusEnum.enumValues[0],
-    createdAt: new Date(),
-    updatedAt: new Date()
+    status: "active",
+    createdAt: dateStringNow(),
+    updatedAt: dateStringNow()
   };
 
   // ユーザーの作成
-  const users = await db.insert(userTable).values(newUser).execute();
+  const user = await db.insert(userTable).values(newUser).returning();
 
-  return c.json({ message: "User created", users });
+  return c.json({ user });
 });
 
 export default app;

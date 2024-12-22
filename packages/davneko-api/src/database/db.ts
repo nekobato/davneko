@@ -1,10 +1,11 @@
-import { drizzle, type LibSQLDatabase } from "drizzle-orm/libsql";
+import { drizzle } from "drizzle-orm/libsql/node";
+import type { LibSQLDatabase } from "drizzle-orm/libsql";
 
 import * as schema from "./schema";
 
 export const db = drizzle({
   connection: {
-    url: process.env.DATABASE_URL
+    url: "libsql://davneko.sqlite"
   },
   schema
 });
