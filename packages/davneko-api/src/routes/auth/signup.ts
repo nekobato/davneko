@@ -1,8 +1,8 @@
 import { Hono } from "hono";
 import { encrypt } from "../../utils/encryption";
 import type { AppContext } from "../../context";
-import { db } from "../../database/db";
-import { userTable } from "../../database/schema";
+import { db } from "@davneko/shared/database";
+import { userTable } from "@davneko/shared/database/schema";
 import { nanoid } from "nanoid";
 import { dateStringNow } from "../../utils/date";
 

@@ -1,0 +1,16 @@
+{
+  "name": "@davneko/shared",
+  "type": "module",
+  "main": "index.ts",
+  "scripts": {
+    "drizzle:generate": "drizzle-kit generate",
+    "drizzle:push": "drizzle-kit push"
+  },
+  "dependencies": {
+    "@electric-sql/pglite": "^0.2.15",
+    "drizzle-orm": "^0.35.3"
+  },
+  "devDependencies": {
+    "drizzle-kit": "^0.26.2"
+  }
+}

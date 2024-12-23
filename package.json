@@ -16,6 +16,7 @@
   },
   "homepage": "https://github.com/nekobato/davneko#readme",
   "devDependencies": {
+    "@tsconfig/node22": "^22.0.0",
     "@types/node": "^20.17.10",
     "tsx": "^4.19.1",
     "typescript": "5.7.2"
