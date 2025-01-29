@@ -4,4 +4,5 @@ export type Env = {
 
 export const JWT_SECRET_KEY = "your-secret-key";
 
-export const COOKIE_NAME = "davneko";
+export const ACCESS_TOKEN_NAME = "davneko-access-token";
+export const REFRESH_TOKEN_NAME = "davneko-refresh-token";

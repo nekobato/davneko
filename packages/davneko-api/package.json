@@ -3,19 +3,27 @@
   "type": "module",
   "scripts": {
     "dev": "tsx watch src/index.ts",
-    "test": "vitest run"
+    "test": "vitest run",
+    "db:generate": "drizzle-kit generate",
+    "db:push": "drizzle-kit push"
   },
   "dependencies": {
-    "@davneko/shared": "workspace:*",
     "@hono/node-server": "^1.13.2",
     "@hono/oauth-providers": "^0.6.2",
+    "@hono/zod-openapi": "^0.18.3",
     "@hono/zod-validator": "^0.4.1",
+    "@libsql/client": "^0.14.0",
     "dotenv": "^16.4.5",
+    "drizzle-orm": "^0.35.3",
     "hono": "^4.6.6",
+    "music-metadata": "^10.6.5",
     "nanoid": "^5.0.9",
-    "zod": "^3.23.8"
+    "readdir-glob": "^2.0.1",
+    "zod": "^3.23.8",
+    "tiny-readdir-glob": "^1.22.24"
   },
   "devDependencies": {
+    "drizzle-kit": "^0.26.2",
     "vitest": "^2.1.4"
   }
 }

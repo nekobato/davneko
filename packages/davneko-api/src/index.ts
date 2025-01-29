@@ -2,7 +2,7 @@ import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import { logger } from "hono/logger";
 import type { AppContext } from "./context";
-import authRoute from "./routes/auth";
+import appRoutes from "./routes";
 import { compress } from "hono/compress";
 import { cors } from "hono/cors";
 import { trimTrailingSlash } from "hono/trailing-slash";
@@ -14,10 +14,7 @@ app.use(compress());
 app.use(logger());
 app.use(trimTrailingSlash());
 
-app.get("/", (c) => {
-  return c.text("Hello Hono!");
-});
-app.route("/auth", authRoute);
+app.route("/", appRoutes);
 
 const port = 3000;
 

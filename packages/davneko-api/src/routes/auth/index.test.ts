@@ -9,6 +9,20 @@ describe("/auth", () => {
     expect(response.status).toBe(401);
   });
 
+  it("/signup: 200", async () => {
+    const response = await app.request("/signup", {
+      method: "POST",
+      body: JSON.stringify({
+        username: "nekobato",
+        email: "nekobato@gmail.com",
+        password: "nnn"
+      })
+    });
+
+    expect(response.status).toBe(200);
+    console.log(await response.json());
+  });
+
   it("/signin: 401", async () => {
     const response = await app.request("/signin", {
       method: "POST",

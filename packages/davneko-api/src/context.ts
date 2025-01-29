@@ -1,5 +1,5 @@
 import type { JwtVariables } from "hono/jwt";
-import type { Database } from "@davneko/shared/database";
+import type { Database } from "./database";
 import type { Env } from "./env";
 
 type Variables = JwtVariables & {

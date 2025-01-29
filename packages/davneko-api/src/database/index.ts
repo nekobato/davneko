@@ -1,4 +1,4 @@
-import { drizzle } from "drizzle-orm/libsql/node";
+import { drizzle } from "drizzle-orm/libsql";
 import type { LibSQLDatabase } from "drizzle-orm/libsql";
 
 import * as schema from "./schema";

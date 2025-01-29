@@ -3,10 +3,13 @@
   "compilerOptions": {
     "target": "ESNext",
     "module": "ESNext",
+    "declaration": true,
     "moduleResolution": "Bundler",
-    "verbatimModuleSyntax": true,
-    "types": ["node", "vitest/globals"],
-    "jsx": "react-jsx",
-    "jsxImportSource": "hono/jsx"
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "types": ["vitest", "node"]
   }
 }
