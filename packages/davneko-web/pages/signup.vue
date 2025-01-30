@@ -1,16 +1,29 @@
 <script lang="ts" setup>
+import { ref } from "vue";
+
 const email = ref("");
 const password = ref("");
 
-const onSubmit = (event: Event) => {
+const onSubmit = async (event: Event) => {
   event.preventDefault();
+
+  const data = await useFetch("/api/auth/signup", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      email: email.value,
+      password: password.value
+    })
+  });
 };
 </script>
 <template>
   <NuxtLayout name="signin">
     <div class="signin-container">
       <div class="signin-box">
-        <h1>Sign in</h1>
+        <h1>Sign up</h1>
         <form @submit="onSubmit">
           <div class="input-group">
             <label for="email">Email</label>
@@ -20,7 +33,7 @@ const onSubmit = (event: Event) => {
             <label for="password">Password</label>
             <input type="password" id="password" v-model="password" />
           </div>
-          <button type="submit">Sign in</button>
+          <button type="submit">Sign up</button>
         </form>
       </div>
     </div>

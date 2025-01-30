@@ -48,20 +48,27 @@ const tracks = [
 ];
 </script>
 <template>
-  <NuxtLayout name="main" class="player-layout">
-    <div class="compobox left"></div>
-    <div class="compobox"></div>
-    <div class="compobox right">
-      <TrackItem v-for="track in tracks" :key="track.id" :track="track" />
+  <NuxtLayout name="main">
+    <div class="compobox-container">
+      <div class="compobox left"></div>
+      <div class="compobox"></div>
+      <div class="compobox right">
+        <TrackItem v-for="track in tracks" :key="track.id" :track="track" />
+      </div>
     </div>
   </NuxtLayout>
 </template>
 <style lang="scss" scoped>
-.player-layout {
+.compobox-container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
   gap: 16px;
 }
 .compobox {
-  border: 4px solid var(--color-grey-50);
+  border: 2px solid var(--color-grey-50);
   width: 360px;
   height: 80%;
   border-radius: 24px;
@@ -77,6 +84,7 @@ const tracks = [
   &.right {
     transform: perspective(1600px) rotateY(-30deg);
     transform-origin: center left;
+    padding: 16px;
   }
 }
 </style>

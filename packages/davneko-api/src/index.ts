@@ -16,7 +16,7 @@ app.use(trimTrailingSlash());
 
 app.route("/", appRoutes);
 
-const port = 3000;
+const port = 3001;
 
 serve({
   fetch: app.fetch,
