@@ -4,10 +4,8 @@ import { ref } from "vue";
 const email = ref("");
 const password = ref("");
 
-const onSubmit = async (event: Event) => {
-  event.preventDefault();
-
-  const data = await useFetch("/api/auth/signup", {
+const onSubmit = async () => {
+  const data = await useApi("/auth/signin", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -17,36 +15,51 @@ const onSubmit = async (event: Event) => {
       password: password.value
     })
   });
+
+  if (data.error) {
+    console.error(data.error);
+    return;
+  }
 };
 </script>
 <template>
   <NuxtLayout name="signin">
-    <div class="signin-container">
-      <div class="signin-box">
-        <h1>Sign up</h1>
-        <form @submit="onSubmit">
+    <div class="container">
+      <div class="box">
+        <h1>Sign in</h1>
+        <form @submit.prevent="onSubmit">
           <div class="input-group">
             <label for="email">Email</label>
-            <input type="email" id="email" v-model="email" />
+            <input
+              type="email"
+              id="email"
+              autocomplete="email"
+              v-model="email"
+            />
           </div>
           <div class="input-group">
             <label for="password">Password</label>
-            <input type="password" id="password" v-model="password" />
+            <input
+              type="password"
+              id="password"
+              autocomplete="current-password"
+              v-model="password"
+            />
           </div>
-          <button type="submit">Sign up</button>
+          <button type="submit">Sign in</button>
         </form>
       </div>
     </div>
   </NuxtLayout>
 </template>
 <style lang="scss" scoped>
-.signin-container {
+.container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
 }
-.signin-box {
+.box {
   width: 300px;
   padding: 20px;
   border: 1px solid #ccc;

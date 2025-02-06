@@ -22,12 +22,21 @@ import { signInSchema } from "./index.schema";
 import * as op from "drizzle-orm";
 
 const app = new Hono<AppContext>()
-  .get("/status", jwt({ secret: JWT_SECRET_KEY }), (c) => {
-    // get user from jwt
-    const payload = c.get("jwtPayload");
+  .get(
+    "/status",
+    jwt({
+      secret: JWT_SECRET_KEY,
+      cookie: {
+        key: ACCESS_TOKEN_NAME
+      }
+    }),
+    (c) => {
+      // get user from jwt
+      const payload = c.get("jwtPayload");
 
-    return c.json({ user: payload });
-  })
+      return c.json({ user: payload });
+    }
+  )
 
   .post("/signin", zValidator("json", signInSchema), async (c) => {
     const body = await c.req.json();
@@ -113,12 +122,22 @@ const app = new Hono<AppContext>()
       })
       .execute();
 
-    setCookie(c, ACCESS_TOKEN_NAME, accessToken);
-    setCookie(c, REFRESH_TOKEN_NAME, refreshToken);
+    setCookie(c, ACCESS_TOKEN_NAME, accessToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict"
+    });
+    setCookie(c, REFRESH_TOKEN_NAME, refreshToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict"
+    });
 
     return c.json({
-      accessToken,
-      refreshToken
+      user: {
+        id: result.user.id,
+        email: result.user.email
+      }
     });
   })
 
